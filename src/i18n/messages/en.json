@@ -1,0 +1,9 @@
+{
+  "Header": {
+    "home": "Home",
+    "series": "Series",
+    "movies": "Movies",
+    "myWatchlist": "My Watchlist",
+    "favorites": "Favorites"
+  }
+}
