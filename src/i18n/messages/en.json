@@ -1,25 +1,47 @@
 {
-  "HomePage": {
+  "homePage": {
     "title": "Home"
   },
-  "MoviesPage": {
+  "moviesPage": {
     "title": "Movies"
   },
-  "SeriesPage": {
+  "seriesPage": {
     "title": "Series"
   },
-  "MyStuffPage": {
+  "myStuffPage": {
     "title": "My Stuff"
   },
-  "FavoritesPage": {
+  "favoritesPage": {
     "title": "Favorites"
   },
-  "Navigation": {
+  "navigation": {
     "home": "Home",
     "series": "Series",
     "movies": "Movies",
     "myStuff": "My Stuff",
     "favorites": "Favorites",
     "search": "Search"
+  },
+  "metadata": {
+    "home": {
+      "title": "Movix | Explore Movies, TV Shows & Trends",
+      "description": "Discover trending movies and TV shows, explore detailed information, and build your personal watchlist."
+    },
+    "movies": {
+      "title": "Movies",
+      "description": "Browse popular, trending, and top-rated movies. Discover detailed information about films from around the world."
+    },
+    "series": {
+      "title": "Series",
+      "description": "Explore popular and trending TV shows. Find details, ratings, and information about series from different genres."
+    },
+    "search": {
+      "title": "Search Movies & TV Shows",
+      "description": "Search thousands of movies and TV shows instantly. Find detailed information, ratings, and recommendations."
+    },
+    "myStuff": {
+      "title": "My Stuff",
+      "description": "Save and manage your favorite movies and TV shows. Build your personal watchlist and access it anytime."
+    }
   }
 }

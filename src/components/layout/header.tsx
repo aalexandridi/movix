@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default async function Header() {
   const locale = await getLocale();
-  const navigation = await getTranslations("Navigation");
+  const navigation = await getTranslations("navigation");
 
   return (
     <header className="fixed top-0 left-0 w-full z-50">
