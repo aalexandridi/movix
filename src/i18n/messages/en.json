@@ -1,9 +1,25 @@
 {
-  "Header": {
+  "HomePage": {
+    "title": "Home"
+  },
+  "MoviesPage": {
+    "title": "Movies"
+  },
+  "SeriesPage": {
+    "title": "Series"
+  },
+  "MyStuffPage": {
+    "title": "My Stuff"
+  },
+  "FavoritesPage": {
+    "title": "Favorites"
+  },
+  "Navigation": {
     "home": "Home",
     "series": "Series",
     "movies": "Movies",
-    "myWatchlist": "My Watchlist",
-    "favorites": "Favorites"
+    "myStuff": "My Stuff",
+    "favorites": "Favorites",
+    "search": "Search"
   }
 }

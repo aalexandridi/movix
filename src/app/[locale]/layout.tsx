@@ -5,6 +5,7 @@ import ReduxProvider from "@/store/provider";
 import { APP_NAME } from "@/lib/constants";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
+import Header from "@/components/layout/header";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -22,18 +23,24 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }>) {
+  const { locale } = await params;
   const messages = await getMessages();
   return (
     <html
-      lang="en-US"
+      lang={locale}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <NextIntlClientProvider messages={messages}>
-          <ReduxProvider>{children}</ReduxProvider>
+          <ReduxProvider>
+            <Header></Header>
+            {children}
+          </ReduxProvider>
         </NextIntlClientProvider>
       </body>
     </html>

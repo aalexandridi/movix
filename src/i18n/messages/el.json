@@ -1,9 +1,28 @@
 {
-  "Header": {
+  "HomePage": {
+    "title": "Αρχική"
+  },
+  "MoviesPage": {
+    "title": "Ταινίες"
+  },
+  "SeriesPage": {
+    "title": "Σειρές"
+  },
+  "MyStuffPage": {
+    "title": "Η Λίστα μου"
+  },
+  "FavoritesPage": {
+    "title": "Αγαπημένα"
+  },
+  "SearchPage": {
+    "title": "Αναζήτηση"
+  },
+  "Navigation": {
     "home": "Αρχική",
     "series": "Σειρές",
     "movies": "Ταινίες",
-    "myWatchlist": "Λίστα Παρακολούθησης",
-    "favorites": "Αγαπημένα"
+    "myStuff": "Η Λίστα μου",
+    "favorites": "Αγαπημένα",
+    "search": "Αναζήτηση"
   }
 }
