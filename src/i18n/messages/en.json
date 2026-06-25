@@ -22,6 +22,10 @@
     "favorites": "Favorites",
     "search": "Search"
   },
+  "common": {
+    "play": "Play",
+    "moreInfo": "More Info"
+  },
   "metadata": {
     "home": {
       "title": "Movix | Explore Movies, TV Shows & Trends",

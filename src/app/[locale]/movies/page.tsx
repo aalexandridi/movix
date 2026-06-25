@@ -5,6 +5,7 @@ import Carousel from "@/components/ui/Carousel/Carousel";
 import Slide from "@/components/ui/Carousel/Slide";
 import { Media } from "@/types/media";
 import { limitAndMergeUniqueById } from "@/utils/array";
+import { sortByPopularity, toGenreMap } from "@/utils/media";
 
 export async function generateMetadata() {
   return createPageMetadata("movies");
@@ -16,13 +17,19 @@ const MoviesPage = async () => {
 
   const moviesService = createMoviesService(locale);
 
-  const [popularMovies, nowPlayingMovies, topRatedMovies, upcomingMovies] =
-    await Promise.all([
-      moviesService.getPopular(),
-      moviesService.getNowPlaying(),
-      moviesService.getTopRated(),
-      moviesService.getUpcoming(),
-    ]);
+  const [
+    popularMovies,
+    nowPlayingMovies,
+    topRatedMovies,
+    upcomingMovies,
+    genres,
+  ] = await Promise.all([
+    moviesService.getPopular(),
+    moviesService.getNowPlaying(),
+    moviesService.getTopRated(),
+    moviesService.getUpcoming(),
+    moviesService.getFilters(),
+  ]);
 
   const limited = limitAndMergeUniqueById(
     3,
@@ -31,12 +38,16 @@ const MoviesPage = async () => {
     topRatedMovies.results,
     upcomingMovies.results,
   );
+  // console.log("limited", limited);
+  const limtedSorted = sortByPopularity(limited);
+  console.log("sorted", sortByPopularity(limited));
+  const genreMap = toGenreMap(genres.genres);
 
   return (
     <section>
       <Carousel>
-        {limited.map((movie: Media) => (
-          <Slide key={movie.id} media={movie} />
+        {limtedSorted.map((movie: Media) => (
+          <Slide key={movie.id} media={movie} genreMap={genreMap} />
         ))}
       </Carousel>
     </section>

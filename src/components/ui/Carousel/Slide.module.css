@@ -46,9 +46,18 @@
 .title {
   font-size: 3rem;
   font-weight: 700;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 
   animation: fadeUp 0.8s ease forwards;
+}
+
+.genres{
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+  color: rgb(208, 207, 207);
+  animation: fadeUp 1s ease forwards;
 }
 
 .description {

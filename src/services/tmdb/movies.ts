@@ -13,5 +13,7 @@ export function createMoviesService(locale: string) {
     getTopRated: () => tmdb.fetch("/movie/top_rated", 21600),
 
     getUpcoming: () => tmdb.fetch("/movie/upcoming", 3600),
+
+    getFilters: () => tmdb.fetch("/genre/movie/list", 86400),
   };
 }
