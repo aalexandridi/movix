@@ -19,7 +19,7 @@ export default async function Header() {
         </div>
 
         {/* CENTER - NAV (responsive) */}
-        <nav className="hidden md:flex gap-6 text-sm">
+        <nav className="text-md font-semibold hidden md:flex gap-6 text-sm">
           <Link href="/">{navigation("home")}</Link>
           <Link href="/movies">{navigation("movies")}</Link>
           <Link href="/series">{navigation("series")}</Link>

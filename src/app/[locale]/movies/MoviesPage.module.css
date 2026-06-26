@@ -1,0 +1,40 @@
+.content2{
+    margin-top: -6%;
+    z-index: 2;
+    position: relative;
+    /* left: 5%; */
+    overflow-x:auto;
+}
+
+.hero {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 01),
+    rgba(0, 0, 0, 0),
+    
+    transparent
+  );
+}
+
+.genresBar {
+  position: absolute;
+  bottom: 0px;
+  left: 5%;
+  right: 0;
+  z-index: 10;
+}
+
+.content {
+  padding: 40px 5%;
+  position: relative;
+  height: 100%;
+}

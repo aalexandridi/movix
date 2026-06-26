@@ -38,3 +38,8 @@ export interface WatchlistItem {
   media: Media;
   addedAt: number; // timestamp
 }
+
+export interface Genre {
+  id: number;
+  name: string;
+}

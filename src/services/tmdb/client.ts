@@ -7,9 +7,14 @@ const apiKey = tmdbConfig.apiKey;
 export function createTmdbClient(locale: string) {
   const language = localeMap[locale] ?? localeMap[defaultLocale];
 
-  async function fetcher(path: string, revalidate = 3600, queries = "") {
+  async function fetcher(
+    path: string,
+    revalidate = 3600,
+    queries = "",
+    id = "",
+  ) {
     const res = await fetch(
-      `${baseUrl}${path}?api_key=${apiKey}&language=${language}${queries}`,
+      `${baseUrl}${path}${id}?api_key=${apiKey}&language=${language}${queries}`,
       {
         next: { revalidate },
       },

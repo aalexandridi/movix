@@ -1,0 +1,44 @@
+.card {
+  width: 220px;
+  cursor: pointer;
+}
+
+.poster {
+  position: relative;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+}
+
+.poster img {
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .poster img {
+  transform: scale(1.05);
+}
+
+.content {
+  padding-top: 12px;
+}
+
+.title {
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  display: -webkit-box;
+  /* -webkit-line-clamp: 2; */
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 6px;
+
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+}

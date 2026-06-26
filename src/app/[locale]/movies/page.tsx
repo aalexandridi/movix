@@ -1,35 +1,53 @@
 import { createPageMetadata } from "@/lib/metadata";
 import { createMoviesService } from "@/services/tmdb/movies";
-import { getTranslations, getLocale } from "next-intl/server";
+import { getLocale } from "next-intl/server";
 import Carousel from "@/components/ui/Carousel/Carousel";
 import Slide from "@/components/ui/Carousel/Slide";
 import { Media } from "@/types/media";
 import { limitAndMergeUniqueById } from "@/utils/array";
-import { sortByPopularity, toGenreMap } from "@/utils/media";
-
+import {
+  createGenreMaps,
+  getCurrentDate,
+  sortByPopularity,
+} from "@/utils/media";
+import GenresBar from "@/components/ui/GenresBar/GenresBar";
+import styles from "./MoviesPage.module.css";
+import MediaGrid from "@/components/ui/MediaGrid/MediaGrid";
+import InfiniteMoviesGrid from "@/components/ui/MediaGrid/InfiniteMediaGrid";
 export async function generateMetadata() {
   return createPageMetadata("movies");
 }
 
-const MoviesPage = async () => {
-  const n = await getTranslations("navigation");
-  const locale = await getLocale();
-
+const MoviesPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ genre?: string }>;
+}) => {
+  const [locale, { genre }] = await Promise.all([getLocale(), searchParams]);
   const moviesService = createMoviesService(locale);
+  const genres = await moviesService.getFilters();
+  const { idToName, nameToId } = createGenreMaps(genres.genres);
 
-  const [
-    popularMovies,
-    nowPlayingMovies,
-    topRatedMovies,
-    upcomingMovies,
-    genres,
-  ] = await Promise.all([
+  const genreId = genre ? nameToId.get(genre) : null;
+
+  const heroPromise = Promise.all([
     moviesService.getPopular(),
     moviesService.getNowPlaying(),
     moviesService.getTopRated(),
     moviesService.getUpcoming(),
-    moviesService.getFilters(),
   ]);
+
+  const discoverPromise =
+    genreId !== null
+      ? moviesService.discoverMovies(
+          `with_genres=${genreId}&sort_by=popularity.desc&primary_release_date.lte=${getCurrentDate()}`,
+        )
+      : Promise.resolve(null);
+
+  const [
+    [popularMovies, nowPlayingMovies, topRatedMovies, upcomingMovies],
+    initial,
+  ] = await Promise.all([heroPromise, discoverPromise]);
 
   const limited = limitAndMergeUniqueById(
     3,
@@ -38,18 +56,51 @@ const MoviesPage = async () => {
     topRatedMovies.results,
     upcomingMovies.results,
   );
-  // console.log("limited", limited);
+
   const limtedSorted = sortByPopularity(limited);
-  console.log("sorted", sortByPopularity(limited));
-  const genreMap = toGenreMap(genres.genres);
 
   return (
-    <section>
+    <section className={styles.hero}>
       <Carousel>
         {limtedSorted.map((movie: Media) => (
-          <Slide key={movie.id} media={movie} genreMap={genreMap} />
+          <Slide key={movie.id} media={movie} genreMap={idToName} />
         ))}
       </Carousel>
+
+      <section className={styles.content}>
+        <div className={styles.overlay} />
+        <div className={styles.content2}>
+          <GenresBar genres={genres.genres} />
+          {genreId == null && (
+            <>
+              <MediaGrid
+                title={"Popular"}
+                variant="carousel"
+                media={popularMovies.results}
+              />
+              <MediaGrid
+                title={"Top Rated Movies"}
+                variant="carousel"
+                media={topRatedMovies.results}
+              />
+            </>
+          )}
+
+          {genreId !== null && (
+            <InfiniteMoviesGrid
+              key={genre ?? "all"}
+              initialMovies={initial.results}
+              genre={genreId}
+            />
+          )}
+        </div>
+      </section>
+
+      {/* <section className={styles.content}>
+        <div className={styles.overlay} />
+        <GenresBar genres={genres.genres} />
+        <MediaGrid variant="carousel" media={popularMovies.results} />
+      </section> */}
     </section>
   );
 };

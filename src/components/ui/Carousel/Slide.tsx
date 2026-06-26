@@ -4,6 +4,7 @@ import styles from "./Slide.module.css";
 import { getDate, getTitleOrName } from "@/utils/media";
 import { getTranslations } from "next-intl/server";
 import Button from "@/components/layout/Button/button";
+import { getPosterUrl } from "@/services/tmdb/images";
 // import { createMoviesService } from "@/services/tmdb/movies";
 // import { getLocale } from "next-intl/server";
 interface MediaSlideProps {
@@ -18,12 +19,12 @@ export default async function Slide({ media, genreMap }: MediaSlideProps) {
     .filter(Boolean) as string[];
 
   const year = new Date(getDate(media)).getFullYear();
-  console.log(year);
+
   return (
     <div className={styles.slide}>
       {/* Background image */}
       <Image
-        src={`https://image.tmdb.org/t/p/original${media.backdrop_path}`}
+        src={getPosterUrl(media.backdrop_path)}
         alt={getTitleOrName(media)}
         fill
         priority
