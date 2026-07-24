@@ -14,6 +14,7 @@ import MediaGrid from "@/components/ui/MediaGrid/MediaGrid";
 import InfiniteMoviesGrid from "@/components/ui/MediaGrid/InfiniteMediaGrid";
 import SlideLayout from "@/components/ui/Carousel/SlideLayout";
 import MovieHeroContent from "@/components/ui/Carousel/MovieHeroContent";
+import MediaHeroLayout from "@/components/layout/MediaHeroLayout/MediaHeroLayout";
 export async function generateMetadata() {
   return createPageMetadata("movies");
 }
@@ -57,60 +58,48 @@ const MoviesPage = async ({
     upcomingMovies.results,
   );
 
-  const limtedSorted = sortByPopularity(limited);
+  const limitedSorted = sortByPopularity(limited);
 
   return (
-    <section className={styles.hero}>
-      <Carousel>
-        {limtedSorted.map((movie) => (
-          <SlideLayout
-            key={`slide-${movie.id}`}
-            backdropPath={movie.backdrop_path}
-            alt={movie.id.toString()}
-          >
-            <MovieHeroContent
-              media={movie}
-              genreMap={idToName}
-            ></MovieHeroContent>
-          </SlideLayout>
-        ))}
-      </Carousel>
+    <MediaHeroLayout
+      hero={
+        <Carousel>
+          {limitedSorted.map((movie) => (
+            <SlideLayout
+              key={movie.id}
+              backdropPath={movie.backdrop_path}
+              alt={movie.title}
+            >
+              <MovieHeroContent media={movie} genreMap={idToName} />
+            </SlideLayout>
+          ))}
+        </Carousel>
+      }
+    >
+      <GenresBar genres={genres.genres} />
 
-      <section className={styles.content}>
-        <div className={styles.overlay} />
-        <div className={styles.content2}>
-          <GenresBar genres={genres.genres} />
-          {genreId == null && (
-            <>
-              <MediaGrid
-                title={"Popular"}
-                variant="carousel"
-                media={popularMovies.results}
-              />
-              <MediaGrid
-                title={"Top Rated Movies"}
-                variant="carousel"
-                media={topRatedMovies.results}
-              />
-            </>
-          )}
+      {genreId == null ? (
+        <>
+          <MediaGrid
+            title="Popular"
+            variant="carousel"
+            media={popularMovies.results}
+          />
 
-          {genreId !== null && (
-            <InfiniteMoviesGrid
-              key={genre ?? "all"}
-              initialMovies={initial.results}
-              genre={genreId}
-            />
-          )}
-        </div>
-      </section>
-
-      {/* <section className={styles.content}>
-        <div className={styles.overlay} />
-        <GenresBar genres={genres.genres} />
-        <MediaGrid variant="carousel" media={popularMovies.results} />
-      </section> */}
-    </section>
+          <MediaGrid
+            title="Top Rated Movies"
+            variant="carousel"
+            media={topRatedMovies.results}
+          />
+        </>
+      ) : (
+        <InfiniteMoviesGrid
+          initialMovies={initial.results}
+          genre={genreId}
+          mode="discover"
+        />
+      )}
+    </MediaHeroLayout>
   );
 };
 

@@ -1,4 +1,4 @@
-import { Media } from "@/types/media";
+import { CrewMember, Media } from "@/types/media";
 
 export function limitItems<T>(items: T[], limit: number = 3) {
   if (!Array.isArray(items)) return [];
@@ -38,4 +38,12 @@ export function limitAndMergeUniqueById<T extends Media>(
   }
 
   return result;
+}
+
+export function uniqueNamesByJob(crew: CrewMember[], jobs: string[]) {
+  return [
+    ...new Map(
+      crew.filter((c) => jobs.includes(c.job)).map((c) => [c.id, c.name]),
+    ).values(),
+  ];
 }

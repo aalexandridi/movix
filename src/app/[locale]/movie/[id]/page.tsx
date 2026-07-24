@@ -1,7 +1,13 @@
-import { createPageMetadata } from "@/lib/metadata";
+import Carousel from "@/components/ui/Carousel/Carousel";
+import MovieDetailsHeroContent from "@/components/ui/Carousel/MovieDetailsHeroContent";
+
+import SlideLayout from "@/components/ui/Carousel/SlideLayout";
 import { createMoviesService } from "@/services/tmdb/movies";
+import { Movie, MovieDetails, PaginatedResponse } from "@/types/media";
 import { Metadata } from "next";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getLocale } from "next-intl/server";
+import MovieDetailsTabs from "./MovieDetailsTabs";
+import MediaHeroLayout from "@/components/layout/MediaHeroLayout/MediaHeroLayout";
 
 // export async function generateMetadata() {
 //   return createPageMetadata("movie");
@@ -26,15 +32,40 @@ export async function generateMetadata({
 }
 
 const MoviePage = async ({ params }: { params: Promise<{ id: string }> }) => {
-  const { id } = await params;
-  const locale = await getLocale();
+  const [locale, { id }] = await Promise.all([getLocale(), params]);
   const moviesService = createMoviesService(locale);
-  const movieDetails = await moviesService.getMovieById(id);
-  console.log("movieDetails", movieDetails);
+  const [movieDetails, recommendations, credits]: [
+    MovieDetails,
+    PaginatedResponse<Movie>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
+  ] = await Promise.all([
+    moviesService.getMovieById(id),
+    moviesService.getMovieRecommendations(id),
+    moviesService.getMovieCredits(id),
+  ]);
+  console.log("credits.cast", credits.cast);
   return (
-    <section>
-      <h1>Movie {movieDetails.original_title}</h1>
-    </section>
+    <MediaHeroLayout
+      hero={
+        <Carousel>
+          <SlideLayout
+            key={`slide-${movieDetails.id}`}
+            backdropPath={movieDetails.backdrop_path}
+            alt={movieDetails.id.toString()}
+          >
+            <MovieDetailsHeroContent media={movieDetails} />
+          </SlideLayout>
+        </Carousel>
+      }
+    >
+      <MovieDetailsTabs
+        details={movieDetails}
+        recommendations={recommendations.results}
+        cast={credits.cast}
+        crew={credits.crew}
+      />
+    </MediaHeroLayout>
   );
 };
 

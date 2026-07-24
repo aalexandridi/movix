@@ -21,5 +21,10 @@ export function createMoviesService(locale: string) {
 
     discoverMovies: (query: string) =>
       tmdb.fetch("/discover/movie", 3600, `&${query}`),
+
+    getMovieRecommendations: (id: string, query?: string) =>
+      tmdb.fetch(`/movie/${id}/recommendations`, 3600, `&${query}`),
+
+    getMovieCredits: (id: string) => tmdb.fetch(`/movie/${id}/credits`, 3600),
   };
 }

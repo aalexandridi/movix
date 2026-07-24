@@ -27,7 +27,8 @@
   },
   "common": {
     "play": "Αναπαραγωγή",
-    "moreInfo": "Περισσότερα"
+    "moreInfo": "Περισσότερα",
+    "watchNow": "Αναπαραγωγή Τώρα"
   },
   "metadata": {
     "home": {

@@ -161,3 +161,19 @@ export interface TvDetails extends MediaDetailsBase {
 }
 
 export type MediaDetails = MovieDetails | TvDetails;
+
+export interface CastMember {
+  id: number;
+  name: string;
+  character: string;
+  order: number;
+  known_for_department: string;
+}
+
+export interface CrewMember {
+  id: number;
+  name: string;
+  department: string;
+  job: string;
+  known_for_department: string;
+}

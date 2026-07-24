@@ -8,9 +8,16 @@ import MediaGridSkeleton from "./MediaGridSkeleton";
 type Props = {
   initialMovies: Media[];
   genre?: number;
+  mode: "discover" | "recommendations";
+  movieId?: string;
 };
 
-export default function InfiniteMoviesGrid({ initialMovies, genre }: Props) {
+export default function InfiniteMoviesGrid({
+  initialMovies,
+  genre,
+  mode,
+  movieId,
+}: Props) {
   const [movies, setMovies] = useState(initialMovies);
   const [page, setPage] = useState(2);
   const [loading, setLoading] = useState(false);
@@ -27,9 +34,12 @@ export default function InfiniteMoviesGrid({ initialMovies, genre }: Props) {
     setLoading(true);
 
     try {
-      const res = await fetch(
-        `/api/movie/discover?page=${page}&genreId=${genre ?? ""}`,
-      );
+      const url =
+        mode === "discover"
+          ? `/api/movie/discover?page=${page}&genreId=${genre ?? ""}`
+          : `/api/movie/recommendations?movieId=${movieId}&page=${page}`;
+
+      const res = await fetch(url);
 
       const data = await res.json();
 
