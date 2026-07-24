@@ -4,6 +4,7 @@ import styles from "./Slide.module.css";
 import { getDate, getTitleOrName } from "@/utils/media";
 import { getTranslations } from "next-intl/server";
 import Button from "@/components/layout/Button/button";
+import Link from "next/link";
 // import { createMoviesService } from "@/services/tmdb/movies";
 // import { getLocale } from "next-intl/server";
 interface MovieSlideProps {
@@ -40,9 +41,14 @@ export default async function MovieHeroContent({
         <Button variant="primary" fontWeight="700">
           ▶ {c("play")}
         </Button>
-        <Button variant="secondary" fontWeight="500">
+        <Link href={`/movie/${media.id}`}>
+          <Button variant="secondary" fontWeight="500">
+            {c("moreInfo")}
+          </Button>
+        </Link>
+        {/* <Button variant="secondary" fontWeight="500">
           {c("moreInfo")}
-        </Button>
+        </Button> */}
       </div>
     </div>
   );

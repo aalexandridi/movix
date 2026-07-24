@@ -94,6 +94,7 @@ const MoviesPage = async ({
         </>
       ) : (
         <InfiniteMoviesGrid
+          key={genreId}
           initialMovies={initial.results}
           genre={genreId}
           mode="discover"
