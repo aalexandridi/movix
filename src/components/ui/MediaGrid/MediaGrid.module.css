@@ -1,18 +1,54 @@
 .grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 24px;
+  display: grid;
+  gap: var(--media-gap);
+  grid-template-columns: repeat(var(--media-columns), minmax(0, 1fr));
 }
 
 .embla {
-  overflow: hidden;
+  overflow: visible;
 }
 
 .emblaContainer {
   display: flex;
-  gap: 24px;
+  gap: var(--media-gap);
 }
 
 .emblaSlide {
-  flex: 0 0 220px;
+  flex: 0 0
+    calc(
+      (100% - (var(--media-columns) - 1) * var(--media-gap)) /
+        var(--media-columns)
+    );
 }
+
+.carouselWrapper {
+  overflow: hidden;
+}
+
+/* .emblaContainer {
+  display: flex;
+  gap: 20px;
+}
+
+.emblaSlide {
+  flex: 0 0 var(--card-width);
+} */
+
+/* @media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+} */

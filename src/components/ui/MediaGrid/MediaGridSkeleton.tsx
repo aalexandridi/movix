@@ -1,18 +1,9 @@
+import styles from "./MediaGrid.module.css";
 import MediaCardSkeleton from "./MediaCardSkeleton";
 
-type Props = {
-  count?: number;
-};
-
-export default function MediaGridSkeleton({ count = 10 }: Props) {
+export default function MediaGridSkeleton({ count = 12 }: { count?: number }) {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        gap: "16px",
-      }}
-    >
+    <div className={styles.grid}>
       {Array.from({ length: count }).map((_, i) => (
         <MediaCardSkeleton key={i} />
       ))}

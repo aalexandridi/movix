@@ -21,13 +21,15 @@ export default function MediaGrid({
     return (
       <div className="my-6">
         <h3 className="mb-2 text-md font-semibold">{title}</h3>
-        <div className={styles.embla} ref={emblaRef}>
-          <div className={styles.emblaContainer}>
-            {media.map((item) => (
-              <div key={item.id} className={styles.emblaSlide}>
-                <MediaCard media={item} />
-              </div>
-            ))}
+        <div className={styles.carouselWrapper}>
+          <div className={styles.embla} ref={emblaRef}>
+            <div className={styles.emblaContainer}>
+              {media.map((item) => (
+                <div key={item.id} className={styles.emblaSlide}>
+                  <MediaCard media={item} />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
