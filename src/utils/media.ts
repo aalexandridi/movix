@@ -32,7 +32,7 @@ export function createGenreMaps(genres: Genre[]) {
   return { idToName, nameToId };
 }
 
-export function sortByPopularity(media: Array<Media>) {
+export function sortByPopularity<T extends Media>(media: Array<T>): T[] {
   return media.sort((a, b) => b.popularity - a.popularity);
 }
 

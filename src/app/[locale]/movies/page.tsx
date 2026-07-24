@@ -2,8 +2,6 @@ import { createPageMetadata } from "@/lib/metadata";
 import { createMoviesService } from "@/services/tmdb/movies";
 import { getLocale } from "next-intl/server";
 import Carousel from "@/components/ui/Carousel/Carousel";
-import Slide from "@/components/ui/Carousel/Slide";
-import { Media } from "@/types/media";
 import { limitAndMergeUniqueById } from "@/utils/array";
 import {
   createGenreMaps,
@@ -14,6 +12,8 @@ import GenresBar from "@/components/ui/GenresBar/GenresBar";
 import styles from "./MoviesPage.module.css";
 import MediaGrid from "@/components/ui/MediaGrid/MediaGrid";
 import InfiniteMoviesGrid from "@/components/ui/MediaGrid/InfiniteMediaGrid";
+import SlideLayout from "@/components/ui/Carousel/SlideLayout";
+import MovieHeroContent from "@/components/ui/Carousel/MovieHeroContent";
 export async function generateMetadata() {
   return createPageMetadata("movies");
 }
@@ -62,8 +62,17 @@ const MoviesPage = async ({
   return (
     <section className={styles.hero}>
       <Carousel>
-        {limtedSorted.map((movie: Media) => (
-          <Slide key={movie.id} media={movie} genreMap={idToName} />
+        {limtedSorted.map((movie) => (
+          <SlideLayout
+            key={`slide-${movie.id}`}
+            backdropPath={movie.backdrop_path}
+            alt={movie.id.toString()}
+          >
+            <MovieHeroContent
+              media={movie}
+              genreMap={idToName}
+            ></MovieHeroContent>
+          </SlideLayout>
         ))}
       </Carousel>
 
