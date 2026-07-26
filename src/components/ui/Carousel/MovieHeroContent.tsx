@@ -2,9 +2,11 @@ import Image from "next/image";
 import { Media, Movie } from "@/types/media";
 import styles from "./Slide.module.css";
 import { getDate, getTitleOrName } from "@/utils/media";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import Button from "@/components/layout/Button/button";
 import Link from "next/link";
+import { createMoviesService } from "@/services/tmdb/movies";
+import { getPosterUrl } from "@/services/tmdb/images";
 // import { createMoviesService } from "@/services/tmdb/movies";
 // import { getLocale } from "next-intl/server";
 interface MovieSlideProps {
@@ -22,10 +24,24 @@ export default async function MovieHeroContent({
     .filter(Boolean) as string[];
 
   const year = new Date(getDate(media)).getFullYear();
-
+  const locale = await getLocale();
+  const moviesService = createMoviesService(locale);
+  const images = await moviesService.getImages(media.id.toString());
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const logo = images.logos.find((logo: any) => logo.iso_639_1 === "en");
   return (
     <div className={styles.content}>
-      <h1 className={styles.title}>{getTitleOrName(media)}</h1>
+      {logo && (
+        <Image
+          className="pb-8"
+          width={500}
+          height={200}
+          priority
+          alt="title image"
+          src={getPosterUrl(logo.file_path)}
+        ></Image>
+      )}
+      {!logo && <h1 className={styles.title}>{getTitleOrName(media)}</h1>}
 
       <div className={styles.genres} style={{ display: "flex", gap: "8px" }}>
         <span>{year}</span>

@@ -1,22 +1,30 @@
+import clsx from "clsx";
 import styles from "./MediaHeroLayout.module.css";
 
 interface MediaHeroLayoutProps {
-  hero: React.ReactNode;
+  hero?: React.ReactNode;
   children: React.ReactNode;
+  className?: string;
 }
 
 export default function MediaHeroLayout({
   hero,
   children,
+  className,
 }: MediaHeroLayoutProps) {
   return (
-    <section className={styles.hero}>
+    <section className={clsx(styles.hero, className)}>
       {hero}
 
       <section className={styles.content}>
-        <div className={styles.overlay} />
+        {hero && (
+          <>
+            <div className={styles.overlay} />
 
-        <div className={styles.contentInner}>{children}</div>
+            <div className={styles.contentInner}>{children}</div>
+          </>
+        )}
+        {!hero && <div>{children}</div>}
       </section>
     </section>
   );

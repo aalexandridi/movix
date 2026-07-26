@@ -26,5 +26,7 @@ export function createMoviesService(locale: string) {
       tmdb.fetch(`/movie/${id}/recommendations`, 3600, `&${query}`),
 
     getMovieCredits: (id: string) => tmdb.fetch(`/movie/${id}/credits`, 3600),
+
+    getImages: (id: string) => tmdb.fetch(`/movie/${id}/images`, 3600),
   };
 }

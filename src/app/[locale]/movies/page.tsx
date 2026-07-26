@@ -15,6 +15,7 @@ import InfiniteMoviesGrid from "@/components/ui/MediaGrid/InfiniteMediaGrid";
 import SlideLayout from "@/components/ui/Carousel/SlideLayout";
 import MovieHeroContent from "@/components/ui/Carousel/MovieHeroContent";
 import MediaHeroLayout from "@/components/layout/MediaHeroLayout/MediaHeroLayout";
+import InfiniteMediaGrid from "@/components/ui/MediaGrid/InfiniteMediaGrid";
 export async function generateMetadata() {
   return createPageMetadata("movies");
 }
@@ -93,7 +94,7 @@ const MoviesPage = async ({
           />
         </>
       ) : (
-        <InfiniteMoviesGrid
+        <InfiniteMediaGrid
           key={genreId}
           initialMovies={initial.results}
           genre={genreId}

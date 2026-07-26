@@ -37,10 +37,13 @@ export default function MediaGrid({
   }
 
   return (
-    <div className={`my-8 py-6 ${styles.grid}`}>
-      {media.map((item) => (
-        <MediaCard key={item.id} media={item} />
-      ))}
+    <div className={`my-8 py-6`}>
+      {title && <h3 className="mb-2 text-md font-semibold">{title}</h3>}
+      <div className={`${styles.grid}`}>
+        {media.map((item) => (
+          <MediaCard key={item.id} media={item} />
+        ))}
+      </div>
     </div>
   );
 }

@@ -8,15 +8,19 @@ import MediaGridSkeleton from "./MediaGridSkeleton";
 type Props = {
   initialMovies: Media[];
   genre?: number;
-  mode: "discover" | "recommendations";
+  mode: "discover" | "recommendations" | "search" | "";
   movieId?: string;
+  query?: string;
+  enableInfiniteScroll?: boolean;
 };
 
-export default function InfiniteMoviesGrid({
+export default function InfiniteMediaGrid({
   initialMovies,
   genre,
   mode,
   movieId,
+  query,
+  enableInfiniteScroll = true,
 }: Props) {
   const [movies, setMovies] = useState(initialMovies);
   const [page, setPage] = useState(2);
@@ -28,6 +32,7 @@ export default function InfiniteMoviesGrid({
 
   // FETCH MORE
   const loadMore = useCallback(async () => {
+    if (!enableInfiniteScroll) return;
     if (loading || !hasMore || isFetchingRef.current) return;
 
     isFetchingRef.current = true;
@@ -37,7 +42,9 @@ export default function InfiniteMoviesGrid({
       const url =
         mode === "discover"
           ? `/api/movie/discover?page=${page}&genreId=${genre ?? ""}`
-          : `/api/movie/recommendations?movieId=${movieId}&page=${page}`;
+          : mode === "recommendations"
+            ? `/api/movie/recommendations?movieId=${movieId}&page=${page}`
+            : `/api/search?query=${query}&page=${page}`;
 
       const res = await fetch(url);
 
@@ -62,10 +69,11 @@ export default function InfiniteMoviesGrid({
       setLoading(false);
       isFetchingRef.current = false;
     }
-  }, [genre, hasMore, loading, page]);
+  }, [enableInfiniteScroll, genre, hasMore, loading, mode, movieId, page]);
 
   // INTERSECTION OBSERVER
   useEffect(() => {
+    if (!enableInfiniteScroll) return;
     const el = observerRef.current;
     if (!el) return;
 
@@ -81,7 +89,7 @@ export default function InfiniteMoviesGrid({
     observer.observe(el);
 
     return () => observer.disconnect();
-  }, [page, genre, loading, loadMore]);
+  }, [page, genre, loading, loadMore, enableInfiniteScroll]);
 
   return (
     <>
