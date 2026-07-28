@@ -4,25 +4,28 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import MediaGrid from "@/components/ui/MediaGrid/MediaGrid";
 import { Media } from "@/types/media";
 import MediaGridSkeleton from "./MediaGridSkeleton";
+import { isMovie } from "@/utils/media";
 
 type Props = {
-  initialMovies: Media[];
+  initialMedia: Media[];
   genre?: number;
   mode: "discover" | "recommendations" | "search" | "";
   movieId?: string;
+  mediaType?: "movie" | "tvShow" | "mixed";
   query?: string;
   enableInfiniteScroll?: boolean;
 };
 
 export default function InfiniteMediaGrid({
-  initialMovies,
+  initialMedia,
   genre,
   mode,
   movieId,
+  mediaType = "movie",
   query,
   enableInfiniteScroll = true,
 }: Props) {
-  const [movies, setMovies] = useState(initialMovies);
+  const [movies, setMovies] = useState(initialMedia);
   const [page, setPage] = useState(2);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
@@ -41,9 +44,9 @@ export default function InfiniteMediaGrid({
     try {
       const url =
         mode === "discover"
-          ? `/api/movie/discover?page=${page}&genreId=${genre ?? ""}`
+          ? `/api/${mediaType}/discover?page=${page}&genreId=${genre ?? ""}`
           : mode === "recommendations"
-            ? `/api/movie/recommendations?movieId=${movieId}&page=${page}`
+            ? `/api/${mediaType}/recommendations?movieId=${movieId}&page=${page}`
             : `/api/search?query=${query}&page=${page}`;
 
       const res = await fetch(url);
@@ -69,7 +72,17 @@ export default function InfiniteMediaGrid({
       setLoading(false);
       isFetchingRef.current = false;
     }
-  }, [enableInfiniteScroll, genre, hasMore, loading, mode, movieId, page]);
+  }, [
+    enableInfiniteScroll,
+    genre,
+    hasMore,
+    loading,
+    mediaType,
+    mode,
+    movieId,
+    page,
+    query,
+  ]);
 
   // INTERSECTION OBSERVER
   useEffect(() => {

@@ -9,9 +9,7 @@ import {
   sortByPopularity,
 } from "@/utils/media";
 import GenresBar from "@/components/ui/GenresBar/GenresBar";
-import styles from "./MoviesPage.module.css";
 import MediaGrid from "@/components/ui/MediaGrid/MediaGrid";
-import InfiniteMoviesGrid from "@/components/ui/MediaGrid/InfiniteMediaGrid";
 import SlideLayout from "@/components/ui/Carousel/SlideLayout";
 import MovieHeroContent from "@/components/ui/Carousel/MovieHeroContent";
 import MediaHeroLayout from "@/components/layout/MediaHeroLayout/MediaHeroLayout";
@@ -96,7 +94,7 @@ const MoviesPage = async ({
       ) : (
         <InfiniteMediaGrid
           key={genreId}
-          initialMovies={initial.results}
+          initialMedia={initial.results}
           genre={genreId}
           mode="discover"
         />

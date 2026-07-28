@@ -1,6 +1,5 @@
 import MediaHeroLayout from "@/components/layout/MediaHeroLayout/MediaHeroLayout";
 import InfiniteMediaGrid from "@/components/ui/MediaGrid/InfiniteMediaGrid";
-import InfiniteMoviesGrid from "@/components/ui/MediaGrid/InfiniteMediaGrid";
 import MediaGrid from "@/components/ui/MediaGrid/MediaGrid";
 import SearchInput from "@/components/ui/SearchInput/SearchInput";
 import { createPageMetadata } from "@/lib/metadata";
@@ -9,7 +8,6 @@ import { createMultiService } from "@/services/tmdb/multi";
 import { createTvShowsService } from "@/services/tmdb/shows";
 import { mergeArrays, shuffleArray } from "@/utils/array";
 import { getLocale } from "next-intl/server";
-// import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata() {
   return createPageMetadata("search");
@@ -27,15 +25,6 @@ const SearchPage = async ({
   const multiService = createMultiService(locale);
   const moviesService = createMoviesService(locale);
   const seriesService = createTvShowsService(locale);
-
-  // const [popularMovies, popularSeries] = await Promise.all([
-  //   moviesService.getPopular(),
-  //   seriesService.getPopular(),
-  // ]);
-
-  // const searchResults = query
-  //   ? await multiService.searchMedia(query)
-  //   : await Promise.resolve(null);
 
   const popularPromise = query
     ? Promise.resolve(null)
@@ -55,14 +44,13 @@ const SearchPage = async ({
     : [];
 
   const shuffledMedia = shuffleArray(media);
-  // console.log("searchResults===", searchResults);
   return (
     <MediaHeroLayout className="mt-14">
       <SearchInput></SearchInput>
       {query ? (
         <InfiniteMediaGrid
           key={query}
-          initialMovies={searchResults?.results ?? []}
+          initialMedia={searchResults?.results ?? []}
           mode={"search"}
           query={query}
         ></InfiniteMediaGrid>

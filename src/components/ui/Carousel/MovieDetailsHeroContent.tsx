@@ -1,13 +1,10 @@
 import Image from "next/image";
-import { Media, Movie, MovieDetails } from "@/types/media";
+import { MovieDetails } from "@/types/media";
 import styles from "./Slide.module.css";
-import { getDate, getTitleOrName } from "@/utils/media";
 import { getLocale, getTranslations } from "next-intl/server";
 import Button from "@/components/layout/Button/button";
 import { createMoviesService } from "@/services/tmdb/movies";
 import { getPosterUrl } from "@/services/tmdb/images";
-// import { createMoviesService } from "@/services/tmdb/movies";
-// import { getLocale } from "next-intl/server";
 interface MovieSlideProps {
   media: MovieDetails;
 }

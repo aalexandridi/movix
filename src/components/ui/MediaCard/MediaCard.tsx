@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 import { Media } from "@/types/media";
 
 import styles from "./MediaCard.module.css";

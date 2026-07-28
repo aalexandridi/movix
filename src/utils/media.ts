@@ -32,8 +32,12 @@ export function createGenreMaps(genres: Genre[]) {
   return { idToName, nameToId };
 }
 
-export function sortByPopularity<T extends Media>(media: Array<T>): T[] {
-  return media.sort((a, b) => b.popularity - a.popularity);
+// export function sortByPopularity<T extends Media>(media: Array<T>): T[] {
+//   return media.sort((a, b) => b.popularity - a.popularity);
+// }
+
+export function sortByPopularity<T extends Media>(media: T[]): T[] {
+  return [...media].sort((a, b) => b.popularity - a.popularity);
 }
 
 export function getCurrentDate() {

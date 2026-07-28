@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Movie } from "@/types/media";
+import { Movie, TvDetails, TvShow } from "@/types/media";
 import styles from "./Slide.module.css";
 import { getDate, getTitleOrName } from "@/utils/media";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -7,12 +7,13 @@ import Button from "@/components/layout/Button/button";
 import Link from "next/link";
 import { createMoviesService } from "@/services/tmdb/movies";
 import { getPosterUrl } from "@/services/tmdb/images";
+import { createTvShowsService } from "@/services/tmdb/shows";
 interface MovieSlideProps {
-  media: Movie;
+  media: TvShow;
   genreMap: Map<number, string>;
 }
 
-export default async function MovieHeroContent({
+export default async function TvShowHeroContent({
   media,
   genreMap,
 }: MovieSlideProps) {
@@ -23,8 +24,13 @@ export default async function MovieHeroContent({
 
   const year = new Date(getDate(media)).getFullYear();
   const locale = await getLocale();
-  const moviesService = createMoviesService(locale);
-  const images = await moviesService.getImages(media.id.toString());
+  const tvShowsService = createTvShowsService(locale);
+  const [images, details] = await Promise.all([
+    tvShowsService.getImages(media.id),
+    tvShowsService.getTvShowDeatils(media.id),
+  ]);
+  const tvDetails = details as TvDetails;
+  //   const images = await tvShowsService.getImages(media.id);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const logo = images.logos.find((logo: any) => logo.iso_639_1 === "en");
   return (
@@ -41,11 +47,14 @@ export default async function MovieHeroContent({
       )}
       {!logo && <h1 className={styles.title}>{getTitleOrName(media)}</h1>}
 
-      <div className={styles.genres} style={{ display: "flex", gap: "8px" }}>
-        <span>{year}</span>
-        {genres.map((g) => (
-          <span key={g}>{g}</span>
-        ))}
+      <div className={styles.genres} style={{ display: "flex", gap: "16px" }}>
+        <span>{tvDetails.number_of_seasons} Seasons</span>
+        <div className="flex gap-2">
+          {genres.map((g) => (
+            <span key={g}>{g}</span>
+          ))}
+        </div>
+
         {/* <span>Rate: {media.vote_average}</span> */}
       </div>
 
