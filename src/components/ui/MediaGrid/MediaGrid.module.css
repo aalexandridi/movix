@@ -1,7 +1,60 @@
+/* MediaGrid.module.css */
+
+.default {
+  --media-columns2: 2;
+}
+
+@media (min-width: 640px) {
+  .default {
+    --media-columns2: 3;
+  }
+}
+
+@media (min-width: 768px) {
+  .default {
+    --media-columns2:4;
+  }
+}
+
+
+@media (min-width: 1024px) {
+  .default {
+    --media-columns2: 6;
+  }
+}
+
+@media (min-width: 1536px) {
+  .default {
+    --media-columns2: 7;
+  }
+}
+
+.episodes {
+  --media-columns2: 2;
+}
+
+@media (min-width: 640px) {
+  .episodes {
+    --media-columns2: 3;
+  }
+}
+
+@media (min-width: 1024px) {
+  .episodes {
+    --media-columns2: 4;
+  }
+}
+
+@media (min-width: 1536px) {
+  .episodes {
+    --media-columns2: 6;
+  }
+}
+
 .grid {
   display: grid;
   gap: var(--media-gap);
-  grid-template-columns: repeat(var(--media-columns), minmax(0, 1fr));
+  grid-template-columns: repeat(var(--media-columns2), minmax(0, 1fr));
 }
 
 .embla {
@@ -10,14 +63,17 @@
 
 .emblaContainer {
   display: flex;
+  /* align-items: stretch; */
   gap: var(--media-gap);
 }
 
 .emblaSlide {
+  position: relative;
+  /* display: flex; */
   flex: 0 0
     calc(
-      (100% - (var(--media-columns) - 1) * var(--media-gap)) /
-        var(--media-columns)
+      (100% - (var(--media-columns2) - 1) * var(--media-gap)) /
+        var(--media-columns2)
     );
 }
 

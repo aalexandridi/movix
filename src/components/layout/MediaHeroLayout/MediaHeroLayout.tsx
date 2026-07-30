@@ -14,7 +14,8 @@ export default function MediaHeroLayout({
 }: MediaHeroLayoutProps) {
   return (
     <section className={clsx(styles.hero, className)}>
-      {hero}
+      <div className={styles.heroImage}>{hero}</div>
+      {/* {hero} */}
 
       <section className={styles.content}>
         {hero && (

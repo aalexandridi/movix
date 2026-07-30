@@ -15,7 +15,7 @@ export default function PosterImage({
   const [loaded, setLoaded] = useState(false);
 
   return (
-    <>
+    <div style={{ position: "relative", width: "100%", height: "100%" }}>
       {!loaded && <MediaCardSkeleton />}
 
       <Image
@@ -27,11 +27,7 @@ export default function PosterImage({
           setLoaded(true);
           setImageSrc("/images/poster-placeholder.webp");
         }}
-        // style={{
-        //   opacity: loaded ? 1 : 0,
-        //   transition: "opacity 250ms ease",
-        // }}
       />
-    </>
+    </div>
   );
 }

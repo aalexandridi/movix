@@ -14,6 +14,8 @@ import SlideLayout from "@/components/ui/Carousel/SlideLayout";
 import MovieHeroContent from "@/components/ui/Carousel/MovieHeroContent";
 import MediaHeroLayout from "@/components/layout/MediaHeroLayout/MediaHeroLayout";
 import InfiniteMediaGrid from "@/components/ui/MediaGrid/InfiniteMediaGrid";
+import MediaCard from "@/components/ui/MediaCard/MediaCard";
+import styles from "../../../components/ui/MediaGrid/MediaGrid.module.css";
 export async function generateMetadata() {
   return createPageMetadata("movies");
 }
@@ -79,17 +81,21 @@ const MoviesPage = async ({
 
       {genreId == null ? (
         <>
-          <MediaGrid
-            title="Popular"
-            variant="carousel"
-            media={popularMovies.results}
-          />
+          <MediaGrid title="Popular" variant="carousel">
+            {popularMovies.results.map((item) => (
+              <div key={item.id} className={styles.emblaSlide}>
+                <MediaCard media={item} />
+              </div>
+            ))}
+          </MediaGrid>
 
-          <MediaGrid
-            title="Top Rated Movies"
-            variant="carousel"
-            media={topRatedMovies.results}
-          />
+          <MediaGrid title="Top Rated Movies" variant="carousel">
+            {topRatedMovies.results.map((item) => (
+              <div key={item.id} className={styles.emblaSlide}>
+                <MediaCard media={item} />
+              </div>
+            ))}
+          </MediaGrid>
         </>
       ) : (
         <InfiniteMediaGrid

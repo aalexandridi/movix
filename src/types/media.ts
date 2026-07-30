@@ -177,3 +177,35 @@ export interface CrewMember {
   job: string;
   known_for_department: string;
 }
+
+export interface TvSeasonDetails {
+  id: number;
+  air_date: string;
+  name: string;
+  overview: string;
+  poster_path: string | null;
+  season_number: number;
+  vote_average: number;
+
+  episodes: Episode[];
+  networks: Network[];
+}
+
+export interface Episode {
+  id: number;
+  air_date: string;
+  episode_number: number;
+  episode_type: string;
+  name: string;
+  overview: string;
+  production_code: string;
+  runtime: number | null;
+  season_number: number;
+  show_id: number;
+  still_path: string | null;
+  vote_average: number;
+  vote_count: number;
+
+  crew: CrewMember[];
+  guest_stars: CastMember[];
+}

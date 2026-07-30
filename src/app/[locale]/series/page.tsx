@@ -3,6 +3,7 @@ import Carousel from "@/components/ui/Carousel/Carousel";
 import SlideLayout from "@/components/ui/Carousel/SlideLayout";
 import TvShowHeroContent from "@/components/ui/Carousel/TvShowHeroContent";
 import GenresBar from "@/components/ui/GenresBar/GenresBar";
+import MediaCard from "@/components/ui/MediaCard/MediaCard";
 import InfiniteMediaGrid from "@/components/ui/MediaGrid/InfiniteMediaGrid";
 import MediaGrid from "@/components/ui/MediaGrid/MediaGrid";
 import { createPageMetadata } from "@/lib/metadata";
@@ -15,7 +16,7 @@ import {
   sortByPopularity,
 } from "@/utils/media";
 import { getLocale, getTranslations } from "next-intl/server";
-
+import styles from "../../../components/ui/MediaGrid/MediaGrid.module.css";
 export async function generateMetadata() {
   return createPageMetadata("series");
 }
@@ -74,17 +75,21 @@ const SeriesPage = async ({
 
       {genreId == null ? (
         <>
-          <MediaGrid
-            title="Popular"
-            variant="carousel"
-            media={popularShows.results}
-          />
+          <MediaGrid title="Popular" variant="carousel">
+            {popularShows.results.map((item) => (
+              <div key={item.id} className={styles.emblaSlide}>
+                <MediaCard media={item} />
+              </div>
+            ))}
+          </MediaGrid>
 
-          <MediaGrid
-            title="Top Rated Movies"
-            variant="carousel"
-            media={topRatedShows.results}
-          />
+          <MediaGrid title="Top Rated Movies" variant="carousel">
+            {topRatedShows.results.map((item) => (
+              <div key={item.id} className={styles.emblaSlide}>
+                <MediaCard media={item} />
+              </div>
+            ))}
+          </MediaGrid>
         </>
       ) : (
         // <></>

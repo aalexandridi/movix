@@ -1,0 +1,65 @@
+import Image from "next/image";
+import { TvDetails } from "@/types/media";
+import styles from "./Slide.module.css";
+import { getLocale, getTranslations } from "next-intl/server";
+import Button from "@/components/layout/Button/button";
+import { createMoviesService } from "@/services/tmdb/movies";
+import { getPosterUrl } from "@/services/tmdb/images";
+import { createTvShowsService } from "@/services/tmdb/shows";
+interface MovieSlideProps {
+  media: TvDetails;
+}
+
+export default async function TvShowDetailsHeroContent({
+  media,
+}: MovieSlideProps) {
+  const c = await getTranslations("common");
+  const genres = media.genres;
+
+  const year = new Date(media.first_air_date).getFullYear();
+
+  const locale = await getLocale();
+  const showService = createTvShowsService(locale);
+  const images = await showService.getImages(media.id);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const logo = images.logos.find((logo: any) => logo.iso_639_1 === "en");
+  return (
+    <div className={styles.content}>
+      {logo && (
+        <Image
+          width={500}
+          height={500}
+          priority
+          alt="title image"
+          src={getPosterUrl(logo.file_path, "w500")}
+          className="w-auto h-auto pb-8"
+        ></Image>
+      )}
+      {!logo && <h1 className={styles.title}>{media.name}</h1>}
+
+      <div
+        className={styles.genres}
+        style={{ display: "flex", gap: "16px", marginBottom: " 0.5rem" }}
+      >
+        <span>{media.number_of_seasons} Seasons</span>
+        <span>{year}</span>
+      </div>
+
+      <div className={styles.actions} style={{ marginBottom: "1.5rem" }}>
+        <Button variant="primary" fontWeight="700">
+          ▶ {c("watchNow")}
+        </Button>
+      </div>
+
+      <p className={styles.description} style={{ marginBottom: "0.8rem" }}>
+        {media.overview}
+      </p>
+      <div className={styles.genres} style={{ display: "flex", gap: "8px" }}>
+        {genres.map((g) => (
+          <span key={g.id}>{g.name}</span>
+        ))}
+        {/* <span>Rate: {media.vote_average}</span> */}
+      </div>
+    </div>
+  );
+}

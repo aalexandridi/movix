@@ -5,6 +5,8 @@ import MediaGrid from "@/components/ui/MediaGrid/MediaGrid";
 import { Media } from "@/types/media";
 import MediaGridSkeleton from "./MediaGridSkeleton";
 import { isMovie } from "@/utils/media";
+import MediaCard from "../MediaCard/MediaCard";
+import { title } from "process";
 
 type Props = {
   initialMedia: Media[];
@@ -14,6 +16,7 @@ type Props = {
   mediaType?: "movie" | "tvShow" | "mixed";
   query?: string;
   enableInfiniteScroll?: boolean;
+  title?: string;
 };
 
 export default function InfiniteMediaGrid({
@@ -24,6 +27,7 @@ export default function InfiniteMediaGrid({
   mediaType = "movie",
   query,
   enableInfiniteScroll = true,
+  title = "",
 }: Props) {
   const [movies, setMovies] = useState(initialMedia);
   const [page, setPage] = useState(2);
@@ -106,7 +110,11 @@ export default function InfiniteMediaGrid({
 
   return (
     <>
-      <MediaGrid variant="grid" media={movies} />
+      <MediaGrid title={title}>
+        {movies.map((movie) => (
+          <MediaCard key={movie.id} media={movie}></MediaCard>
+        ))}
+      </MediaGrid>
 
       {loading && (
         <div className="grid-skeleton-overlay">

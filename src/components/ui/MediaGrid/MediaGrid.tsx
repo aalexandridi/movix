@@ -1,48 +1,43 @@
-"use client";
-
-import useEmblaCarousel from "embla-carousel-react";
-
-import MediaCard from "../MediaCard/MediaCard";
+// /* eslint-disable @typescript-eslint/no-explicit-any */
+import clsx from "clsx";
+import EmblaContainer from "../Carousel/EmblaCarousel";
 import styles from "./MediaGrid.module.css";
 
 import { MediaGridProps } from "./MediaGrid.types";
 
 export default function MediaGrid({
-  media,
   variant = "grid",
   title,
-  classNames = "",
+  children,
+  layoutClass = "default",
 }: MediaGridProps) {
-  const [emblaRef] = useEmblaCarousel({
-    dragFree: true,
-  });
-
   if (variant === "carousel") {
     return (
-      <div className="my-6">
+      <div className={clsx("my-6", layoutClass)}>
         <h3 className="mb-2 text-md font-semibold">{title}</h3>
-        <div className={styles.carouselWrapper}>
-          <div className={styles.embla} ref={emblaRef}>
-            <div className={styles.emblaContainer}>
-              {media.map((item) => (
-                <div key={item.id} className={styles.emblaSlide}>
-                  <MediaCard media={item} />
-                </div>
-              ))}
+
+        <EmblaContainer layoutClass={layoutClass}>{children}</EmblaContainer>
+
+        {/* <EmblaContainer>
+          {media.map((item) => (
+            <div key={item.id} className={styles.emblaSlide}>
+              {details ? renderMedia(item, details) : renderMedia(item)}
             </div>
-          </div>
-        </div>
+          ))}
+        </EmblaContainer> */}
       </div>
     );
   }
 
   return (
-    <div className={`my-8 py-6`}>
+    <div className={clsx("my-8 py-6", styles[layoutClass])}>
       {title && <h3 className="mb-2 text-md font-semibold">{title}</h3>}
-      <div className={`${styles.grid}`}>
-        {media.map((item) => (
-          <MediaCard key={item.id} media={item} />
-        ))}
+
+      <div className={clsx(styles.grid, styles[layoutClass])}>
+        {children}
+        {/* {media.map((item) => (
+          <div key={item.id}>{renderMedia(item)}</div>
+        ))} */}
       </div>
     </div>
   );

@@ -1,10 +1,14 @@
-import { Media } from "@/types/media";
+import { Media, MediaDetails } from "@/types/media";
 
 export type MediaGridVariant = "carousel" | "grid";
 
+export type GridMedia = Media | MediaDetails;
+
+export type MediaGridLayout = "default" | "episodes" | "search" | "compact";
+
 export interface MediaGridProps {
-  media: Media[];
-  variant?: MediaGridVariant;
+  variant?: "grid" | "carousel";
   title?: string;
-  classNames?: string;
+  children: React.ReactNode;
+  layoutClass?: MediaGridLayout;
 }

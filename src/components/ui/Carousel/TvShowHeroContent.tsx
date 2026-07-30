@@ -27,7 +27,7 @@ export default async function TvShowHeroContent({
   const tvShowsService = createTvShowsService(locale);
   const [images, details] = await Promise.all([
     tvShowsService.getImages(media.id),
-    tvShowsService.getTvShowDeatils(media.id),
+    tvShowsService.getTvShowDetails(media.id),
   ]);
   const tvDetails = details as TvDetails;
   //   const images = await tvShowsService.getImages(media.id);
@@ -64,7 +64,7 @@ export default async function TvShowHeroContent({
         <Button variant="primary" fontWeight="700">
           ▶ {c("play")}
         </Button>
-        <Link href={`/movie/${media.id}`}>
+        <Link href={`/tvShow/${media.id}`}>
           <Button variant="secondary" fontWeight="500">
             {c("moreInfo")}
           </Button>

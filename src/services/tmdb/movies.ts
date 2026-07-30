@@ -10,7 +10,8 @@ export function createMoviesService(locale: string) {
     getPopular: (): Promise<PaginatedResponse<Movie>> =>
       tmdb.fetch("/movie/popular", 3600),
 
-    getTopRated: () => tmdb.fetch("/movie/top_rated", 21600),
+    getTopRated: (): Promise<PaginatedResponse<Movie>> =>
+      tmdb.fetch("/movie/top_rated", 21600),
 
     getUpcoming: () => tmdb.fetch("/movie/upcoming", 3600),
 

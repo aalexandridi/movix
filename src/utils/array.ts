@@ -5,8 +5,8 @@ export function limitItems<T>(items: T[], limit: number = 3) {
   return items.slice(0, limit);
 }
 
-export function mergeArrays<T>(...arrays: T[][]): T[] {
-  return arrays.flat();
+export function mergeArrays<T, U>(a: T[], b: U[]): Array<T | U> {
+  return [...a, ...b];
 }
 
 export function limitAndMergeArrays<T>(

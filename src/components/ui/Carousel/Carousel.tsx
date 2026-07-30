@@ -1,7 +1,7 @@
 "use client";
 
 import useEmblaCarousel from "embla-carousel-react";
-import { Children, useCallback, useEffect, useState } from "react";
+import { Children, useCallback, useEffect, useMemo, useState } from "react";
 
 import styles from "./Carousel.module.css";
 import ChevronRight from "@/components/icons/chevron-right";
@@ -17,64 +17,57 @@ export default function Carousel({ children }: CarouselProps) {
   });
 
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
 
   const childrenCount = Children.count(children);
-
   const hasMultipleSlides = childrenCount > 1;
 
-  /**
-   * Sync selected slide
-   */
+  const scrollSnaps = useMemo(
+    () => emblaApi?.scrollSnapList() ?? [],
+    [emblaApi],
+  );
+
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
 
     setSelectedIndex(emblaApi.selectedScrollSnap());
   }, [emblaApi]);
 
-  /**
-   * Initialize embla state ONCE when API is ready
-   */
   useEffect(() => {
     if (!emblaApi) return;
 
-    setScrollSnaps(emblaApi.scrollSnapList());
-
-    // set initial index (IMPORTANT)
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-
+    emblaApi.on("init", onSelect);
+    emblaApi.on("reInit", onSelect);
     emblaApi.on("select", onSelect);
 
     return () => {
+      emblaApi.off("init", onSelect);
+      emblaApi.off("reInit", onSelect);
       emblaApi.off("select", onSelect);
     };
   }, [emblaApi, onSelect]);
 
   return (
     <div className={styles.embla}>
-      {/* Slides */}
       <div className={styles.viewport} ref={emblaRef}>
         <div className={styles.container}>{children}</div>
       </div>
 
-      {/* Arrows */}
       {hasMultipleSlides && (
         <>
           <button
             className={styles.prevButton}
             onClick={() => emblaApi?.scrollPrev()}
           >
-            {/* ← */}
             <ChevronLeft />
           </button>
+
           <button
             className={styles.nextButton}
             onClick={() => emblaApi?.scrollNext()}
           >
-            {/* → */}
             <ChevronRight />
           </button>
-          {/* Dots */}
+
           <div className={styles.dots}>
             {scrollSnaps.map((_, index) => (
               <button

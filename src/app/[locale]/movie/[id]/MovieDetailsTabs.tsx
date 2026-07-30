@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Tabs from "@/components/ui/Tabs/Tabs";
 import { CastMember, CrewMember, Movie, MovieDetails } from "@/types/media";
-import InfiniteMoviesGrid from "@/components/ui/MediaGrid/InfiniteMediaGrid";
+import InfiniteMediaGrid from "@/components/ui/MediaGrid/InfiniteMediaGrid";
 import InfoRow from "@/components/ui/InfoRow/InfoRow";
 import { uniqueNamesByJob } from "@/utils/array";
 
@@ -37,7 +37,7 @@ export default function MovieDetailsTabs({
       <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />
       <section className="">
         {activeTab === "recommended" && (
-          <InfiniteMoviesGrid
+          <InfiniteMediaGrid
             initialMedia={recommendations}
             mode="recommendations"
             movieId={details.id.toString()}

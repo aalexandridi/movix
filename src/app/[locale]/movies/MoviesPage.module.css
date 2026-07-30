@@ -38,3 +38,12 @@
   position: relative;
   height: 100%;
 }
+
+.emblaSlide {
+  position: relative;
+  flex: 0 0
+    calc(
+      (100% - (var(--media-columns) - 1) * var(--media-gap)) /
+        var(--media-columns)
+    );
+}
