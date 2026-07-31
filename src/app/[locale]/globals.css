@@ -19,6 +19,10 @@
   /* Grid */
   --media-columns: 2;
   --media-gap: 20px;
+
+  --color_general_text_high: #fff;
+  --color_general_text_low: hsla(0, 0%, 100%, .65);
+  --color_general_text_mid: hsla(0, 0%, 100%, .8);
 }
 
 @theme inline {
@@ -27,6 +31,10 @@
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-general-text-high: var(--color_general_text_high);
+  --color-general-text-mid: var(--color_general_text_mid);
+  --color-general-text-low: var(--color_general_text_low);
 }
 
 @media (min-width: 640px) {

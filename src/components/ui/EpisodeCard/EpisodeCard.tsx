@@ -1,11 +1,8 @@
-// "use client";
-
-import MenuDots from "@/components/icons/dots";
 import { getPosterUrl } from "@/services/tmdb/images";
-import { Episode, Media, MediaDetails, TvDetails } from "@/types/media";
+import { Episode } from "@/types/media";
 import Image from "next/image";
 import styles from "./EpisodeCard.module.css";
-// import { getBackdropUrl } from "@/utils/media";
+import MenuDots from "./MenuDots";
 
 type EpisodeCardProps = {
   details: Episode;
@@ -23,13 +20,17 @@ export default function EpisodeCard({
         flex
         w-full
         flex-col
-        overflow-hidden
+        overflow-visible
         text-left
         transition
         hover:bg-zinc-900
       "
     >
-      <div className="relative aspect-video w-full">
+      <div
+        className="relative aspect-video w-full border-b-2
+  border-transparent
+  group-hover:border-white/90 transition duration-300"
+      >
         <Image
           src={
             details.still_path
@@ -38,31 +39,28 @@ export default function EpisodeCard({
           }
           alt={details.id.toString()}
           fill
-          className="object-cover transition duration-300
-  group-hover:ring-2
-  group-hover:ring-white/90
-  group-hover:shadow-xl"
+          className="object-cover"
         />
         <div className={styles.overlay} />
-        <div className="absolute right-4 top-4">
+        <div className="absolute right-0 top-2">
           <MenuDots></MenuDots>
         </div>
       </div>
 
       <div className="p-2">
         <div className="mb-2 flex items-center justify-between">
-          <h3 className="font-semibold text-white text-sm">
+          <h3 className="font-semibold text-general-text-mid group-hover:text-white text-sm">
             E{details.episode_number}: {details.name}
           </h3>
 
           {details.runtime && (
-            <span className="text-sm text-neutral-400 group-hover:text-white">
+            <span className="text-sm text-general-text-mid group-hover:text-white">
               {details.runtime} min
             </span>
           )}
         </div>
 
-        <p className="line-clamp-3 text-sm leading-6 text-neutral-400 group-hover:text-white">
+        <p className="line-clamp-3 text-sm leading-6 text-general-text-mid group-hover:text-white">
           {details.overview}
         </p>
       </div>
