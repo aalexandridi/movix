@@ -4,7 +4,20 @@
   height: 100vh;
 }
 
+/* .embla {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+
+    min-height: 420px;
+    max-height: 900px;
+    height: min(56.25vw, 88vh);
+} */
+
 .viewport {
+  display: flex;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  position:relative;
     overflow: hidden;
   width: 100%;
   height: 100%;
@@ -13,6 +26,7 @@
 .container {
   display: flex;
   height: 100%;
+  width: 100%;
 }
 
 .prevButton,

@@ -1,8 +1,11 @@
 .slide {
   flex: 0 0 100%;
-  min-width: 0;
-  height: 100%;
+  display: flex;
+  align-items: end;
+  /* min-width: 0; */
+  /* height: 100%; */
   position: relative;
+  /* width: 100%; */
 }
 
 /* Smooth image loading effect */
@@ -34,10 +37,10 @@
 
 /* Content positioning */
 .content {
-  position: absolute;
-  bottom: 15%;
-  left: 5%;
-  max-width: 600px;
+  /* position: absolute; */
+  padding: 5% 5%;
+
+  max-width: 50%; 
   color: white;
   z-index: 2;
 }

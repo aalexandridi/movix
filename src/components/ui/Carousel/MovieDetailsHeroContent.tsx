@@ -5,6 +5,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import Button from "@/components/layout/Button/button";
 import { createMoviesService } from "@/services/tmdb/movies";
 import { getPosterUrl } from "@/services/tmdb/images";
+import PlusIcon from "@/components/icons/plus";
 interface MovieSlideProps {
   media: MovieDetails;
 }
@@ -26,7 +27,8 @@ export default async function MovieDetailsHeroContent({
     <div className={styles.content}>
       {logo && (
         <Image
-          className="pb-8"
+          className="h-auto w-auto max-h-20 sm:max-h-20 lg:max-h-24 xl:max-h-32 mb-4"
+          // className="pb-8"
           width={500}
           height={200}
           priority
@@ -47,6 +49,13 @@ export default async function MovieDetailsHeroContent({
       <div className={styles.actions} style={{ marginBottom: "1.5rem" }}>
         <Button variant="primary" fontWeight="700">
           ▶ {c("watchNow")}
+        </Button>
+        <Button
+          variant="secondary"
+          fontWeight="500"
+          icon={<PlusIcon width={16} height={16}></PlusIcon>}
+        >
+          My list
         </Button>
       </div>
 

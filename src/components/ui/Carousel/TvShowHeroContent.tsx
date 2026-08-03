@@ -37,12 +37,12 @@ export default async function TvShowHeroContent({
     <div className={styles.content}>
       {logo && (
         <Image
-          className="pb-8"
-          width={500}
-          height={200}
+          className="h-auto w-auto max-h-20 sm:max-h-20 lg:max-h-24 xl:max-h-32 mb-4"
+          width={logo.width}
+          height={logo.height}
           priority
           alt="title image"
-          src={getPosterUrl(logo.file_path)}
+          src={getPosterUrl(logo.file_path, "w780")}
         ></Image>
       )}
       {!logo && <h1 className={styles.title}>{getTitleOrName(media)}</h1>}
@@ -69,9 +69,6 @@ export default async function TvShowHeroContent({
             {c("moreInfo")}
           </Button>
         </Link>
-        {/* <Button variant="secondary" fontWeight="500">
-          {c("moreInfo")}
-        </Button> */}
       </div>
     </div>
   );

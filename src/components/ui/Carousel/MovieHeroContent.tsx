@@ -31,9 +31,9 @@ export default async function MovieHeroContent({
     <div className={styles.content}>
       {logo && (
         <Image
-          className="pb-8"
-          width={500}
-          height={200}
+          className="h-auto w-auto max-h-20 sm:max-h-20 lg:max-h-24 xl:max-h-32 mb-4"
+          width={logo.width}
+          height={logo.height}
           priority
           alt="title image"
           src={getPosterUrl(logo.file_path)}

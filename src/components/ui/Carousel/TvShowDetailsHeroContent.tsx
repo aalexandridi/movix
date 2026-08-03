@@ -6,6 +6,7 @@ import Button from "@/components/layout/Button/button";
 import { createMoviesService } from "@/services/tmdb/movies";
 import { getPosterUrl } from "@/services/tmdb/images";
 import { createTvShowsService } from "@/services/tmdb/shows";
+import PlusIcon from "@/components/icons/plus";
 interface MovieSlideProps {
   media: TvDetails;
 }
@@ -27,12 +28,12 @@ export default async function TvShowDetailsHeroContent({
     <div className={styles.content}>
       {logo && (
         <Image
-          width={500}
-          height={500}
+          width={logo.width}
+          height={logo.height}
           priority
           alt="title image"
           src={getPosterUrl(logo.file_path, "w500")}
-          className="w-auto h-auto pb-8"
+          className="h-auto w-auto max-h-20 sm:max-h-20 lg:max-h-24 xl:max-h-32 mb-4"
         ></Image>
       )}
       {!logo && <h1 className={styles.title}>{media.name}</h1>}
@@ -48,6 +49,13 @@ export default async function TvShowDetailsHeroContent({
       <div className={styles.actions} style={{ marginBottom: "1.5rem" }}>
         <Button variant="primary" fontWeight="700">
           ▶ {c("watchNow")}
+        </Button>
+        <Button
+          variant="secondary"
+          fontWeight="500"
+          icon={<PlusIcon width={16} height={16}></PlusIcon>}
+        >
+          My list
         </Button>
       </div>
 
