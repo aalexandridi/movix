@@ -1,10 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import watchlistReducer from "./slices/watchlistSlice";
-
+import episodeDetailsPanelReducer from "./slices/EpisodeDetailsPanelSlice";
 export const makeStore = () => {
   return configureStore({
     reducer: {
       watchlist: watchlistReducer,
+      episodeDetailsPanel: episodeDetailsPanelReducer,
     },
   });
 };
