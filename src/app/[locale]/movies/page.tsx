@@ -1,7 +1,6 @@
 import { createPageMetadata } from "@/lib/metadata";
 import { createMoviesService } from "@/services/tmdb/movies";
 import { getLocale } from "next-intl/server";
-import Carousel from "@/components/ui/Carousel/Carousel";
 import { limitAndMergeUniqueById } from "@/utils/array";
 import {
   createGenreMaps,
@@ -15,7 +14,7 @@ import MovieHeroContent from "@/components/ui/Carousel/MovieHeroContent";
 import MediaHeroLayout from "@/components/layout/MediaHeroLayout/MediaHeroLayout";
 import InfiniteMediaGrid from "@/components/ui/MediaGrid/InfiniteMediaGrid";
 import MediaCard from "@/components/ui/MediaCard/MediaCard";
-import styles from "../../../components/ui/MediaGrid/MediaGrid.module.css";
+import Carousel from "@/components/ui/Carousel/Carousel";
 export async function generateMetadata() {
   return createPageMetadata("movies");
 }
@@ -64,7 +63,7 @@ const MoviesPage = async ({
   return (
     <MediaHeroLayout
       hero={
-        <Carousel>
+        <Carousel options={{ loop: true }} showDots={true}>
           {limitedSorted.map((movie) => (
             <SlideLayout
               key={movie.id}
@@ -83,17 +82,15 @@ const MoviesPage = async ({
         <>
           <MediaGrid title="Popular" variant="carousel">
             {popularMovies.results.map((item) => (
-              <div key={item.id} className={styles.emblaSlide}>
-                <MediaCard media={item} />
-              </div>
+              <MediaCard key={item.id} media={item} />
             ))}
           </MediaGrid>
 
           <MediaGrid title="Top Rated Movies" variant="carousel">
             {topRatedMovies.results.map((item) => (
-              <div key={item.id} className={styles.emblaSlide}>
-                <MediaCard media={item} />
-              </div>
+              // <div key={item.id} className={styles.emblaSlide}>
+              <MediaCard key={item.id} media={item} />
+              // </div>
             ))}
           </MediaGrid>
         </>

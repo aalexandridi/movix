@@ -1,9 +1,6 @@
 import Image from "next/image";
 import styles from "./Slide.module.css";
 import { getPosterUrl } from "@/services/tmdb/images";
-import { createMoviesService } from "@/services/tmdb/movies";
-import { useLocale } from "next-intl";
-import { getLocale } from "next-intl/server";
 
 interface SlideLayoutProps {
   backdropPath: string | null;

@@ -1,85 +1,86 @@
 "use client";
 
 import useEmblaCarousel from "embla-carousel-react";
-import { Children, useCallback, useEffect, useMemo, useState } from "react";
-
+import type { EmblaOptionsType } from "embla-carousel";
+import { Children, useEffect } from "react";
+import clsx from "clsx";
 import styles from "./Carousel.module.css";
-import ChevronRight from "@/components/icons/chevron-right";
-import ChevronLeft from "@/components/icons/chevron-left";
-
-interface CarouselProps {
+import CarouselControls from "./CarouselControls";
+import { MediaGridLayout } from "../MediaGrid/MediaGrid.types";
+type CarouselProps = {
   children: React.ReactNode;
-}
 
-export default function Carousel({ children }: CarouselProps) {
+  options?: EmblaOptionsType;
+  hero?: boolean;
+  layoutClass?: MediaGridLayout;
+
+  showDots?: boolean;
+
+  className?: string;
+  viewportClassName?: string;
+  containerClassName?: string;
+  resetKey?: string;
+};
+
+export default function Carousel({
+  children,
+  options,
+  hero = true,
+  showDots = false,
+  layoutClass = "default",
+  resetKey,
+  className,
+  viewportClassName,
+  containerClassName,
+}: CarouselProps) {
+  const canDrag = Children.count(children) > 1;
+
   const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: true,
+    slidesToScroll: "auto",
+    active: canDrag,
+    startIndex: 0,
+    ...options,
   });
-
-  const [selectedIndex, setSelectedIndex] = useState(0);
-
-  const childrenCount = Children.count(children);
-  const hasMultipleSlides = childrenCount > 1;
-
-  const scrollSnaps = useMemo(
-    () => emblaApi?.scrollSnapList() ?? [],
-    [emblaApi],
-  );
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
 
   useEffect(() => {
     if (!emblaApi) return;
 
-    emblaApi.on("init", onSelect);
-    emblaApi.on("reInit", onSelect);
-    emblaApi.on("select", onSelect);
-
-    return () => {
-      emblaApi.off("init", onSelect);
-      emblaApi.off("reInit", onSelect);
-      emblaApi.off("select", onSelect);
-    };
-  }, [emblaApi, onSelect]);
+    emblaApi.scrollTo(0, true);
+  }, [emblaApi, resetKey]);
 
   return (
-    <div className={styles.embla}>
-      <div className={styles.viewport} ref={emblaRef}>
-        <div className={styles.container}>{children}</div>
-      </div>
-
-      {hasMultipleSlides && (
-        <>
-          <button
-            className={styles.prevButton}
-            onClick={() => emblaApi?.scrollPrev()}
-          >
-            <ChevronLeft />
-          </button>
-
-          <button
-            className={styles.nextButton}
-            onClick={() => emblaApi?.scrollNext()}
-          >
-            <ChevronRight />
-          </button>
-
-          <div className={styles.dots}>
-            {scrollSnaps.map((_, index) => (
-              <button
-                key={index}
-                className={`${styles.dot} ${
-                  index === selectedIndex ? styles.dotActive : ""
-                }`}
-                onClick={() => emblaApi?.scrollTo(index)}
-              />
+    <div
+      className={clsx(styles.carouselWrapper, hero && "h-screen", className)}
+    >
+      <div
+        ref={emblaRef}
+        className={clsx(
+          hero ? styles.viewport : clsx(styles.embla, styles[layoutClass]),
+          viewportClassName,
+        )}
+      >
+        <div
+          className={clsx(
+            hero ? styles.container : styles.emblaContainer,
+            containerClassName,
+          )}
+        >
+          {!hero &&
+            Children.map(children, (child) => (
+              <div className={styles.emblaSlide}>{child}</div>
             ))}
-          </div>
-        </>
+
+          {hero && children}
+        </div>
+      </div>
+      {(canDrag || showDots) && (
+        <CarouselControls
+          hero={hero}
+          emblaApi={emblaApi}
+          showNavigation={canDrag}
+          showDots={showDots}
+          slideCount={Children.count(children)}
+        />
       )}
     </div>
   );

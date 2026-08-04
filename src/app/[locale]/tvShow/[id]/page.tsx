@@ -1,12 +1,6 @@
-import Carousel from "@/components/ui/Carousel/Carousel";
-import MovieDetailsHeroContent from "@/components/ui/Carousel/MovieDetailsHeroContent";
-
 import SlideLayout from "@/components/ui/Carousel/SlideLayout";
-import { createMoviesService } from "@/services/tmdb/movies";
 import {
   Episode,
-  Movie,
-  MovieDetails,
   PaginatedResponse,
   TvDetails,
   TvSeasonDetails,
@@ -14,20 +8,15 @@ import {
 } from "@/types/media";
 import { Metadata } from "next";
 import { getLocale } from "next-intl/server";
-// import MovieDetailsTabs from "./MovieDetailsTabs";
 import MediaHeroLayout from "@/components/layout/MediaHeroLayout/MediaHeroLayout";
 import { createTvShowsService } from "@/services/tmdb/shows";
 import TvShowDetailsHeroContent from "@/components/ui/Carousel/TvShowDetailsHeroContent";
 import Dropdown, { DropdownOption } from "@/components/ui/Dropdown/Dropdown";
 import MediaGrid from "@/components/ui/MediaGrid/MediaGrid";
-import { details } from "framer-motion/client";
 import EpisodeCard from "@/components/ui/EpisodeCard/EpisodeCard";
-import styles from "../../../../components/ui/MediaGrid/MediaGrid.module.css";
-import clsx from "clsx";
+
 import InfiniteMediaGrid from "@/components/ui/MediaGrid/InfiniteMediaGrid";
-// export async function generateMetadata() {
-//   return createPageMetadata("movie");
-// }
+import Carousel from "@/components/ui/Carousel/Carousel";
 
 export async function generateMetadata({
   params,
@@ -109,17 +98,13 @@ const TvShowPage = async ({
         <MediaGrid
           variant="carousel"
           layoutClass="episodes"
+          resetKey={seasonDetails.id.toString()}
           title={options.length === 1 ? `Season ${options.length}` : ""}
         >
           {seasonDetails.episodes.map(
             (episode: Episode) =>
               episode.still_path && (
-                <div
-                  key={episode.id}
-                  className={clsx(styles.emblaSlide, "episodes")}
-                >
-                  <EpisodeCard details={episode}></EpisodeCard>
-                </div>
+                <EpisodeCard key={episode.id} details={episode}></EpisodeCard>
               ),
           )}
         </MediaGrid>
@@ -131,22 +116,7 @@ const TvShowPage = async ({
           mediaType="tvShow"
           title="You May Also Like"
         />
-
-        {/* <MediaGrid
-          media={[]}
-          variant="carousel"
-          details={seasonDetails}
-          renderItem={(episode, details) => (
-            <MediaCard2 details={details!} stillPath={details.} />
-          )}
-        /> */}
       </>
-      {/* <MovieDetailsTabs
-        details={movieDetails}
-        recommendations={recommendations.results}
-        cast={credits.cast}
-        crew={credits.crew}
-      /> */}
     </MediaHeroLayout>
   );
 };

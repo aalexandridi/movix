@@ -19,10 +19,7 @@ const SearchPage = async ({
 }: {
   searchParams: Promise<{ query?: string }>;
 }) => {
-  // const n = await getTranslations("navigation");
   const [locale, { query }] = await Promise.all([getLocale(), searchParams]);
-  console.log("query====", query);
-  // const locale = await getLocale();
   const multiService = createMultiService(locale);
   const moviesService = createMoviesService(locale);
   const seriesService = createTvShowsService(locale);

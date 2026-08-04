@@ -1,5 +1,4 @@
 import MediaHeroLayout from "@/components/layout/MediaHeroLayout/MediaHeroLayout";
-import Carousel from "@/components/ui/Carousel/Carousel";
 import SlideLayout from "@/components/ui/Carousel/SlideLayout";
 import TvShowHeroContent from "@/components/ui/Carousel/TvShowHeroContent";
 import GenresBar from "@/components/ui/GenresBar/GenresBar";
@@ -8,7 +7,7 @@ import InfiniteMediaGrid from "@/components/ui/MediaGrid/InfiniteMediaGrid";
 import MediaGrid from "@/components/ui/MediaGrid/MediaGrid";
 import { createPageMetadata } from "@/lib/metadata";
 import { createTvShowsService } from "@/services/tmdb/shows";
-import { Media, TvShow } from "@/types/media";
+import { TvShow } from "@/types/media";
 import { limitAndMergeUniqueById } from "@/utils/array";
 import {
   createGenreMaps,
@@ -16,7 +15,7 @@ import {
   sortByPopularity,
 } from "@/utils/media";
 import { getLocale, getTranslations } from "next-intl/server";
-import styles from "../../../components/ui/MediaGrid/MediaGrid.module.css";
+import Carousel from "@/components/ui/Carousel/Carousel";
 export async function generateMetadata() {
   return createPageMetadata("series");
 }
@@ -58,7 +57,7 @@ const SeriesPage = async ({
   return (
     <MediaHeroLayout
       hero={
-        <Carousel>
+        <Carousel options={{ loop: true }} showDots={true}>
           {limitedSorted.map((show: TvShow) => (
             <SlideLayout
               key={show.id}
@@ -77,22 +76,17 @@ const SeriesPage = async ({
         <>
           <MediaGrid title="Popular" variant="carousel">
             {popularShows.results.map((item) => (
-              <div key={item.id} className={styles.emblaSlide}>
-                <MediaCard media={item} />
-              </div>
+              <MediaCard key={item.id} media={item} />
             ))}
           </MediaGrid>
 
           <MediaGrid title="Top Rated Movies" variant="carousel">
             {topRatedShows.results.map((item) => (
-              <div key={item.id} className={styles.emblaSlide}>
-                <MediaCard media={item} />
-              </div>
+              <MediaCard key={item.id} media={item} />
             ))}
           </MediaGrid>
         </>
       ) : (
-        // <></>
         <InfiniteMediaGrid
           key={genreId}
           initialMedia={initial.results}

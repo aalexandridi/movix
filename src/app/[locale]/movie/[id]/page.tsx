@@ -1,6 +1,4 @@
-import Carousel from "@/components/ui/Carousel/Carousel";
 import MovieDetailsHeroContent from "@/components/ui/Carousel/MovieDetailsHeroContent";
-
 import SlideLayout from "@/components/ui/Carousel/SlideLayout";
 import { createMoviesService } from "@/services/tmdb/movies";
 import { Movie, MovieDetails, PaginatedResponse } from "@/types/media";
@@ -8,10 +6,7 @@ import { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 import MovieDetailsTabs from "./MovieDetailsTabs";
 import MediaHeroLayout from "@/components/layout/MediaHeroLayout/MediaHeroLayout";
-
-// export async function generateMetadata() {
-//   return createPageMetadata("movie");
-// }
+import Carousel from "@/components/ui/Carousel/Carousel";
 
 export async function generateMetadata({
   params,

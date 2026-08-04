@@ -1,17 +1,9 @@
-.embla {
+.carouselWrapper {
   position: relative;
   width: 100%;
-  height: 100vh;
+  /* height: 100vh; */
+  /* overflow: hidden; */
 }
-
-/* .embla {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-
-    min-height: 420px;
-    max-height: 900px;
-    height: min(56.25vw, 88vh);
-} */
 
 .viewport {
   display: flex;
@@ -23,57 +15,79 @@
   height: 100%;
 }
 
+.embla {
+  overflow: visible;
+}
+
+.emblaContainer {
+  display: flex;
+  /* align-items: stretch; */
+  gap: var(--media-gap);
+}
+
 .container {
   display: flex;
   height: 100%;
   width: 100%;
 }
 
-.prevButton,
-.nextButton {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-
-  z-index: 10;
-
-  border: none;
-  border-radius: 999px;
-
-  cursor: pointer;
-  color: white;
+.emblaSlide {
+  position: relative;
+  /* display: flex; */
+  flex: 0 0
+    calc(
+      (100% - (var(--media-columns2) - 1) * var(--media-gap)) /
+        var(--media-columns2)
+    );
 }
 
-.prevButton {
-  left: 36px;
+.default {
+  --media-columns2: 2;
 }
 
-.nextButton {
-  right: 36px;
+@media (min-width: 640px) {
+  .default {
+    --media-columns2: 3;
+  }
 }
 
-.dots {
-  display: flex;
-  justify-content: center;
-  gap: 14px;
-
-  margin-top: -5.5%;
+@media (min-width: 768px) {
+  .default {
+    --media-columns2:4;
+  }
 }
 
-.dot {
-  width: 12px;
-  height: 12px;
 
-  border: none;
-  border-radius: 50%;
-
-  cursor: pointer;
-
-  opacity: 0.5;
-  background-color: white;
+@media (min-width: 1024px) {
+  .default {
+    --media-columns2: 6;
+  }
 }
 
-.dotActive {
-  opacity: 1;
-  transform: scale(1.2);
+@media (min-width: 1536px) {
+  .default {
+    --media-columns2: 7;
+  }
+}
+
+.episodes {
+  --media-columns2: 2;
+}
+
+@media (min-width: 640px) {
+  .episodes {
+    --media-columns2: 3;
+  }
+}
+
+@media (min-width: 1024px) {
+  .episodes {
+    --media-columns2: 4;
+  }
+}
+
+@media (min-width: 1536px) {
+  .episodes {
+    --media-columns2: 6;
+  }
 }
