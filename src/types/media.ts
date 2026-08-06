@@ -84,20 +84,20 @@ export interface Network {
   origin_country: string;
 }
 
-export interface Episode {
-  id: number;
-  name: string;
-  overview: string;
-  vote_average: number;
-  vote_count: number;
-  air_date: string;
-  episode_number: number;
-  production_code: string;
-  runtime: number | null;
-  season_number: number;
-  show_id: number;
-  still_path: string | null;
-}
+// export interface Episode {
+//   id: number;
+//   name: string;
+//   overview: string;
+//   vote_average: number;
+//   vote_count: number;
+//   air_date: string;
+//   episode_number: number;
+//   production_code: string;
+//   runtime: number | null;
+//   season_number: number;
+//   show_id: number;
+//   still_path: string | null;
+// }
 
 export interface Season {
   id: number;
@@ -208,4 +208,14 @@ export interface Episode {
 
   crew: CrewMember[];
   guest_stars: CastMember[];
+}
+
+export interface EpisodeDetails extends Episode {
+  credits: EpisodeCredits;
+  guest_stars: CastMember[];
+}
+
+export interface EpisodeCredits {
+  cast: CastMember[];
+  crew: CrewMember[];
 }

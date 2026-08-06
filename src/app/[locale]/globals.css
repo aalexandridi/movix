@@ -4,6 +4,7 @@
   /* Colors */
   --background: #0d0d0d;
   --foreground: #fff;
+  --overlay: rgba(0, 0, 0, 0.7);
 
   /* Typography */
   --text-sm: 0.875rem;
@@ -28,6 +29,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-overlay: var(--overlay);
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);

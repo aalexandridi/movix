@@ -1,4 +1,4 @@
-import { PaginatedResponse, TvShow } from "@/types/media";
+import { EpisodeDetails, PaginatedResponse, TvShow } from "@/types/media";
 import { createTmdbClient } from "./client";
 
 export function createTvShowsService(locale: string) {
@@ -27,6 +27,17 @@ export function createTvShowsService(locale: string) {
       series_id: string | number,
       season_number: string | number,
     ) => tmdb.fetch(`/tv/${series_id}/season/${season_number}`, 3600),
+
+    getEpisodeDetails: (
+      series_id: string | number,
+      season_number: string | number,
+      episode_number: string | number,
+    ): Promise<PaginatedResponse<EpisodeDetails>> =>
+      tmdb.fetch(
+        `/tv/${series_id}/season/${season_number}/episode/${episode_number}`,
+        3600,
+        "&append_to_response=credits",
+      ),
 
     getRecommendations: (id: string, query?: string) =>
       tmdb.fetch(`/tv/${id}/recommendations`, 3600, `&${query}`),

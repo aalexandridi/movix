@@ -1,28 +1,38 @@
-import { Episode } from "@/types/media";
+import { Episode, EpisodeDetails, TvDetails } from "@/types/media";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface EpisodeDetailsPanelState {
   isOpen: boolean;
-  episode: Episode | null;
+  episodeDetails: EpisodeDetails | null;
+  tvShowDetails: TvDetails | null;
 }
 
 const initialState: EpisodeDetailsPanelState = {
   isOpen: false,
-  episode: null,
+  episodeDetails: null,
+  tvShowDetails: null,
 };
 
 export const episodeDetailsPanelSlice = createSlice({
   name: "episodeDetailsPanel",
   initialState,
   reducers: {
-    openEpisodeDetails: (state, action: PayloadAction<Episode>) => {
+    openEpisodeDetails: (
+      state,
+      action: PayloadAction<{
+        episodeDetails: EpisodeDetails;
+        tvShowDetails: TvDetails;
+      }>,
+    ) => {
       state.isOpen = true;
-      state.episode = action.payload;
+      state.episodeDetails = action.payload.episodeDetails;
+      state.tvShowDetails = action.payload.tvShowDetails;
     },
 
     closeEpisodeDetails: (state) => {
       state.isOpen = false;
-      state.episode = null;
+      state.episodeDetails = null;
+      state.tvShowDetails = null;
     },
   },
 });

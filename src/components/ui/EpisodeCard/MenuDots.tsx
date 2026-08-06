@@ -1,10 +1,19 @@
 "use client";
 import MenuDotsIcon from "@/components/icons/dots";
+import { useAppDispatch } from "@/store/hooks";
 import { useEffect, useRef, useState } from "react";
-
-export default function MenuDots() {
+import { openEpisodeDetails } from "../../../store/slices/EpisodeDetailsPanelSlice";
+import { Episode, EpisodeDetails, TvDetails } from "@/types/media";
+export default function MenuDots({
+  episode,
+  tvShowDetails,
+}: {
+  episode: Episode;
+  tvShowDetails: TvDetails;
+}) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -16,10 +25,16 @@ export default function MenuDots() {
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
+
+  const onOpenEpisodeDetails = async () => {
+    const url = `/api/tvShow/${tvShowDetails.id}/season/${episode.season_number}/episode/${episode.episode_number}`;
+    const response = await fetch(url);
+    const episodeDetails = await response.json();
+    dispatch(openEpisodeDetails({ episodeDetails, tvShowDetails }));
+  };
   return (
     <div className="relative z-3" ref={ref}>
       <button
-        // className="absolute right-4 top-4 z-3"
         onClick={() => {
           setOpen(!open);
         }}
@@ -65,6 +80,7 @@ export default function MenuDots() {
         </button>
 
         <button
+          onClick={() => onOpenEpisodeDetails()}
           className="
             block
             whitespace-nowrap

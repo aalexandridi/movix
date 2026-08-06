@@ -1,18 +1,20 @@
 import { getPosterUrl } from "@/services/tmdb/images";
-import { Episode } from "@/types/media";
+import { Episode, TvDetails } from "@/types/media";
 import Image from "next/image";
 import styles from "./EpisodeCard.module.css";
 import MenuDots from "./MenuDots";
 
 type EpisodeCardProps = {
-  details: Episode;
+  episode: Episode;
+  tvShowDetails: TvDetails;
 };
 
 export default function EpisodeCard({
-  details,
+  episode,
+  tvShowDetails,
   //   onClick,
 }: EpisodeCardProps) {
-  if (!details.still_path) return;
+  if (!episode.still_path) return;
   return (
     <div
       className="
@@ -33,35 +35,35 @@ export default function EpisodeCard({
       >
         <Image
           src={
-            details.still_path
-              ? getPosterUrl(details.still_path, "w780")
+            episode.still_path
+              ? getPosterUrl(episode.still_path, "w780")
               : "/images/poster-placeholder.webp"
           }
-          alt={details.id.toString()}
+          alt={episode.id.toString()}
           fill
           className="object-cover"
         />
         <div className={styles.overlay} />
         <div className="absolute right-0 top-2">
-          <MenuDots></MenuDots>
+          <MenuDots episode={episode} tvShowDetails={tvShowDetails}></MenuDots>
         </div>
       </div>
 
       <div className="p-2">
         <div className="mb-2 flex items-center justify-between">
           <h3 className="font-semibold text-general-text-mid group-hover:text-white text-sm">
-            E{details.episode_number}: {details.name}
+            E{episode.episode_number}: {episode.name}
           </h3>
 
-          {details.runtime && (
+          {episode.runtime && (
             <span className="text-sm text-general-text-mid group-hover:text-white">
-              {details.runtime} min
+              {episode.runtime} min
             </span>
           )}
         </div>
 
         <p className="line-clamp-3 text-sm leading-6 text-general-text-mid group-hover:text-white">
-          {details.overview}
+          {episode.overview}
         </p>
       </div>
     </div>

@@ -104,7 +104,11 @@ const TvShowPage = async ({
           {seasonDetails.episodes.map(
             (episode: Episode) =>
               episode.still_path && (
-                <EpisodeCard key={episode.id} details={episode}></EpisodeCard>
+                <EpisodeCard
+                  key={episode.id}
+                  episode={episode}
+                  tvShowDetails={showDetails}
+                ></EpisodeCard>
               ),
           )}
         </MediaGrid>
