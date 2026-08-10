@@ -49,7 +49,7 @@ export default function EpisodeCard({
         </div>
       </div>
 
-      <div className="p-2">
+      <div className="py-2">
         <div className="mb-2 flex items-center justify-between">
           <h3 className="font-semibold text-general-text-mid group-hover:text-white text-sm">
             E{episode.episode_number}: {episode.name}

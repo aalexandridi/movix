@@ -5,7 +5,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import Button from "@/components/layout/Button/button";
 import { createMoviesService } from "@/services/tmdb/movies";
 import { getPosterUrl } from "@/services/tmdb/images";
-import PlusIcon from "@/components/icons/plus";
+import AddToWatchlistButton from "@/components/layout/Button/AddToWatchlistButton";
 interface MovieSlideProps {
   media: MovieDetails;
 }
@@ -50,13 +50,7 @@ export default async function MovieDetailsHeroContent({
         <Button variant="primary" fontWeight="700">
           ▶ {c("watchNow")}
         </Button>
-        <Button
-          variant="secondary"
-          fontWeight="500"
-          icon={<PlusIcon width={16} height={16}></PlusIcon>}
-        >
-          My list
-        </Button>
+        <AddToWatchlistButton media={media}></AddToWatchlistButton>
       </div>
 
       <p className={styles.description} style={{ marginBottom: "0.8rem" }}>

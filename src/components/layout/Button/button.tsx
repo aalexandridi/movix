@@ -5,7 +5,7 @@ type ButtonProps = {
   variant?: ButtonVariant;
   children: React.ReactNode;
   fontWeight?: string;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
   type?: "button" | "submit" | "reset";
   horizontal?: boolean;

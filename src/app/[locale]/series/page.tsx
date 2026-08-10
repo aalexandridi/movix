@@ -60,6 +60,7 @@ const SeriesPage = async ({
         <Carousel options={{ loop: true }} showDots={true}>
           {limitedSorted.map((show: TvShow) => (
             <SlideLayout
+              media={show}
               key={show.id}
               backdropPath={show.backdrop_path}
               alt={show.name}

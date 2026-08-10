@@ -51,6 +51,8 @@ const SearchPage = async ({
           initialMedia={searchResults?.results ?? []}
           mode={"search"}
           query={query}
+          mediaGridLayout="episodes"
+          mediaCardType={2}
         ></InfiniteMediaGrid>
       ) : (
         <MediaGrid title="Popular">

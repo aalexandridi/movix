@@ -18,7 +18,8 @@ export function createTvShowsService(locale: string) {
 
     getGenres: () => tmdb.fetch("/genre/tv/list", 3600),
 
-    getTvShowDetails: (id: number | string) => tmdb.fetch(`/tv/${id}`, 3600),
+    getTvShowDetails: (id: number | string) =>
+      tmdb.fetch(`/tv/${id}`, 3600, ""),
 
     discoverShows: (query: string) =>
       tmdb.fetch("/discover/tv", 3600, `&${query}`),

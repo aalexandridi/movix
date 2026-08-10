@@ -11,5 +11,6 @@ export interface MediaGridProps {
   title?: string;
   children: React.ReactNode;
   layoutClass?: MediaGridLayout;
+  className?: string;
   resetKey?: string;
 }

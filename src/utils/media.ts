@@ -1,15 +1,34 @@
-import { Media, Movie, TvShow, Genre } from "@/types/media";
+import {
+  Media,
+  Movie,
+  TvShow,
+  Genre,
+  MovieDetails,
+  TvDetails,
+  MediaDetails,
+  Episode,
+} from "@/types/media";
 
-export function isMovie(media: Media): media is Movie {
+export function isMovie(
+  media: Media | MediaDetails | Episode,
+): media is Movie | MovieDetails {
   return "title" in media;
 }
 
-export function isTvShow(media: Media): media is TvShow {
+export function isTvShow(
+  media: Media | MediaDetails | Episode,
+): media is TvShow | TvDetails {
   return "name" in media;
 }
 
-export function getTitleOrName(media: Media): string {
+export function getTitleOrName(media: Media | MediaDetails | Episode): string {
   return isMovie(media) ? media.title : media.name;
+}
+
+export function isEpisode(
+  media: MediaDetails | Media | Episode,
+): media is Episode {
+  return "episode_number" in media;
 }
 
 export function getDate(media: Media): string {

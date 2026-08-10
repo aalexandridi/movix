@@ -1,16 +1,19 @@
+import MediaHeroLayout from "@/components/layout/MediaHeroLayout/MediaHeroLayout";
 import { createPageMetadata } from "@/lib/metadata";
-import { getTranslations } from "next-intl/server";
+import { getLocale } from "next-intl/server";
+import MyStuffContent from "./MyStuffContent";
 
 export async function generateMetadata() {
   return createPageMetadata("myStuff");
 }
 
 const MyStuffPage = async () => {
-  const n = await getTranslations("navigation");
+  const locale = await getLocale();
   return (
-    <section>
-      <h1>{n("myStuff")}</h1>
-    </section>
+    <MediaHeroLayout className="mt-18">
+      <h1 className="text-xl font-bold">My Stuff</h1>
+      <MyStuffContent />
+    </MediaHeroLayout>
   );
 };
 

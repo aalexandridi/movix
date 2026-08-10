@@ -11,10 +11,11 @@ export default function MediaGrid({
   children,
   layoutClass = "default",
   resetKey,
+  className,
 }: MediaGridProps) {
   if (variant === "carousel") {
     return (
-      <div className={clsx("my-6", layoutClass)}>
+      <div className={clsx(className || "my-6", layoutClass)}>
         <h3 className="mb-2 text-md font-semibold">{title}</h3>
         <Carousel resetKey={resetKey} layoutClass={layoutClass} hero={false}>
           {children}
@@ -24,7 +25,7 @@ export default function MediaGrid({
   }
 
   return (
-    <div className={clsx("my-8 py-6", styles[layoutClass])}>
+    <div className={clsx(className || "my-8 py-6", styles[layoutClass])}>
       {title && <h3 className="mb-2 text-md font-semibold">{title}</h3>}
 
       <div className={clsx(styles.grid, styles[layoutClass])}>{children}</div>

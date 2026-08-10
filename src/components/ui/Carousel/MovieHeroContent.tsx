@@ -4,9 +4,9 @@ import styles from "./Slide.module.css";
 import { getDate, getTitleOrName } from "@/utils/media";
 import { getLocale, getTranslations } from "next-intl/server";
 import Button from "@/components/layout/Button/button";
-import Link from "next/link";
 import { createMoviesService } from "@/services/tmdb/movies";
 import { getPosterUrl } from "@/services/tmdb/images";
+import AddToWatchlistButton from "@/components/layout/Button/AddToWatchlistButton";
 interface MovieSlideProps {
   media: Movie;
   genreMap: Map<number, string>;
@@ -55,14 +55,10 @@ export default async function MovieHeroContent({
         <Button variant="primary" fontWeight="700">
           ▶ {c("play")}
         </Button>
-        <Link href={`/movie/${media.id}`}>
-          <Button variant="secondary" fontWeight="500">
-            {c("moreInfo")}
-          </Button>
-        </Link>
-        {/* <Button variant="secondary" fontWeight="500">
-          {c("moreInfo")}
-        </Button> */}
+        <AddToWatchlistButton
+          media={media}
+          showText={false}
+        ></AddToWatchlistButton>
       </div>
     </div>
   );

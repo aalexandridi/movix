@@ -67,6 +67,7 @@ const MoviesPage = async ({
           {limitedSorted.map((movie) => (
             <SlideLayout
               key={movie.id}
+              media={movie}
               backdropPath={movie.backdrop_path}
               alt={movie.title}
             >
@@ -88,9 +89,7 @@ const MoviesPage = async ({
 
           <MediaGrid title="Top Rated Movies" variant="carousel">
             {topRatedMovies.results.map((item) => (
-              // <div key={item.id} className={styles.emblaSlide}>
               <MediaCard key={item.id} media={item} />
-              // </div>
             ))}
           </MediaGrid>
         </>

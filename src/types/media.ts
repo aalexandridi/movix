@@ -35,7 +35,8 @@ export interface PaginatedResponse<T> {
 }
 
 export interface WatchlistItem {
-  media: Media;
+  media: Media | MediaDetails;
+  episode: Episode | null;
   addedAt: number; // timestamp
 }
 

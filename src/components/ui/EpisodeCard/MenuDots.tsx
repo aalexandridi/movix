@@ -1,9 +1,13 @@
 "use client";
 import MenuDotsIcon from "@/components/icons/dots";
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useEffect, useRef, useState } from "react";
-import { openEpisodeDetails } from "../../../store/slices/EpisodeDetailsPanelSlice";
-import { Episode, EpisodeDetails, TvDetails } from "@/types/media";
+import { openEpisodeDetails } from "@/store/slices/EpisodeDetailsPanelSlice";
+import {
+  addToWatchlist,
+  removeFromWatchlist,
+} from "@/store/slices/watchlistSlice";
+import { Episode, TvDetails } from "@/types/media";
 export default function MenuDots({
   episode,
   tvShowDetails,
@@ -14,6 +18,11 @@ export default function MenuDots({
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
+  const watchlist = useAppSelector((state) => state.watchlist.items);
+
+  const isOnWatchlist = watchlist.some(
+    (item) => (item.episode?.id ?? item.media.id) === episode.id,
+  );
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -31,6 +40,15 @@ export default function MenuDots({
     const response = await fetch(url);
     const episodeDetails = await response.json();
     dispatch(openEpisodeDetails({ episodeDetails, tvShowDetails }));
+  };
+
+  const toggleWatchlist = () => {
+    setOpen(false);
+    if (isOnWatchlist) {
+      dispatch(removeFromWatchlist(episode.id));
+    } else {
+      dispatch(addToWatchlist({ media: tvShowDetails, episode }));
+    }
   };
   return (
     <div className="relative z-3" ref={ref}>
@@ -65,6 +83,7 @@ export default function MenuDots({
       `}
       >
         <button
+          onClick={() => toggleWatchlist()}
           className="
             block
             whitespace-nowrap
@@ -76,7 +95,7 @@ export default function MenuDots({
             hover:bg-neutral-800
           "
         >
-          Add to my list
+          {isOnWatchlist ? "Remove from list" : "Add to my list"}
         </button>
 
         <button

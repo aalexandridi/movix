@@ -1,13 +1,12 @@
 import Image from "next/image";
-import { Movie, TvDetails, TvShow } from "@/types/media";
+import { TvDetails, TvShow } from "@/types/media";
 import styles from "./Slide.module.css";
 import { getDate, getTitleOrName } from "@/utils/media";
 import { getLocale, getTranslations } from "next-intl/server";
 import Button from "@/components/layout/Button/button";
-import Link from "next/link";
-import { createMoviesService } from "@/services/tmdb/movies";
 import { getPosterUrl } from "@/services/tmdb/images";
 import { createTvShowsService } from "@/services/tmdb/shows";
+import AddToWatchlistButton from "@/components/layout/Button/AddToWatchlistButton";
 interface MovieSlideProps {
   media: TvShow;
   genreMap: Map<number, string>;
@@ -64,11 +63,10 @@ export default async function TvShowHeroContent({
         <Button variant="primary" fontWeight="700">
           ▶ {c("play")}
         </Button>
-        <Link href={`/tvShow/${media.id}`}>
-          <Button variant="secondary" fontWeight="500">
-            {c("moreInfo")}
-          </Button>
-        </Link>
+        <AddToWatchlistButton
+          media={media}
+          showText={false}
+        ></AddToWatchlistButton>
       </div>
     </div>
   );
