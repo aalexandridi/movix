@@ -7,7 +7,8 @@
   position: relative;
   width: 100%;
   aspect-ratio: 2 / 3;
-  overflow: hidden;
+  overflow: visible;
+  
 }
 
 .poster img {
@@ -15,9 +16,16 @@
   transition: transform 0.3s ease;
 }
 
-.card:hover .poster img {
+/* .card:hover .poster img {
   transform: scale(1.04);
+} */
+
+.poster:hover {
+  outline: 2px solid white;
+  outline-offset: 2px;
 }
+
+
 
 .content {
   padding-top: 12px;

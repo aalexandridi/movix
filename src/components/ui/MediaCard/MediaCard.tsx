@@ -5,6 +5,7 @@ import { getPosterUrl } from "@/services/tmdb/images";
 import Link from "next/link";
 import { getTitleOrName, isMovie } from "@/utils/media";
 import PosterImage from "../PosterImage/PosterImage";
+import MenuDots from "../EpisodeCard/MenuDots";
 
 interface MediaCardProps {
   media: Media | MediaDetails;
@@ -18,6 +19,7 @@ export default function MediaCard({ media }: MediaCardProps) {
     <Link href={`${url}${media.id}`} aria-label="my-stuff">
       <article className={styles.card}>
         <div className={styles.poster}>
+          {/* <div className="h-full relative overflow-visible"> */}
           <PosterImage
             src={
               media.poster_path
@@ -25,7 +27,13 @@ export default function MediaCard({ media }: MediaCardProps) {
                 : "/images/poster-placeholder.webp"
             }
             alt={title}
-          ></PosterImage>
+          >
+            <div className="bg-card-overlay absolute inset-0" />
+            <div className="absolute right-0 top-2">
+              <MenuDots media={media} episode={null}></MenuDots>
+            </div>
+          </PosterImage>
+          {/* </div> */}
         </div>
       </article>
     </Link>

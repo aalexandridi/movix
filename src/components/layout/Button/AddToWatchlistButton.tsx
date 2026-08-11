@@ -26,7 +26,7 @@ export default function AddToWatchlistButton({
     e.stopPropagation();
     e.preventDefault();
     if (isOnWatchlist) {
-      dispatch(removeFromWatchlist(media.id));
+      dispatch(removeFromWatchlist({ media }));
     } else {
       dispatch(addToWatchlist({ media }));
     }

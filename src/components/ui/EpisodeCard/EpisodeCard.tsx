@@ -45,7 +45,7 @@ export default function EpisodeCard({
         />
         <div className={styles.overlay} />
         <div className="absolute right-0 top-2">
-          <MenuDots episode={episode} tvShowDetails={tvShowDetails}></MenuDots>
+          <MenuDots episode={episode} media={tvShowDetails}></MenuDots>
         </div>
       </div>
 

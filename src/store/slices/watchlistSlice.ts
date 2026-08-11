@@ -21,25 +21,48 @@ const watchlistSlice = createSlice({
         episode?: Episode | null;
       }>,
     ) => {
-      const itemId = action.payload.episode?.id ?? action.payload.media.id;
+      const { media, episode = null } = action.payload;
 
       const exists = state.items.some((item) => {
-        const existingId = item.episode?.id ?? item.media.id;
-        return existingId === itemId;
+        if (episode) {
+          return item.episode?.id === episode.id;
+        }
+
+        return item.episode === null && item.media.id === media.id;
       });
 
       if (!exists) {
         state.items.push({
-          media: action.payload.media,
-          episode: action.payload.episode || null,
+          media,
+          episode,
           addedAt: Date.now(),
         });
       }
     },
-    removeFromWatchlist: (state, action: PayloadAction<number>) => {
-      state.items = state.items.filter(
-        (item) => (item.episode?.id ?? item.media.id) !== action.payload,
-      );
+    removeFromWatchlist: (
+      state,
+      action: PayloadAction<{
+        media?: Media | MediaDetails;
+        episode?: Episode | null;
+      }>,
+    ) => {
+      const { media, episode } = action.payload;
+
+      if (episode) {
+        // Remove only this specific episode
+        state.items = state.items.filter(
+          (item) => item.episode?.id !== episode.id,
+        );
+        return;
+      }
+
+      if (media) {
+        // Remove only the standalone media entry.
+        // Do NOT remove episodes belonging to this media.
+        state.items = state.items.filter(
+          (item) => !(item.episode === null && item.media.id === media.id),
+        );
+      }
     },
     clearWatchlist: (state) => {
       state.items = [];
@@ -57,12 +80,16 @@ export const selectIsOnWatchlist = (
   media: Media | MediaDetails,
   episode?: Episode | null,
 ) => {
-  const id = episode?.id ?? media.id;
+  if (episode) {
+    console.log("selectIsOnWatchlist episode==", episode);
+    return state.watchlist.items.some(
+      (item) => item.episode?.id === episode.id,
+    );
+  }
 
-  return state.watchlist.items.some((item) => {
-    const existingId = item.episode?.id ?? item.media.id;
-    return existingId === id;
-  });
+  return state.watchlist.items.some(
+    (item) => item.episode == null && item.media.id === media.id,
+  );
 };
 
 export default watchlistSlice.reducer;

@@ -7,15 +7,25 @@ import MediaCardSkeleton from "../MediaGrid/MediaCardSkeleton";
 export default function PosterImage({
   src,
   alt,
+  children,
 }: {
   src: string;
   alt: string;
+  children: React.ReactNode;
 }) {
   const [imageSrc, setImageSrc] = useState(src);
   const [loaded, setLoaded] = useState(false);
 
   return (
-    <div style={{ position: "relative", width: "100%", height: "100%" }}>
+    <div
+      className="overflow-visible"
+      style={{
+        position: "relative",
+        width: "100%",
+        height: "100%",
+        overflow: "visible",
+      }}
+    >
       {!loaded && <MediaCardSkeleton />}
 
       <Image
@@ -28,6 +38,7 @@ export default function PosterImage({
           setImageSrc("/images/poster-placeholder.webp");
         }}
       />
+      {children}
     </div>
   );
 }

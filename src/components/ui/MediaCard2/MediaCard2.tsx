@@ -5,12 +5,13 @@ import { getPosterUrl } from "@/services/tmdb/images";
 import Link from "next/link";
 import { isMovie, isTvShow } from "@/utils/media";
 import Image from "next/image";
+import MenuDots from "../EpisodeCard/MenuDots";
 
 interface MediaCardProps {
   media: MediaDetails | Media;
   episode?: Episode | null;
 }
-export default function MediaCard2({ media, episode }: MediaCardProps) {
+export default function MediaCard2({ media, episode = null }: MediaCardProps) {
   let title = "";
   let url = "";
   let description = "";
@@ -68,7 +69,10 @@ export default function MediaCard2({ media, episode }: MediaCardProps) {
             fill
             className="object-cover"
           />
-          <div className={styles.overlay} />
+          <div className="bg-card-overlay absolute inset-0" />
+          <div className="absolute right-0 top-2">
+            <MenuDots media={media} episode={episode}></MenuDots>
+          </div>
         </div>
 
         <div className="py-2">

@@ -7,22 +7,30 @@ import {
   addToWatchlist,
   removeFromWatchlist,
 } from "@/store/slices/watchlistSlice";
-import { Episode, TvDetails } from "@/types/media";
+import { Episode, Media, MediaDetails } from "@/types/media";
+import { isMovie, isTvShowDetails } from "@/utils/media";
+import { selectIsOnWatchlist } from "@/store/slices/watchlistSlice";
+import { useRouter } from "next/navigation";
 export default function MenuDots({
-  episode,
-  tvShowDetails,
+  episode = null,
+  media,
 }: {
-  episode: Episode;
-  tvShowDetails: TvDetails;
+  episode?: Episode | null;
+  media: MediaDetails | Media;
 }) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const watchlist = useAppSelector((state) => state.watchlist.items);
-
-  const isOnWatchlist = watchlist.some(
-    (item) => (item.episode?.id ?? item.media.id) === episode.id,
+  console.log(watchlist);
+  // const isOnWatchlist = watchlist.some(
+  //   (item) => (item.episode?.id ?? item.media.id) === episode.id,
+  // );
+  const isOnWatchlist = useAppSelector((state) =>
+    selectIsOnWatchlist(state, media, episode),
   );
+  console.log("isOnWatchlist==", isOnWatchlist);
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -36,24 +44,40 @@ export default function MenuDots({
   }, []);
 
   const onOpenEpisodeDetails = async () => {
-    const url = `/api/tvShow/${tvShowDetails.id}/season/${episode.season_number}/episode/${episode.episode_number}`;
-    const response = await fetch(url);
-    const episodeDetails = await response.json();
-    dispatch(openEpisodeDetails({ episodeDetails, tvShowDetails }));
+    if (isTvShowDetails(media) && episode) {
+      const url = `/api/tvShow/${media.id}/season/${episode?.season_number}/episode/${episode.episode_number}`;
+      const response = await fetch(url);
+      const episodeDetails = await response.json();
+      dispatch(openEpisodeDetails({ episodeDetails, tvShowDetails: media }));
+    }
   };
 
   const toggleWatchlist = () => {
     setOpen(false);
     if (isOnWatchlist) {
-      dispatch(removeFromWatchlist(episode.id));
+      if (episode) dispatch(removeFromWatchlist({ episode }));
+      else dispatch(removeFromWatchlist({ media }));
     } else {
-      dispatch(addToWatchlist({ media: tvShowDetails, episode }));
+      dispatch(addToWatchlist({ media, episode }));
     }
+  };
+
+  const onMoreInfo = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    setOpen(false);
+
+    const href = isMovie(media) ? `/movie/${media.id}` : `/tvShow/${media.id}`;
+
+    router.push(href);
   };
   return (
     <div className="relative z-3" ref={ref}>
       <button
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
           setOpen(!open);
         }}
       >
@@ -83,7 +107,11 @@ export default function MenuDots({
       `}
       >
         <button
-          onClick={() => toggleWatchlist()}
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            toggleWatchlist();
+          }}
           className="
             block
             whitespace-nowrap
@@ -97,10 +125,42 @@ export default function MenuDots({
         >
           {isOnWatchlist ? "Remove from list" : "Add to my list"}
         </button>
+        {episode ? (
+          <button
+            onClick={onOpenEpisodeDetails}
+            className="
+      block
+      w-full
+      px-4
+      py-3
+      text-left
+      transition
+      hover:bg-neutral-800
+    "
+          >
+            Episode Details
+          </button>
+        ) : (
+          <button
+            onClick={onMoreInfo}
+            className="
+      block
+      w-full
+      px-4
+      py-3
+      text-left
+      transition
+      hover:bg-neutral-800
+    "
+          >
+            More Info
+          </button>
+        )}
 
-        <button
+        {/* <button
           onClick={() => onOpenEpisodeDetails()}
           className="
+          w-full
             block
             whitespace-nowrap
             px-4
@@ -110,8 +170,8 @@ export default function MenuDots({
             hover:bg-neutral-800
           "
         >
-          Episode Details
-        </button>
+          {episode ? "Episode Details" : "More Info"}
+        </button> */}
       </div>
     </div>
   );
