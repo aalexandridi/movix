@@ -18,7 +18,7 @@ export default function EpisodeCard({
   return (
     <div
       className="
-        group
+        group/episode
         flex
         w-full
         flex-col
@@ -31,7 +31,7 @@ export default function EpisodeCard({
       <div
         className="relative aspect-video w-full border-b-2
   border-transparent
-  group-hover:border-white/90 transition duration-300"
+  group-hover/episode:border-white/90 transition duration-300"
       >
         <Image
           src={
@@ -51,18 +51,18 @@ export default function EpisodeCard({
 
       <div className="py-2">
         <div className="mb-2 flex items-center justify-between">
-          <h3 className="font-semibold text-general-text-mid group-hover:text-white text-sm">
+          <h3 className="font-semibold text-general-text-mid group-hover/episode:text-white text-sm">
             E{episode.episode_number}: {episode.name}
           </h3>
 
           {episode.runtime && (
-            <span className="text-sm text-general-text-mid group-hover:text-white">
+            <span className="text-sm text-general-text-mid group-hover/episode:text-white">
               {episode.runtime} min
             </span>
           )}
         </div>
 
-        <p className="line-clamp-3 text-sm leading-6 text-general-text-mid group-hover:text-white">
+        <p className="line-clamp-3 text-sm leading-6 text-general-text-mid group-hover/episode:text-white">
           {episode.overview}
         </p>
       </div>

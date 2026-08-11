@@ -77,6 +77,9 @@ const MoviesPage = async ({
         </Carousel>
       }
     >
+      {/* <MediaGrid variant="carousel">
+        <GenresBar genres={genres.genres} />
+      </MediaGrid> */}
       <GenresBar genres={genres.genres} />
 
       {genreId == null ? (

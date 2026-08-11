@@ -129,6 +129,7 @@ export interface MediaDetailsBase {
   tagline: string;
   vote_average: number;
   vote_count: number;
+  videos?: VideosResponse;
 }
 
 export interface MovieDetails extends MediaDetailsBase {
@@ -177,6 +178,20 @@ export interface CrewMember {
   department: string;
   job: string;
   known_for_department: string;
+}
+
+export interface Video {
+  id: string;
+  key: string;
+  name: string;
+  site: string;
+  type: "Trailer" | "Teaser" | "Featurette" | "Clip";
+  official: boolean;
+  published_at: string;
+}
+
+export interface VideosResponse {
+  results: Video[];
 }
 
 export interface TvSeasonDetails {

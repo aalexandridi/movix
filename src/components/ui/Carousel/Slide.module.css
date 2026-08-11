@@ -28,11 +28,19 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(
+  to top,
+  rgba(0, 0, 0, 1) 0%,
+  rgba(0, 0, 0, 0.8) 30%,
+  rgba(0, 0, 0, 0.5) 50%,
+  rgba(0, 0, 0, 0.2) 70%,
+  transparent 85%
+);
+  /* background: linear-gradient(
     to top,
     rgba(0, 0, 0, 1),
     rgba(0, 0, 0, 0.4),
     transparent
-  );
+  ); */
 }
 
 /* Content positioning */

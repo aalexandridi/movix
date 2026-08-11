@@ -4,7 +4,12 @@ export type MediaGridVariant = "carousel" | "grid";
 
 export type GridMedia = Media | MediaDetails;
 
-export type MediaGridLayout = "default" | "episodes" | "search" | "compact";
+export type MediaGridLayout =
+  | "default"
+  | "episodes"
+  | "search"
+  | "compact"
+  | "filters";
 
 export interface MediaGridProps {
   variant?: "grid" | "carousel";

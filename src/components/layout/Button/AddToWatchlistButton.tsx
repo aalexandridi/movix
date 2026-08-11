@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/layout/Button/button";
+import Button, { ButtonVariant } from "@/components/layout/Button/button";
 import PlusIcon from "@/components/icons/plus";
 import { useAppDispatch } from "@/store/hooks";
 import {
@@ -14,9 +14,15 @@ import CheckIcon from "@/components/icons/check-icon";
 export default function AddToWatchlistButton({
   media,
   showText = true,
+  className,
+  horizontal = true,
+  variant = "secondary",
 }: {
   media: MediaDetails | Media;
   showText?: boolean;
+  className?: string;
+  horizontal?: boolean;
+  variant?: ButtonVariant;
 }) {
   const isOnWatchlist = useAppSelector((state) =>
     selectIsOnWatchlist(state, media),
@@ -33,7 +39,9 @@ export default function AddToWatchlistButton({
   };
   return (
     <Button
-      variant="secondary"
+      className={className}
+      horizontal={horizontal}
+      variant={variant}
       fontWeight="500"
       icon={
         <span className="relative flex h-4 w-4 items-center justify-center">
@@ -56,7 +64,7 @@ export default function AddToWatchlistButton({
       }
       onClick={onClick}
     >
-      {showText ? "My list" : ""}
+      {showText && <p className="text-sm font-normal">My list</p>}
     </Button>
   );
 }

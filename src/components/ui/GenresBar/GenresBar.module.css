@@ -1,10 +1,9 @@
-.wrapper {
+/* .wrapper {
   display: flex;
   gap: 15px;
-  /* padding: 16px 0; */
   overflow-x:auto;
   scrollbar-width: none;
-}
+} */
 
 .wrapper::-webkit-scrollbar {
   display: none;

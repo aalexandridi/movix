@@ -34,7 +34,7 @@ export default function Carousel({
   containerClassName,
 }: CarouselProps) {
   const canDrag = Children.count(children) > 1;
-
+  console.log("canDrag", canDrag, children, Children.count(children));
   const [emblaRef, emblaApi] = useEmblaCarousel({
     slidesToScroll: "auto",
     active: canDrag,
@@ -50,7 +50,12 @@ export default function Carousel({
 
   return (
     <div
-      className={clsx(styles.carouselWrapper, hero && "h-screen", className)}
+      className={clsx(
+        "group",
+        styles.carouselWrapper,
+        hero && "h-screen",
+        className,
+      )}
     >
       <div
         ref={emblaRef}
@@ -73,6 +78,7 @@ export default function Carousel({
           {hero && children}
         </div>
       </div>
+
       {(canDrag || showDots) && (
         <CarouselControls
           hero={hero}

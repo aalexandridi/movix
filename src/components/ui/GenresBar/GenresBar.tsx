@@ -3,6 +3,7 @@
 import { Genre } from "@/types/media";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./GenresBar.module.css";
+import MediaGrid from "../MediaGrid/MediaGrid";
 
 export default function GenresBar({ genres }: { genres: Genre[] }) {
   const router = useRouter();
@@ -24,24 +25,26 @@ export default function GenresBar({ genres }: { genres: Genre[] }) {
 
   return (
     <div className={`mt-5 ${styles.wrapper}`}>
-      <button
-        className={`text-md font-semibold ${styles.button} ${active === null ? styles.active : ""}`}
-        onClick={() => setGenre(null)}
-      >
-        All
-      </button>
-
-      {genres.map((g) => (
+      <MediaGrid variant="carousel" layoutClass="filters">
         <button
-          key={g.id}
-          className={`text-md font-semibold ${styles.button} ${
-            active === String(g.name.toLocaleLowerCase()) ? styles.active : ""
-          }`}
-          onClick={() => setGenre(g.name)}
+          className={`text-md font-semibold ${styles.button} ${active === null ? styles.active : ""}`}
+          onClick={() => setGenre(null)}
         >
-          {g.name}
+          All
         </button>
-      ))}
+
+        {genres.map((g) => (
+          <button
+            key={g.id}
+            className={`text-md font-semibold ${styles.button} ${
+              active === String(g.name.toLocaleLowerCase()) ? styles.active : ""
+            }`}
+            onClick={() => setGenre(g.name)}
+          >
+            {g.name}
+          </button>
+        ))}
+      </MediaGrid>
     </div>
   );
 }

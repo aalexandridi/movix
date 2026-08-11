@@ -6,6 +6,7 @@ import Button from "@/components/layout/Button/button";
 import { createMoviesService } from "@/services/tmdb/movies";
 import { getPosterUrl } from "@/services/tmdb/images";
 import AddToWatchlistButton from "@/components/layout/Button/AddToWatchlistButton";
+import TrailerButton from "@/components/layout/Button/TrailerButton";
 interface MovieSlideProps {
   media: MovieDetails;
 }
@@ -24,7 +25,7 @@ export default async function MovieDetailsHeroContent({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const logo = images.logos.find((logo: any) => logo.iso_639_1 === "en");
   return (
-    <div className={styles.content}>
+    <div className="p-[5%] text-white z-2 w-full md:max-w-[75%]">
       {logo && (
         <Image
           className="h-auto w-auto max-h-20 sm:max-h-20 lg:max-h-24 xl:max-h-32 mb-4"
@@ -46,11 +47,29 @@ export default async function MovieDetailsHeroContent({
         <span>{year}</span>
       </div>
 
-      <div className={styles.actions} style={{ marginBottom: "1.5rem" }}>
-        <Button variant="primary" fontWeight="700">
+      <div className="flex flex-col gap-2 mb-2">
+        <Button
+          variant="primary"
+          fontWeight="700"
+          className="w-full sm:w-80 lg:w-60"
+        >
           ▶ {c("watchNow")}
         </Button>
-        <AddToWatchlistButton media={media}></AddToWatchlistButton>
+        <div className="flex gap-2">
+          <AddToWatchlistButton
+            media={media}
+            className="w-fit"
+            variant="tertiary"
+            horizontal={false}
+          ></AddToWatchlistButton>
+          <TrailerButton
+            media={media}
+            className="w-fit"
+            variant="tertiary"
+            horizontal={false}
+          ></TrailerButton>
+        </div>
+        {/* <AddToWatchlistButton media={media}></AddToWatchlistButton> */}
       </div>
 
       <p className={styles.description} style={{ marginBottom: "0.8rem" }}>

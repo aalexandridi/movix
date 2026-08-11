@@ -10,9 +10,10 @@ type ButtonProps = {
   type?: "button" | "submit" | "reset";
   horizontal?: boolean;
   icon?: React.ReactNode;
+  className?: string;
 };
 
-type ButtonVariant = "primary" | "secondary";
+export type ButtonVariant = "primary" | "secondary" | "tertiary";
 
 export default function Button({
   variant = "primary",
@@ -23,6 +24,7 @@ export default function Button({
   type = "button",
   horizontal = true,
   icon,
+  className,
 }: ButtonProps) {
   return (
     <button
@@ -31,6 +33,7 @@ export default function Button({
       className={clsx(
         styles[variant],
         horizontal ? "flex-row gap-2" : "flex-col items-center",
+        className,
       )}
       style={{ fontWeight }}
       onClick={onClick}

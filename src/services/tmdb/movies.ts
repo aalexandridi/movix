@@ -18,7 +18,7 @@ export function createMoviesService(locale: string) {
     getFilters: () => tmdb.fetch("/genre/movie/list", 86400),
 
     getMovieById: (id: string) =>
-      tmdb.fetch("/movie/", 3600, "", id.toString()),
+      tmdb.fetch("/movie/", 3600, "&append_to_response=videos", id.toString()),
 
     discoverMovies: (query: string) =>
       tmdb.fetch("/discover/movie", 3600, `&${query}`),

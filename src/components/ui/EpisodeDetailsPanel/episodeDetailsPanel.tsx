@@ -1,4 +1,4 @@
-import { CastMember, EpisodeDetails, TvDetails } from "@/types/media";
+import { CastMember, Creator, EpisodeDetails, TvDetails } from "@/types/media";
 import InfoRow from "../InfoRow/InfoRow";
 import { uniqueNamesByJob } from "@/utils/array";
 import { useAppDispatch } from "@/store/hooks";
@@ -70,6 +70,10 @@ export default function EpisodeDetailsPanel({
               "Co-Producer",
               "Associate Producer",
             ])}
+          />
+          <InfoRow
+            title="Created By"
+            items={tvShow.created_by.map((c: Creator) => c.name)}
           />
         </div>
       </div>

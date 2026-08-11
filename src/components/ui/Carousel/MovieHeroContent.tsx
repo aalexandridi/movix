@@ -58,6 +58,7 @@ export default async function MovieHeroContent({
         <AddToWatchlistButton
           media={media}
           showText={false}
+          className="gap-0"
         ></AddToWatchlistButton>
       </div>
     </div>

@@ -59,7 +59,11 @@ export default function CarouselControls({
         <>
           {(hero || canScrollPrev) && (
             <button
-              className={clsx(styles.prev, hero ? "left-[2%]" : "left-[-4%]")}
+              className={clsx(
+                styles.prev,
+                "opacity-0 transition-opacity duration-200 group-hover:opacity-100",
+                hero ? "left-[2%]" : "left-[-4%]",
+              )}
               onClick={() => emblaApi?.scrollPrev()}
             >
               <ChevronLeft />
@@ -68,7 +72,11 @@ export default function CarouselControls({
 
           {(hero || canScrollNext) && (
             <button
-              className={clsx(styles.next, hero ? "right-[2%]" : "right-[-4%]")}
+              className={clsx(
+                styles.next,
+                "opacity-0 transition-opacity duration-200 group-hover:opacity-100",
+                hero ? "right-[2%]" : "right-[-4%]",
+              )}
               onClick={() => emblaApi?.scrollNext()}
             >
               <ChevronRight />
@@ -79,7 +87,7 @@ export default function CarouselControls({
 
       {showDots && (
         <div className={styles.dots}>
-          {dots?.map((_: unknown, index: number) => (
+          {dots.map((_, index) => (
             <button
               key={index}
               onClick={() => emblaApi?.scrollTo(index)}

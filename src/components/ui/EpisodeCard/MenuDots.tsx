@@ -11,6 +11,9 @@ import { Episode, Media, MediaDetails } from "@/types/media";
 import { isMovie, isTvShowDetails } from "@/utils/media";
 import { selectIsOnWatchlist } from "@/store/slices/watchlistSlice";
 import { useRouter } from "next/navigation";
+import PlusIcon from "@/components/icons/plus";
+import CheckIcon from "@/components/icons/check-icon";
+import InfoIcon from "@/components/icons/info-icon";
 export default function MenuDots({
   episode = null,
   media,
@@ -45,6 +48,7 @@ export default function MenuDots({
 
   const onOpenEpisodeDetails = async () => {
     if (isTvShowDetails(media) && episode) {
+      setOpen(false);
       const url = `/api/tvShow/${media.id}/season/${episode?.season_number}/episode/${episode.episode_number}`;
       const response = await fetch(url);
       const episodeDetails = await response.json();
@@ -113,6 +117,9 @@ export default function MenuDots({
             toggleWatchlist();
           }}
           className="
+            flex
+            items-center
+            gap-2.5
             block
             whitespace-nowrap
             w-full
@@ -123,36 +130,61 @@ export default function MenuDots({
             hover:bg-neutral-800
           "
         >
+          <span className="relative flex h-4 w-4 items-center justify-center">
+            <span
+              className={`absolute transition-all duration-300 ${
+                isOnWatchlist ? "rotate-180 opacity-0" : "rotate-0 opacity-100"
+              }`}
+            >
+              <PlusIcon width={16} height={16} />
+            </span>
+
+            <span
+              className={`absolute transition-all duration-300 ${
+                isOnWatchlist ? "rotate-0 opacity-100" : "-rotate-180 opacity-0"
+              }`}
+            >
+              <CheckIcon width={26} height={26} />
+            </span>
+          </span>
           {isOnWatchlist ? "Remove from list" : "Add to my list"}
         </button>
         {episode ? (
           <button
             onClick={onOpenEpisodeDetails}
             className="
-      block
-      w-full
-      px-4
-      py-3
-      text-left
-      transition
-      hover:bg-neutral-800
-    "
+              flex
+              items-center
+              gap-2.5
+              block
+              w-full
+              px-4
+              py-3
+              text-left
+              transition
+              hover:bg-neutral-800
+            "
           >
+            <InfoIcon width={22} height={22}></InfoIcon>
             Episode Details
           </button>
         ) : (
           <button
             onClick={onMoreInfo}
             className="
-      block
-      w-full
-      px-4
-      py-3
-      text-left
-      transition
-      hover:bg-neutral-800
-    "
+              flex
+              items-center
+              gap-2.5
+              block
+              w-full
+              px-4
+              py-3
+              text-left
+              transition
+              hover:bg-neutral-800
+            "
           >
+            <InfoIcon width={22} height={22}></InfoIcon>
             More Info
           </button>
         )}

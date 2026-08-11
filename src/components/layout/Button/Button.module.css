@@ -17,6 +17,24 @@
     opacity 0.2s ease;
 }
 
+.tertiary{
+  display: flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: none;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease,
+    opacity 0.2s ease;
+}
+
 .primary {
   background-color: white;
   color: black;
@@ -39,17 +57,19 @@
   color: white;
 }
 
-.secondary:hover {
+.secondary:hover, .tertiary:hover {
   background: rgba(255, 255, 255, 0.3);
 }
 
 .primary:active,
-.secondary:active {
+.secondary:active,
+.tertiary:active {
   transform: scale(0.98);
 }
 
 .primary:disabled,
-.secondary:disabled {
+.secondary:disabled,
+.tertiary:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }

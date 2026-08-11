@@ -6,6 +6,7 @@ import Button from "@/components/layout/Button/button";
 import { getPosterUrl } from "@/services/tmdb/images";
 import { createTvShowsService } from "@/services/tmdb/shows";
 import AddToWatchlistButton from "@/components/layout/Button/AddToWatchlistButton";
+import TrailerButton from "@/components/layout/Button/TrailerButton";
 
 interface MovieSlideProps {
   media: TvDetails;
@@ -25,7 +26,7 @@ export default async function TvShowDetailsHeroContent({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const logo = images.logos.find((logo: any) => logo.iso_639_1 === "en");
   return (
-    <div className={styles.content}>
+    <div className="p-[5%] text-white z-2 w-full md:max-w-[75%]">
       {logo && (
         <Image
           width={logo.width}
@@ -46,15 +47,29 @@ export default async function TvShowDetailsHeroContent({
         <span>{year}</span>
       </div>
 
-      <div className={styles.actions} style={{ marginBottom: "1.5rem" }}>
-        <Button variant="primary" fontWeight="700">
+      <div className="flex flex-col gap-2 mb-2">
+        <Button variant="primary" fontWeight="700" className="w-60">
           ▶ {c("watchNow")}
         </Button>
-        <AddToWatchlistButton media={media}></AddToWatchlistButton>
+        <div className="flex gap-2">
+          <AddToWatchlistButton
+            media={media}
+            className="w-fit"
+            variant="tertiary"
+            horizontal={false}
+          ></AddToWatchlistButton>
+          <TrailerButton
+            media={media}
+            className="w-fit"
+            variant="tertiary"
+            horizontal={false}
+          ></TrailerButton>
+        </div>
       </div>
 
       <p className={styles.description} style={{ marginBottom: "0.8rem" }}>
-        {media.overview}
+        {media.seasons.find((season) => season.season_number === 1)?.overview ||
+          media.overview}
       </p>
       <div className={styles.genres} style={{ display: "flex", gap: "8px" }}>
         {genres.map((g) => (
