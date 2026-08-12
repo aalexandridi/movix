@@ -97,12 +97,14 @@ const MoviesPage = async ({
           </MediaGrid>
         </>
       ) : (
-        <InfiniteMediaGrid
-          key={genreId}
-          initialMedia={initial.results}
-          genre={genreId}
-          mode="discover"
-        />
+        initial && (
+          <InfiniteMediaGrid
+            key={genreId}
+            initialMedia={initial.results}
+            genre={genreId}
+            mode="discover"
+          />
+        )
       )}
     </MediaHeroLayout>
   );

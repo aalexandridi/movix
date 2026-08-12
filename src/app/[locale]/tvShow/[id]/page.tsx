@@ -59,8 +59,6 @@ const TvShowPage = async ({
       ? tvShowService.getSeasonDetails(id, season)
       : tvShowService.getSeasonDetails(id, 1),
     tvShowService.getRecommendations(id),
-    // moviesService.getMovieRecommendations(id),
-    // moviesService.getMovieCredits(id),
   ]);
   console.log("seasonDetails", seasonDetails);
   //   const seasons = showDetails.number_of_seasons.array.forEach(element => {

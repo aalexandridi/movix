@@ -36,7 +36,7 @@ const MoviePage = async ({ params }: { params: Promise<{ id: string }> }) => {
     any,
   ] = await Promise.all([
     moviesService.getMovieById(id),
-    moviesService.getMovieRecommendations(id),
+    moviesService.getRecommendations(id),
     moviesService.getMovieCredits(id),
   ]);
   console.log("credits.cast", credits.cast);

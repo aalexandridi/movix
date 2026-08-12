@@ -16,6 +16,13 @@ export function limitAndMergeArrays<T>(
   return arrays.flatMap((array) => limitItems(array, limit));
 }
 
+// export function limitAndMergeArrays<T>(
+//   limit: number = 3,
+//   ...arrays: T[][]
+// ): T[] {
+//   return arrays.flatMap((array) => limitItems(array, limit));
+// }
+
 export function limitAndMergeUniqueById<T extends Media>(
   limit: number,
   ...arrays: T[][]

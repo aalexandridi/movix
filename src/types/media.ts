@@ -9,6 +9,7 @@ export interface MediaBase {
   genre_ids: number[];
   adult: boolean;
   original_language: string;
+  media_type?: string;
 }
 
 export interface Movie extends MediaBase {

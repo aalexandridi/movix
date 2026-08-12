@@ -5,6 +5,11 @@ export function createTvShowsService(locale: string) {
   const tmdb = createTmdbClient(locale);
 
   return {
+    getTrending: (
+      timeWindow: "week" | "day",
+    ): Promise<PaginatedResponse<TvShow>> =>
+      tmdb.fetch(`/trending/tv/${timeWindow}`, 3600),
+
     getPopular: (): Promise<PaginatedResponse<TvShow>> =>
       tmdb.fetch("/tv/popular", 3600),
 
@@ -40,7 +45,7 @@ export function createTvShowsService(locale: string) {
         "&append_to_response=credits",
       ),
 
-    getRecommendations: (id: string, query?: string) =>
+    getRecommendations: (id: string | number, query?: string) =>
       tmdb.fetch(`/tv/${id}/recommendations`, 3600, `&${query}`),
   };
 }

@@ -7,7 +7,7 @@ export async function GET(req: Request) {
   const movieId = searchParams.get("movieId") ?? "1";
   const pageNumber = Number(searchParams.get("page") ?? "1");
   const moviesService = createMoviesService(locale);
-  const data = await moviesService.getMovieRecommendations(
+  const data = await moviesService.getRecommendations(
     movieId,
     `page=${pageNumber}`,
   );

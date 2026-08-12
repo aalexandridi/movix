@@ -44,7 +44,7 @@ export default function MediaCard2({ media, episode = null }: MediaCardProps) {
     <Link href={`${url}${query}`} aria-label="my-stuff">
       <div
         className="
-        group
+        group/card
         flex
         w-full
         flex-col
@@ -57,7 +57,7 @@ export default function MediaCard2({ media, episode = null }: MediaCardProps) {
         <div
           className="relative aspect-video w-full border-b-2
   border-transparent
-  group-hover:border-white/90 transition duration-300"
+  group-hover/card:border-white/90 transition duration-300"
         >
           <Image
             src={
@@ -77,12 +77,12 @@ export default function MediaCard2({ media, episode = null }: MediaCardProps) {
 
         <div className="py-2">
           <div className=" flex items-center justify-between">
-            <h3 className="font-bold text-general-text-mid group-hover:text-white text-sm">
+            <h3 className="font-bold text-general-text-mid group-hover/card:text-white text-sm">
               {title}
             </h3>
           </div>
 
-          <div className="font-light text-sm leading-6 text-general-text-mid group-hover:text-white">
+          <div className="font-light text-sm leading-6 text-general-text-mid group-hover/card:text-white">
             {description}
           </div>
         </div>

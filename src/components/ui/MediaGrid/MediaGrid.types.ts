@@ -11,8 +11,10 @@ export type MediaGridLayout =
   | "compact"
   | "filters";
 
+export type MediaGridType = "grid" | "carousel";
+
 export interface MediaGridProps {
-  variant?: "grid" | "carousel";
+  variant?: MediaGridType;
   title?: string;
   children: React.ReactNode;
   layoutClass?: MediaGridLayout;

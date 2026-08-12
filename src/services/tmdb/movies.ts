@@ -5,7 +5,13 @@ export function createMoviesService(locale: string) {
   const tmdb = createTmdbClient(locale);
 
   return {
-    getNowPlaying: () => tmdb.fetch("/movie/now_playing", 300),
+    getTrending: (
+      timeWindow: "week" | "day",
+    ): Promise<PaginatedResponse<Movie>> =>
+      tmdb.fetch(`/trending/movie/${timeWindow}`, 3600),
+
+    getNowPlaying: (): Promise<PaginatedResponse<Movie>> =>
+      tmdb.fetch("/movie/now_playing", 300),
 
     getPopular: (): Promise<PaginatedResponse<Movie>> =>
       tmdb.fetch("/movie/popular", 3600),
@@ -13,17 +19,18 @@ export function createMoviesService(locale: string) {
     getTopRated: (): Promise<PaginatedResponse<Movie>> =>
       tmdb.fetch("/movie/top_rated", 21600),
 
-    getUpcoming: () => tmdb.fetch("/movie/upcoming", 3600),
+    getUpcoming: (): Promise<PaginatedResponse<Movie>> =>
+      tmdb.fetch("/movie/upcoming", 3600),
 
     getFilters: () => tmdb.fetch("/genre/movie/list", 86400),
 
     getMovieById: (id: string) =>
       tmdb.fetch("/movie/", 3600, "&append_to_response=videos", id.toString()),
 
-    discoverMovies: (query: string) =>
+    discoverMovies: (query: string): Promise<PaginatedResponse<Movie>> =>
       tmdb.fetch("/discover/movie", 3600, `&${query}`),
 
-    getMovieRecommendations: (id: string, query?: string) =>
+    getRecommendations: (id: string | number, query?: string) =>
       tmdb.fetch(`/movie/${id}/recommendations`, 3600, `&${query}`),
 
     getMovieCredits: (id: string) => tmdb.fetch(`/movie/${id}/credits`, 3600),
