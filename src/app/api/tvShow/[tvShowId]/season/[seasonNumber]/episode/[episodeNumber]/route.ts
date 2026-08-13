@@ -16,7 +16,6 @@ export async function GET(
 ) {
   const { tvShowId, seasonNumber, episodeNumber } = await params;
   const locale = await getLocale();
-  console.log("lalal", tvShowId, seasonNumber, episodeNumber);
   const tvShowService = createTvShowsService(locale);
 
   const episodeDetails = await tvShowService.getEpisodeDetails(

@@ -24,7 +24,6 @@ export default async function MovieDetailsHeroContent({
   const images = await moviesService.getImages(media.id.toString());
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const logo = images.logos.find((logo: any) => logo.iso_639_1 === "en");
-  console.log("logo==", logo);
   return (
     <div className="p-[5%] text-white z-2 w-full md:max-w-[75%]">
       {logo !== undefined ? (

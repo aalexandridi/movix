@@ -26,14 +26,10 @@ export default function MenuDots({
   const ref = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const watchlist = useAppSelector((state) => state.watchlist.items);
-  console.log(watchlist);
-  // const isOnWatchlist = watchlist.some(
-  //   (item) => (item.episode?.id ?? item.media.id) === episode.id,
-  // );
+
   const isOnWatchlist = useAppSelector((state) =>
     selectIsOnWatchlist(state, media, episode),
   );
-  console.log("isOnWatchlist==", isOnWatchlist);
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {

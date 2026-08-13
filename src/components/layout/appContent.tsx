@@ -11,7 +11,6 @@ export default function AppContent({
   const { isOpen, episodeDetails, tvShowDetails } = useAppSelector(
     (state) => state.episodeDetailsPanel,
   );
-  console.log(tvShowDetails);
 
   return (
     <>

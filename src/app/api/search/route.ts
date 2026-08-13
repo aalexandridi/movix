@@ -6,7 +6,6 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
 
   const query = searchParams.get("query")?.trim();
-  console.log("api query==", query);
   const pageNumber = Number(searchParams.get("page") ?? "1");
 
   if (!query) {

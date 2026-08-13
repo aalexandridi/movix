@@ -81,7 +81,6 @@ export const selectIsOnWatchlist = (
   episode?: Episode | null,
 ) => {
   if (episode) {
-    console.log("selectIsOnWatchlist episode==", episode);
     return state.watchlist.items.some(
       (item) => item.episode?.id === episode.id,
     );

@@ -60,7 +60,6 @@ const TvShowPage = async ({
       : tvShowService.getSeasonDetails(id, 1),
     tvShowService.getRecommendations(id),
   ]);
-  console.log("seasonDetails", seasonDetails);
   //   const seasons = showDetails.number_of_seasons.array.forEach(element => {
 
   //   });

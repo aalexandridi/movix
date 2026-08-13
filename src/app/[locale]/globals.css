@@ -1,5 +1,16 @@
 @import "tailwindcss";
 
+
+/* .header-icon-active {
+  --stroke-width: 2;
+} */
+
+.header-active {
+  --search-stroke-width: 2.5;
+  --icon-fill: white;
+}
+
+
 :root {
   /* Colors */
   --background: #0d0d0d;

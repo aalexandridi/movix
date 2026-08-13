@@ -34,7 +34,6 @@ export default function Carousel({
   containerClassName,
 }: CarouselProps) {
   const canDrag = Children.count(children) > 1;
-  console.log("canDrag", canDrag, children, Children.count(children));
   const [emblaRef, emblaApi] = useEmblaCarousel({
     slidesToScroll: "auto",
     active: canDrag,

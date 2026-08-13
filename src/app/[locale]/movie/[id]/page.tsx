@@ -39,7 +39,6 @@ const MoviePage = async ({ params }: { params: Promise<{ id: string }> }) => {
     moviesService.getRecommendations(id),
     moviesService.getMovieCredits(id),
   ]);
-  console.log("credits.cast", credits.cast);
   return (
     <MediaHeroLayout
       hero={
