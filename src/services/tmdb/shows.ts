@@ -1,4 +1,9 @@
-import { EpisodeDetails, PaginatedResponse, TvShow } from "@/types/media";
+import {
+  EpisodeDetails,
+  PaginatedResponse,
+  TvDetails,
+  TvShow,
+} from "@/types/media";
 import { createTmdbClient } from "./client";
 
 export function createTvShowsService(locale: string) {
@@ -23,7 +28,7 @@ export function createTvShowsService(locale: string) {
 
     getGenres: () => tmdb.fetch("/genre/tv/list", 3600),
 
-    getTvShowDetails: (id: number | string) =>
+    getTvShowDetails: (id: number | string): Promise<TvDetails> =>
       tmdb.fetch(`/tv/${id}`, 3600, "&append_to_response=videos"),
 
     discoverShows: (query: string) =>

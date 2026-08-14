@@ -13,8 +13,6 @@ export default async function Header() {
   const navigation = await getTranslations("navigation");
   return (
     <header className="fixed top-0 left-0 w-full z-50">
-      {/* gradient background */}
-      {/* <div className="absolute inset-0 bg-gradient-to-b from-black/80 to-transparent" /> */}
       <HeaderBackground />
       <div className="relative flex items-center justify-between px-4 md:px-[5%] py-6 text-white">
         {/* LEFT - LOGO */}

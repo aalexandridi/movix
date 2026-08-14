@@ -31,7 +31,7 @@ export async function generateMetadata({
   const movie = await tvShowService.getTvShowDetails(id);
 
   return {
-    title: movie.title,
+    title: movie.name,
     description: movie.overview,
   };
 }
