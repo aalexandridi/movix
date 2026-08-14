@@ -3,18 +3,20 @@ import { Episode, TvDetails } from "@/types/media";
 import Image from "next/image";
 import styles from "./EpisodeCard.module.css";
 import MenuDots from "./MenuDots";
+import { getTranslations } from "next-intl/server";
 
 type EpisodeCardProps = {
   episode: Episode;
   tvShowDetails: TvDetails;
 };
 
-export default function EpisodeCard({
+export default async function EpisodeCard({
   episode,
   tvShowDetails,
   //   onClick,
 }: EpisodeCardProps) {
   if (!episode.still_path) return;
+  const c = await getTranslations("common");
   return (
     <div
       className="
@@ -50,14 +52,14 @@ export default function EpisodeCard({
       </div>
 
       <div className="py-2">
-        <div className="mb-2 flex items-center justify-between">
+        <div className="mb-2 flex items-start justify-between">
           <h3 className="font-semibold text-general-text-mid group-hover/episode:text-white text-sm">
             E{episode.episode_number}: {episode.name}
           </h3>
 
           {episode.runtime && (
-            <span className="text-sm text-general-text-mid group-hover/episode:text-white">
-              {episode.runtime} min
+            <span className="shrink-0 whitespace-nowrap text-sm text-general-text-mid group-hover/episode:text-white">
+              {episode.runtime} {c("min")}
             </span>
           )}
         </div>

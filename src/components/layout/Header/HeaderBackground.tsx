@@ -20,7 +20,7 @@ export default function HeaderBackground() {
   }, []);
   return (
     <div
-      className={`absolute inset-0 transition-[background-color,backdrop-filter] duration-300 ${
+      className={`pointer-events-none absolute inset-0 transition-[background-color,backdrop-filter] duration-300 ${
         scrolled
           ? "bg-black/65 backdrop-blur-[4px]"
           : "bg-gradient-to-b from-black/80 via-black/50 to-transparent"

@@ -24,7 +24,8 @@ export function createTvShowsService(locale: string) {
     getAiringToday: (): Promise<PaginatedResponse<TvShow>> =>
       tmdb.fetch("/tv/airing_today", 300),
 
-    getImages: (id: number) => tmdb.fetch(`/tv/${id}/images`, 3600),
+    getImages: (id: number) =>
+      tmdb.fetch(`/tv/${id}/images`, 3600, "&include_image_language=en-US"),
 
     getGenres: () => tmdb.fetch("/genre/tv/list", 3600),
 

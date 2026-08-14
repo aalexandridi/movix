@@ -3,8 +3,10 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import styles from "./SearchInput.module.css";
+import { useTranslations } from "next-intl";
 
 export default function SearchInput() {
+  const t = useTranslations("searchPage");
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -48,7 +50,7 @@ export default function SearchInput() {
         ref={inputRef}
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Find movies, shows and more"
+        placeholder={t("placeholder")}
       />
     </div>
   );

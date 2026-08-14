@@ -52,7 +52,7 @@ export default function Carousel({
       className={clsx(
         "group",
         styles.carouselWrapper,
-        hero && "h-screen",
+        hero && "h-[85vh] md:h-screen",
         className,
       )}
     >

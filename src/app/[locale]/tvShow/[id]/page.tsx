@@ -7,7 +7,7 @@ import {
   TvShow,
 } from "@/types/media";
 import { Metadata } from "next";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import MediaHeroLayout from "@/components/layout/MediaHeroLayout/MediaHeroLayout";
 import { createTvShowsService } from "@/services/tmdb/shows";
 import TvShowDetailsHeroContent from "@/components/ui/Carousel/TvShowDetailsHeroContent";
@@ -43,10 +43,11 @@ const TvShowPage = async ({
   params: Promise<{ id: string }>;
   searchParams: Promise<{ season?: string }>;
 }) => {
-  const [locale, { id }, { season }] = await Promise.all([
+  const [locale, { id }, { season }, c] = await Promise.all([
     getLocale(),
     params,
     searchParams,
+    getTranslations("common"),
   ]);
   const tvShowService = createTvShowsService(locale);
   const [showDetails, seasonDetails, recommendations]: [
@@ -66,7 +67,7 @@ const TvShowPage = async ({
   const options: DropdownOption[] = Array.from(
     { length: showDetails.number_of_seasons },
     (_, index) => ({
-      label: `Season ${index + 1}`,
+      label: `${c("season")} ${index + 1}`,
       value: `${index + 1}`,
     }),
   );
@@ -115,7 +116,7 @@ const TvShowPage = async ({
           mode="recommendations"
           movieId={id}
           mediaType="tvShow"
-          title="You May Also Like"
+          title={c("alsoLike")}
         />
       </>
     </MediaHeroLayout>

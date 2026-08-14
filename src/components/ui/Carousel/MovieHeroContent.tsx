@@ -25,15 +25,19 @@ export default async function MovieHeroContent({
   const locale = await getLocale();
   const moviesService = createMoviesService(locale);
   const images = await moviesService.getImages(media.id.toString());
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const logo = images.logos.find((logo: any) => logo.iso_639_1 === "en");
+  const logo =
+    images.logos.find(
+      (logo: { iso_639_1: string }) => logo.iso_639_1 === locale,
+    ) ??
+    images.logos.find((logo: { iso_639_1: string }) => logo.iso_639_1 === "en");
   return (
-    <div className={styles.content}>
+    <div className="p-[5%_5%_20%_5%] md:p-[5%] p-[5%] text-white z-2 w-full md:max-w-[65%]">
       {logo && (
         <Image
           className="h-auto w-auto max-h-20 sm:max-h-20 lg:max-h-24 xl:max-h-32 mb-4"
-          width={logo.width}
-          height={logo.height}
+          // className="pb-8"
+          width={500}
+          height={200}
           priority
           alt="title image"
           src={getPosterUrl(logo.file_path)}

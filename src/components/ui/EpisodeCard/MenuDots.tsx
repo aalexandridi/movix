@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import PlusIcon from "@/components/icons/plus";
 import CheckIcon from "@/components/icons/check-icon";
 import InfoIcon from "@/components/icons/info-icon";
+import { useLocale, useTranslations } from "next-intl";
 export default function MenuDots({
   episode = null,
   media,
@@ -21,11 +22,14 @@ export default function MenuDots({
   episode?: Episode | null;
   media: MediaDetails | Media;
 }) {
+  const locale = useLocale();
+  const c = useTranslations("common");
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const popupRef = useRef<HTMLDivElement>(null);
+  const [openLeft, setOpenLeft] = useState(false);
   const dispatch = useAppDispatch();
-  const watchlist = useAppSelector((state) => state.watchlist.items);
 
   const isOnWatchlist = useAppSelector((state) =>
     selectIsOnWatchlist(state, media, episode),
@@ -42,10 +46,32 @@ export default function MenuDots({
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
+  useEffect(() => {
+    if (!open || !ref.current || !popupRef.current) return;
+
+    const frame = requestAnimationFrame(() => {
+      if (!ref.current || !popupRef.current) return;
+
+      const trigger = ref.current.getBoundingClientRect();
+      const popup = popupRef.current.getBoundingClientRect();
+
+      const rightEdge = trigger.left + popup.width;
+      const leftEdge = trigger.right - popup.width;
+
+      if (rightEdge > window.innerWidth && leftEdge >= 0) {
+        setOpenLeft(true);
+      } else {
+        setOpenLeft(false);
+      }
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [open]);
+
   const onOpenEpisodeDetails = async () => {
     if (isTvShowDetails(media) && episode) {
       setOpen(false);
-      const url = `/api/tvShow/${media.id}/season/${episode?.season_number}/episode/${episode.episode_number}`;
+      const url = `/api/tvShow/${media.id}/season/${episode?.season_number}/episode/${episode.episode_number}?locale=${locale}`;
       const response = await fetch(url);
       const episodeDetails = await response.json();
       dispatch(openEpisodeDetails({ episodeDetails, tvShowDetails: media }));
@@ -84,9 +110,9 @@ export default function MenuDots({
         <MenuDotsIcon></MenuDotsIcon>
       </button>
       <div
+        ref={popupRef}
         className={`
           absolute
-          left-0
           top-full
           z-50
           w-max
@@ -99,6 +125,7 @@ export default function MenuDots({
           shadow-xl
           transition-all
           duration-200
+          ${openLeft ? "right-0" : "left-0"}
           ${
             open
               ? "pointer-events-auto opacity-100 translate-y-0"
@@ -143,7 +170,7 @@ export default function MenuDots({
               <CheckIcon width={26} height={26} />
             </span>
           </span>
-          {isOnWatchlist ? "Remove from list" : "Add to my list"}
+          {isOnWatchlist ? c("removeFromList") : c("addToList")}
         </button>
         {episode ? (
           <button
@@ -162,7 +189,7 @@ export default function MenuDots({
             "
           >
             <InfoIcon width={22} height={22}></InfoIcon>
-            Episode Details
+            {c("episodeDetails")}
           </button>
         ) : (
           <button
@@ -181,25 +208,9 @@ export default function MenuDots({
             "
           >
             <InfoIcon width={22} height={22}></InfoIcon>
-            More Info
+            {c("moreInfo")}
           </button>
         )}
-
-        {/* <button
-          onClick={() => onOpenEpisodeDetails()}
-          className="
-          w-full
-            block
-            whitespace-nowrap
-            px-4
-            py-3
-            text-left
-            transition
-            hover:bg-neutral-800
-          "
-        >
-          {episode ? "Episode Details" : "More Info"}
-        </button> */}
       </div>
     </div>
   );

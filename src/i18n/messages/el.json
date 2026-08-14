@@ -15,7 +15,8 @@
     "title": "Αγαπημένα"
   },
   "searchPage": {
-    "title": "Αναζήτηση"
+    "title": "Αναζήτηση",
+    "placeholder": "Βρείτε ταινίες, σειρές και πολλά άλλα"
   },
   "navigation": {
     "home": "Αρχική",
@@ -28,7 +29,30 @@
   "common": {
     "play": "Αναπαραγωγή",
     "moreInfo": "Περισσότερα",
-    "watchNow": "Αναπαραγωγή Τώρα"
+    "watchNow": "Αναπαραγωγή Τώρα",
+    "popular": "Δημοφιλέστερα",
+    "topRatedMovies": "Κορυφαίες Ταινίες",
+    "minutes": "λεπτά",
+    "myList": "Η Λίστα Μου",
+    "alsoLike": "Ίσως Σας Αρέσουν",
+    "details": "Λεπτομέρειες",
+    "season": "Κύκλος",
+    "seasons": "Κύκλοι",
+    "topToday": "Top 10 Σήμερα",
+    "trendingMoviesThisWeek": "Δημοφιλείς Ταινίες Αυτή την Εβδομάδα",
+    "trendingTvThisWeek": "Δημοφιλείς Σειρές Αυτή την Εβδομάδα",
+    "upcomingTheaters": "Προσεχώς στους Κινηματογράφους",
+    "topRatedShows": "Σειρές με την Υψηλότερη Βαθμολογία",
+    "min": "λ",
+    "addToList": "Προσθήκη στη Λίστα μου",
+    "removeFromList": "Αφαίρεση απο την Λίστα μου",
+    "episodeDetails": "Λεπτομέρειες Επεισοδίου",
+    "recommendedForYou": "Προτάσεις για εσάς",
+    "starring": "Πρωταγωνιστούν",
+    "directors": "Σκηνοθεσία",
+    "writers": "Σεναριογράφοι",
+    "producers": "Παραγωγή",
+    "createdBy": "Δημιουργία"
   },
   "metadata": {
     "home": {

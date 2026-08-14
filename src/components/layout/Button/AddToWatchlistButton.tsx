@@ -17,8 +17,10 @@ export default function AddToWatchlistButton({
   className,
   horizontal = true,
   variant = "secondary",
+  text = "",
 }: {
   media: MediaDetails | Media;
+  text?: string;
   showText?: boolean;
   className?: string;
   horizontal?: boolean;
@@ -64,7 +66,7 @@ export default function AddToWatchlistButton({
       }
       onClick={onClick}
     >
-      {showText && <p className="text-sm font-normal">My list</p>}
+      {showText && <p className="text-sm font-normal">{text}</p>}
     </Button>
   );
 }

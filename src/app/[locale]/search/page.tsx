@@ -8,7 +8,7 @@ import { createMoviesService } from "@/services/tmdb/movies";
 import { createMultiService } from "@/services/tmdb/multi";
 import { createTvShowsService } from "@/services/tmdb/shows";
 import { mergeArrays, shuffleArray } from "@/utils/array";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
 export async function generateMetadata() {
   return createPageMetadata("search");
@@ -19,7 +19,11 @@ const SearchPage = async ({
 }: {
   searchParams: Promise<{ query?: string }>;
 }) => {
-  const [locale, { query }] = await Promise.all([getLocale(), searchParams]);
+  const [locale, { query }, c] = await Promise.all([
+    getLocale(),
+    searchParams,
+    getTranslations("common"),
+  ]);
   const multiService = createMultiService(locale);
   const moviesService = createMoviesService(locale);
   const seriesService = createTvShowsService(locale);
@@ -55,7 +59,7 @@ const SearchPage = async ({
           mediaCardType={2}
         ></InfiniteMediaGrid>
       ) : (
-        <MediaGrid title="Popular">
+        <MediaGrid title={c("popular")}>
           {shuffledMedia.map((item) => (
             <MediaCard key={item.id} media={item} />
           ))}

@@ -14,6 +14,9 @@
   "favoritesPage": {
     "title": "Favorites"
   },
+  "searchPage": {
+    "placeholder": "Find movies, shows and more"
+  },
   "navigation": {
     "home": "Home",
     "series": "Series",
@@ -23,9 +26,32 @@
     "search": "Search"
   },
   "common": {
-    "play": "Play",
+    "play": "Watch Now",
     "moreInfo": "More Info",
-    "watchNow": "Watch Now"
+    "watchNow": "Watch Now",
+    "popular": "Popular",
+    "topRatedMovies": "Top Rated Movies",
+    "minutes": "minutes",
+    "myList": "My List",
+    "alsoLike": "You May Also Like",
+    "details": "Details",
+    "season": "Season",
+    "seasons": "Seasons",
+    "topToday": "Top 10 Today",
+    "trendingMoviesThisWeek": "Trending Movies This Week",
+    "trendingTvThisWeek": "Trending Tv Shows This Week",
+    "upcomingTheaters": "Upcoming in Theaters",
+    "topRatedShows": "Top Rated Tv Shows",
+    "min": "min",
+    "addToList": "Add To My List",
+    "removeFromList": "Remove From My List",
+    "episodeDetails": "Episode Details",
+    "recommendedForYou": "Recommended For You",
+    "starring": "Starring",
+    "directors": "Directors",
+    "writers": "Writers",
+    "producers": "Producers",
+    "createdBy": "Created By"
   },
   "metadata": {
     "home": {

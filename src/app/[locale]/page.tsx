@@ -13,14 +13,17 @@ import {
   isMovie,
   sortByPopularity,
 } from "@/utils/media";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import WatchlistContainer from "./watchlistContainer";
 import { createMultiService } from "@/services/tmdb/multi";
 import MediaCard from "@/components/ui/MediaCard/MediaCard";
 import MediaGrid from "@/components/ui/MediaGrid/MediaGrid";
 import RecommendationsContainer from "./recommendationsContainer";
 export default async function Home() {
-  const locale = await getLocale();
+  const [locale, c] = await Promise.all([
+    getLocale(),
+    getTranslations("common"),
+  ]);
   const moviesService = createMoviesService(locale);
   const tvShowService = createTvShowsService(locale);
   const multiService = createMultiService(locale);
@@ -72,29 +75,29 @@ export default async function Home() {
         </Carousel>
       }
     >
-      <MediaGrid title="Top 10 Today" variant="carousel">
+      <MediaGrid title={c("topToday")} variant="carousel">
         {topTen.map((item) => (
           <MediaCard key={item.id} media={item} />
         ))}
       </MediaGrid>
       <RecommendationsContainer
-        title={"Recommended For You"}
+        title={c("recommendedForYou")}
       ></RecommendationsContainer>
       <WatchlistContainer
-        title={"My List"}
+        title={c("myList")}
         gridType={"carousel"}
       ></WatchlistContainer>
-      <MediaGrid title="Trending Movies This Week" variant="carousel">
+      <MediaGrid title={c("trendingMoviesThisWeek")} variant="carousel">
         {shuffleArray(movies).map((item) => (
           <MediaCard key={item.id} media={item} />
         ))}
       </MediaGrid>
-      <MediaGrid title="Trending Tv Shows This Week" variant="carousel">
+      <MediaGrid title={c("trendingTvThisWeek")} variant="carousel">
         {shuffleArray(tvShows).map((item) => (
           <MediaCard key={item.id} media={item} />
         ))}
       </MediaGrid>
-      <MediaGrid title="Upcoming in Theaters" variant="carousel">
+      <MediaGrid title={c("upcomingTheaters")} variant="carousel">
         {upcommingMovies.results.map((item) => (
           <MediaCard key={item.id} media={item} />
         ))}

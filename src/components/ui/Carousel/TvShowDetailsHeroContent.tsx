@@ -25,6 +25,9 @@ export default async function TvShowDetailsHeroContent({
   const images = await showService.getImages(media.id);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const logo = images.logos.find((logo: any) => logo.iso_639_1 === "en");
+  const seasonsVerbal =
+    media.number_of_seasons > 1 ? c("seasons") : c("season");
+
   return (
     <div className="p-[5%] text-white z-2 w-full md:max-w-[75%]">
       {logo && (
@@ -43,16 +46,23 @@ export default async function TvShowDetailsHeroContent({
         className={styles.genres}
         style={{ display: "flex", gap: "16px", marginBottom: " 0.5rem" }}
       >
-        <span>{media.number_of_seasons} Seasons</span>
+        <span>
+          {media.number_of_seasons} {seasonsVerbal}
+        </span>
         <span>{year}</span>
       </div>
 
       <div className="flex flex-col gap-2 mb-2">
-        <Button variant="primary" fontWeight="700" className="w-60">
+        <Button
+          variant="primary"
+          fontWeight="700"
+          className="w-full sm:w-80 lg:w-60"
+        >
           ▶ {c("watchNow")}
         </Button>
         <div className="flex gap-2">
           <AddToWatchlistButton
+            text={c("myList")}
             media={media}
             className="w-fit"
             variant="tertiary"

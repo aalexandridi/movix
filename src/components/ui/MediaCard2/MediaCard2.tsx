@@ -2,7 +2,7 @@ import { Episode, Media, MediaDetails } from "@/types/media";
 
 import styles from "../MediaCard/MediaCard.module.css";
 import { getPosterUrl } from "@/services/tmdb/images";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { isMovie, isTvShow } from "@/utils/media";
 import Image from "next/image";
 import MenuDots from "../EpisodeCard/MenuDots";

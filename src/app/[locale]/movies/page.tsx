@@ -1,6 +1,6 @@
 import { createPageMetadata } from "@/lib/metadata";
 import { createMoviesService } from "@/services/tmdb/movies";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { limitAndMergeUniqueById } from "@/utils/array";
 import {
   createGenreMaps,
@@ -24,7 +24,11 @@ const MoviesPage = async ({
 }: {
   searchParams: Promise<{ genre?: string }>;
 }) => {
-  const [locale, { genre }] = await Promise.all([getLocale(), searchParams]);
+  const [locale, { genre }, c] = await Promise.all([
+    getLocale(),
+    searchParams,
+    getTranslations("common"),
+  ]);
   const moviesService = createMoviesService(locale);
   const genres = await moviesService.getFilters();
   const { idToName, nameToId } = createGenreMaps(genres.genres);
@@ -84,13 +88,13 @@ const MoviesPage = async ({
 
       {genreId == null ? (
         <>
-          <MediaGrid title="Popular" variant="carousel">
+          <MediaGrid title={c("popular")} variant="carousel">
             {popularMovies.results.map((item) => (
               <MediaCard key={item.id} media={item} />
             ))}
           </MediaGrid>
 
-          <MediaGrid title="Top Rated Movies" variant="carousel">
+          <MediaGrid title={c("topRatedMovies")} variant="carousel">
             {topRatedMovies.results.map((item) => (
               <MediaCard key={item.id} media={item} />
             ))}

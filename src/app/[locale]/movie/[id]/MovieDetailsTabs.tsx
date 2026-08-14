@@ -6,18 +6,7 @@ import { CastMember, CrewMember, Movie, MovieDetails } from "@/types/media";
 import InfiniteMediaGrid from "@/components/ui/MediaGrid/InfiniteMediaGrid";
 import InfoRow from "@/components/ui/InfoRow/InfoRow";
 import { uniqueNamesByJob } from "@/utils/array";
-
-const tabs = [
-  {
-    id: "recommended",
-    label: "You May Also Like",
-  },
-  {
-    id: "details",
-    label: "Details",
-  },
-];
-
+import { useTranslations } from "next-intl";
 interface MovieDetailsTabsProps {
   details: MovieDetails;
   recommendations: Array<Movie>;
@@ -31,7 +20,18 @@ export default function MovieDetailsTabs({
   cast,
   crew,
 }: MovieDetailsTabsProps) {
+  const c = useTranslations("common");
   const [activeTab, setActiveTab] = useState("recommended");
+  const tabs = [
+    {
+      id: "recommended",
+      label: c("alsoLike"),
+    },
+    {
+      id: "details",
+      label: c("details"),
+    },
+  ];
   return (
     <>
       <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />
@@ -47,24 +47,24 @@ export default function MovieDetailsTabs({
         {activeTab === "details" && (
           <div className="py-6 flex flex-col gap-4">
             <InfoRow
-              title="Starring"
+              title={c("starring")}
               items={cast
                 .filter((c) => c.known_for_department === "Acting")
                 .map((c) => c.name)}
             />
 
             <InfoRow
-              title="Directors"
+              title={c("directors")}
               items={uniqueNamesByJob(crew, ["Director"])}
             />
 
             <InfoRow
-              title="Writers"
+              title={c("writers")}
               items={uniqueNamesByJob(crew, ["Writer", "Screenplay", "Story"])}
             />
 
             <InfoRow
-              title="Producers"
+              title={c("producers")}
               items={uniqueNamesByJob(crew, [
                 "Producer",
                 "Executive Producer",

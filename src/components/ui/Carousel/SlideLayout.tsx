@@ -2,7 +2,7 @@ import Image from "next/image";
 import styles from "./Slide.module.css";
 import { getPosterUrl } from "@/services/tmdb/images";
 import { Media } from "@/types/media";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { isMovie } from "@/utils/media";
 
 interface SlideLayoutProps {

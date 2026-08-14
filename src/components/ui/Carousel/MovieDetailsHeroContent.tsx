@@ -45,7 +45,9 @@ export default async function MovieDetailsHeroContent({
         className={styles.genres}
         style={{ display: "flex", gap: "16px", marginBottom: " 0.5rem" }}
       >
-        <span>{media.runtime} minutes</span>
+        <span>
+          {media.runtime} {c("minutes")}
+        </span>
         <span>{year}</span>
       </div>
 
@@ -63,6 +65,7 @@ export default async function MovieDetailsHeroContent({
             className="w-fit"
             variant="tertiary"
             horizontal={false}
+            text={c("myList")}
           ></AddToWatchlistButton>
           <TrailerButton
             media={media}

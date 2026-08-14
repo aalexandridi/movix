@@ -1,6 +1,6 @@
 import MediaHeroLayout from "@/components/layout/MediaHeroLayout/MediaHeroLayout";
 import { createPageMetadata } from "@/lib/metadata";
-import { getLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import MyStuffContent from "./MyStuffContent";
 
 export async function generateMetadata() {
@@ -8,10 +8,10 @@ export async function generateMetadata() {
 }
 
 const MyStuffPage = async () => {
-  const locale = await getLocale();
+  const t = await getTranslations("myStuffPage");
   return (
     <MediaHeroLayout className="mt-18">
-      <h1 className="text-xl font-bold">My Stuff</h1>
+      <h1 className="text-xl font-bold">{t("title")}</h1>
       <MyStuffContent />
     </MediaHeroLayout>
   );

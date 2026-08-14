@@ -26,6 +26,7 @@
 /* Dark cinematic overlay */
 .overlay {
   position: absolute;
+  pointer-events: none;
   inset: 0;
   background: linear-gradient(
   to top,

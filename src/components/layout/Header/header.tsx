@@ -14,7 +14,7 @@ export default async function Header() {
   return (
     <header className="fixed top-0 left-0 w-full z-50">
       <HeaderBackground />
-      <div className="relative flex items-center justify-between px-4 md:px-[5%] py-6 text-white">
+      <div className="relative flex items-center justify-between px-4 md:px-[5%] pt-6 pb-5 md:py-6 text-white">
         {/* LEFT - LOGO */}
         <div className="font-bold text-xl">
           <Link href="/">
@@ -23,7 +23,7 @@ export default async function Header() {
         </div>
 
         {/* CENTER - NAV (responsive) */}
-        <nav className="text-md font-semibold hidden md:flex gap-8 text-sm">
+        <nav className="text-md font-semibold hidden sm:flex gap-8 text-sm">
           <HeaderLink
             href="/"
             label="home"
@@ -88,6 +88,29 @@ export default async function Header() {
           </button> */}
         </div>
       </div>
+      <nav className="relative pb-4 text-md font-semibold flex w-ful justify-center sm:hidden gap-12 text-sm">
+        <HeaderLink
+          href="/"
+          label="home"
+          activeClassName="border-b-2 border-general-text-high"
+        >
+          <div>{navigation("home")}</div>
+        </HeaderLink>
+        <HeaderLink
+          href="/movies"
+          label="movies"
+          activeClassName="border-b-2 border-general-text-high"
+        >
+          {navigation("movies")}
+        </HeaderLink>
+        <HeaderLink
+          href="/series"
+          label="series"
+          activeClassName="border-b-2 border-general-text-high"
+        >
+          {navigation("series")}
+        </HeaderLink>
+      </nav>
     </header>
   );
 }

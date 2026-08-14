@@ -1,5 +1,4 @@
 import { createTvShowsService } from "@/services/tmdb/shows";
-import { getLocale } from "next-intl/server";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -15,7 +14,10 @@ export async function GET(
   },
 ) {
   const { tvShowId, seasonNumber, episodeNumber } = await params;
-  const locale = await getLocale();
+
+  const { searchParams } = new URL(request.url);
+  const locale = searchParams.get("locale") ?? "en";
+
   const tvShowService = createTvShowsService(locale);
 
   const episodeDetails = await tvShowService.getEpisodeDetails(

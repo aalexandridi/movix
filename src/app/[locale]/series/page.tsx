@@ -25,8 +25,11 @@ const SeriesPage = async ({
 }: {
   searchParams: Promise<{ genre?: string }>;
 }) => {
-  const n = await getTranslations("navigation");
-  const [locale, { genre }] = await Promise.all([getLocale(), searchParams]);
+  const [locale, { genre }, c] = await Promise.all([
+    getLocale(),
+    searchParams,
+    getTranslations("common"),
+  ]);
   const tvShowsService = createTvShowsService(locale);
   const genres = await tvShowsService.getGenres();
   const { idToName, nameToId } = createGenreMaps(genres.genres);
@@ -75,13 +78,13 @@ const SeriesPage = async ({
 
       {genreId == null ? (
         <>
-          <MediaGrid title="Popular" variant="carousel">
+          <MediaGrid title={c("popular")} variant="carousel">
             {popularShows.results.map((item) => (
               <MediaCard key={item.id} media={item} />
             ))}
           </MediaGrid>
 
-          <MediaGrid title="Top Rated Movies" variant="carousel">
+          <MediaGrid title={c("topRatedShows")} variant="carousel">
             {topRatedShows.results.map((item) => (
               <MediaCard key={item.id} media={item} />
             ))}

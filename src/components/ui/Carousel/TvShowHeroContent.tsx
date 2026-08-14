@@ -30,24 +30,40 @@ export default async function TvShowHeroContent({
   ]);
   const tvDetails = details as TvDetails;
   //   const images = await tvShowsService.getImages(media.id);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const logo = images.logos.find((logo: any) => logo.iso_639_1 === "en");
+  const logo =
+    images.logos.find(
+      (logo: { iso_639_1: string }) => logo.iso_639_1 === locale,
+    ) ??
+    images.logos.find((logo: { iso_639_1: string }) => logo.iso_639_1 === "en");
+  const seasonsVerbal =
+    tvDetails.number_of_seasons > 1 ? c("seasons") : c("season");
   return (
-    <div className={styles.content}>
+    <div className="p-[5%_5%_20%_5%] md:p-[5%] text-white z-2 w-full md:max-w-[65%]">
       {logo && (
         <Image
           className="h-auto w-auto max-h-20 sm:max-h-20 lg:max-h-24 xl:max-h-32 mb-4"
-          width={logo.width}
-          height={logo.height}
+          // className="pb-8"
+          width={500}
+          height={200}
           priority
           alt="title image"
-          src={getPosterUrl(logo.file_path, "w780")}
+          src={getPosterUrl(logo.file_path)}
         ></Image>
+        // <Image
+        //   className="h-auto w-auto max-h-20 sm:max-h-20 lg:max-h-24 xl:max-h-32 mb-4"
+        //   width={logo.width}
+        //   height={logo.height}
+        //   priority
+        //   alt="title image"
+        //   src={getPosterUrl(logo.file_path, "w780")}
+        // ></Image>
       )}
       {!logo && <h1 className={styles.title}>{getTitleOrName(media)}</h1>}
 
       <div className={styles.genres} style={{ display: "flex", gap: "16px" }}>
-        <span>{tvDetails.number_of_seasons} Seasons</span>
+        <span>
+          {tvDetails.number_of_seasons} {seasonsVerbal}
+        </span>
         <div className="flex gap-2">
           {genres.map((g) => (
             <span key={g}>{g}</span>

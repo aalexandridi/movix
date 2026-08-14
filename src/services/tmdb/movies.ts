@@ -35,6 +35,7 @@ export function createMoviesService(locale: string) {
 
     getMovieCredits: (id: string) => tmdb.fetch(`/movie/${id}/credits`, 3600),
 
-    getImages: (id: string) => tmdb.fetch(`/movie/${id}/images`, 3600),
+    getImages: (id: string) =>
+      tmdb.fetch(`/movie/${id}/images`, 3600, "&include_image_language=en-US"),
   };
 }
