@@ -8,6 +8,7 @@ import { getMessages, getTranslations } from "next-intl/server";
 
 import AppContent from "@/components/layout/AppContent";
 import Header from "@/components/layout/Header/Header";
+import Footer from "@/components/layout/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -52,6 +53,7 @@ export default async function RootLayout({
           <ReduxProvider>
             <Header></Header>
             <AppContent>{children}</AppContent>
+            <Footer></Footer>
           </ReduxProvider>
         </NextIntlClientProvider>
       </body>

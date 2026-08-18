@@ -21,27 +21,27 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <div className="flex items-center gap-1 text-xs font-semibold">
-      {locales.map((item, index) => (
-        <div key={item.code} className="flex items-center">
+    <div className="flex items-center rounded-full bg-white/10 p-1 backdrop-blur-sm">
+      {locales.map((item) => {
+        const isActive = item.code === locale;
+
+        return (
           <button
+            key={item.code}
             type="button"
             onClick={() => changeLocale(item.code)}
             className={clsx(
-              "px-1 py-1 transition-colors duration-200",
-              item.code === locale
-                ? "text-white"
+              "min-w-9 rounded-full px-2.5 py-1.5 text-xs font-semibold",
+              "transition-all duration-200",
+              isActive
+                ? "bg-white text-black shadow-sm"
                 : "text-white/50 hover:text-white",
             )}
           >
             {item.label}
           </button>
-
-          {index < locales.length - 1 && (
-            <span className="text-white/30">/</span>
-          )}
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

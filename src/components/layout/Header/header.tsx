@@ -81,16 +81,6 @@ export default async function Header() {
             />
           </HeaderLink>
           <LanguageSwitcher></LanguageSwitcher>
-          {/* <button aria-label="Profile">
-            <Image
-              className="dark:invert"
-              src="/icons/user.png"
-              alt="user icon"
-              width={31}
-              height={31}
-              priority
-            />
-          </button> */}
         </div>
       </div>
       <nav className="relative pb-4 text-md font-semibold flex w-ful justify-center sm:hidden gap-12 text-sm">

@@ -52,7 +52,10 @@
     "writers": "Writers",
     "producers": "Producers",
     "createdBy": "Created By",
-    "all": "All"
+    "all": "All",
+    "footer": "Discover movies and series you’ll love.",
+    "contact": "Contact",
+    "connect": "Connect"
   },
   "metadata": {
     "home": {
