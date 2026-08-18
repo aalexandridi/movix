@@ -1,6 +1,6 @@
 "use client";
 
-import Button, { ButtonVariant } from "@/components/layout/Button/button";
+import Button, { ButtonVariant } from "@/components/ui/Buttons/button";
 import { MediaDetails } from "@/types/media";
 import ClapperBoard from "@/components/icons/clapperboard-icon";
 export default function TrailerButton({

@@ -5,8 +5,10 @@ import ReduxProvider from "@/store/provider";
 import { APP_NAME } from "@/lib/constants";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
-import Header from "@/components/layout/Header/header";
-import AppContent from "@/components/layout/appContent";
+
+import AppContent from "@/components/layout/AppContent";
+import Header from "@/components/layout/Header/Header";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],

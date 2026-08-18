@@ -1,12 +1,13 @@
-import MovieDetailsHeroContent from "@/components/ui/Carousel/MovieDetailsHeroContent";
-import SlideLayout from "@/components/ui/Carousel/SlideLayout";
+import Slide from "@/components/ui/Carousel/Slide";
 import { createMoviesService } from "@/services/tmdb/movies";
 import { Movie, MovieDetails, PaginatedResponse } from "@/types/media";
 import { Metadata } from "next";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import MovieDetailsTabs from "./MovieDetailsTabs";
-import MediaHeroLayout from "@/components/layout/MediaHeroLayout/MediaHeroLayout";
 import Carousel from "@/components/ui/Carousel/Carousel";
+import { getDetailsHeroData } from "@/services/tmdb/hero";
+import DetailsHeroContent from "@/components/ui/Carousel/DetailsHeroContent";
+import MediaContainer from "@/components/layout/MediaContainer/MediaContainer";
 
 export async function generateMetadata({
   params,
@@ -16,6 +17,7 @@ export async function generateMetadata({
   const { id } = await params;
 
   const locale = await getLocale();
+
   const moviesService = createMoviesService(locale);
 
   const movie = await moviesService.getMovieById(id);
@@ -27,7 +29,11 @@ export async function generateMetadata({
 }
 
 const MoviePage = async ({ params }: { params: Promise<{ id: string }> }) => {
-  const [locale, { id }] = await Promise.all([getLocale(), params]);
+  const [locale, { id }, c] = await Promise.all([
+    getLocale(),
+    params,
+    getTranslations("common"),
+  ]);
   const moviesService = createMoviesService(locale);
   const [movieDetails, recommendations, credits]: [
     MovieDetails,
@@ -39,17 +45,18 @@ const MoviePage = async ({ params }: { params: Promise<{ id: string }> }) => {
     moviesService.getRecommendations(id),
     moviesService.getMovieCredits(id),
   ]);
+  const heroData = await getDetailsHeroData(movieDetails, locale);
   return (
-    <MediaHeroLayout
+    <MediaContainer
       hero={
         <Carousel>
-          <SlideLayout
+          <Slide
             key={`slide-${movieDetails.id}`}
             backdropPath={movieDetails.backdrop_path}
             alt={movieDetails.id.toString()}
           >
-            <MovieDetailsHeroContent media={movieDetails} />
-          </SlideLayout>
+            <DetailsHeroContent data={heroData} />
+          </Slide>
         </Carousel>
       }
     >
@@ -59,7 +66,7 @@ const MoviePage = async ({ params }: { params: Promise<{ id: string }> }) => {
         cast={credits.cast}
         crew={credits.crew}
       />
-    </MediaHeroLayout>
+    </MediaContainer>
   );
 };
 

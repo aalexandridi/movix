@@ -25,6 +25,13 @@
     rgba(0, 0, 0, 0.4) 85%,
     rgba(0, 0, 0, 0.7) 100%
   );
+  --slide-overlay:  linear-gradient(
+    to top,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.8) 30%,
+    rgba(0, 0, 0, 0.5) 50%,
+    rgba(0, 0, 0, 0.2) 70%,
+    transparent 85%);
 
   /* Typography */
   --text-sm: 0.875rem;
@@ -53,6 +60,7 @@
   
   
   --background-image-card-overlay: var(--card-overlay);
+  --background-image-slide-overlay: var(--slide-overlay);
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -60,6 +68,9 @@
   --color-general-text-high: var(--color_general_text_high);
   --color-general-text-mid: var(--color_general_text_mid);
   --color-general-text-low: var(--color_general_text_low);
+
+  --animate-fade-up: fadeUp 0.8s ease forwards;
+  --animate-sharpen: sharpen 0.8s ease forwards;
 }
 
 @media (min-width: 640px) {
@@ -128,4 +139,28 @@ body {
 
 .text-3xl {
   font-size: var(--text-3xl);
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sharpen {
+  from {
+    filter: blur(10px);
+    transform: scale(1.05);
+  }
+
+  to {
+    filter: blur(0);
+    transform: scale(1);
+  }
 }

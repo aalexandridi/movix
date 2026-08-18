@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import MediaCardSkeleton from "../MediaGrid/MediaCardSkeleton";
+import MediaCardSkeleton from "./MediaCardSkeleton/MediaCardSkeleton";
 
 export default function PosterImage({
   src,

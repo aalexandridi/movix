@@ -5,16 +5,18 @@ import { limitAndMergeUniqueById } from "@/utils/array";
 import {
   createGenreMaps,
   getCurrentDate,
+  getTitleOrName,
   sortByPopularity,
 } from "@/utils/media";
 import GenresBar from "@/components/ui/GenresBar/GenresBar";
 import MediaGrid from "@/components/ui/MediaGrid/MediaGrid";
-import SlideLayout from "@/components/ui/Carousel/SlideLayout";
-import MovieHeroContent from "@/components/ui/Carousel/MovieHeroContent";
-import MediaHeroLayout from "@/components/layout/MediaHeroLayout/MediaHeroLayout";
+import Slide from "@/components/ui/Carousel/Slide";
 import InfiniteMediaGrid from "@/components/ui/MediaGrid/InfiniteMediaGrid";
-import MediaCard from "@/components/ui/MediaCard/MediaCard";
+import MediaPosterCard from "@/components/ui/Cards/MediaPosterCard";
 import Carousel from "@/components/ui/Carousel/Carousel";
+import { getHeroData } from "@/services/tmdb/hero";
+import HeroContent from "@/components/ui/Carousel/HeroContent";
+import MediaContainer from "@/components/layout/MediaContainer/MediaContainer";
 export async function generateMetadata() {
   return createPageMetadata("movies");
 }
@@ -64,19 +66,23 @@ const MoviesPage = async ({
 
   const limitedSorted = sortByPopularity(limited);
 
+  const heroData = await Promise.all(
+    limitedSorted.map((media) => getHeroData(media, idToName, locale)),
+  );
+
   return (
-    <MediaHeroLayout
+    <MediaContainer
       hero={
         <Carousel options={{ loop: true }} showDots={true}>
-          {limitedSorted.map((movie) => (
-            <SlideLayout
-              key={movie.id}
-              media={movie}
-              backdropPath={movie.backdrop_path}
-              alt={movie.title}
+          {heroData.map((data) => (
+            <Slide
+              key={data.media.id}
+              media={data.media}
+              backdropPath={data.media.backdrop_path}
+              alt={getTitleOrName(data.media)}
             >
-              <MovieHeroContent media={movie} genreMap={idToName} />
-            </SlideLayout>
+              <HeroContent data={data} playLabel={c("play")} />
+            </Slide>
           ))}
         </Carousel>
       }
@@ -90,13 +96,13 @@ const MoviesPage = async ({
         <>
           <MediaGrid title={c("popular")} variant="carousel">
             {popularMovies.results.map((item) => (
-              <MediaCard key={item.id} media={item} />
+              <MediaPosterCard key={item.id} media={item} />
             ))}
           </MediaGrid>
 
           <MediaGrid title={c("topRatedMovies")} variant="carousel">
             {topRatedMovies.results.map((item) => (
-              <MediaCard key={item.id} media={item} />
+              <MediaPosterCard key={item.id} media={item} />
             ))}
           </MediaGrid>
         </>
@@ -110,7 +116,7 @@ const MoviesPage = async ({
           />
         )
       )}
-    </MediaHeroLayout>
+    </MediaContainer>
   );
 };
 

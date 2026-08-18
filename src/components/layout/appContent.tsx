@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppSelector } from "@/store/hooks";
-import EpisodeDetailsPanel from "../ui/EpisodeDetailsPanel/episodeDetailsPanel";
+import EpisodeDetailsPanel from "../ui/Panels/EpisodeDetailsPanel";
 
 export default function AppContent({
   children,

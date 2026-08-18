@@ -1,12 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import MediaCard2 from "@/components/ui/MediaCard2/MediaCard2";
 import MediaGrid from "@/components/ui/MediaGrid/MediaGrid";
 import { MediaGridType } from "@/components/ui/MediaGrid/MediaGrid.types";
 import { useAppSelector } from "@/store/hooks";
 import { Media } from "@/types/media";
-import MediaCard from "@/components/ui/MediaCard/MediaCard";
+import MediaPosterCard from "@/components/ui/Cards/MediaPosterCard";
 
 export default function RecommendationsContainer({
   title,
@@ -66,7 +65,10 @@ export default function RecommendationsContainer({
   return (
     <MediaGrid variant={gridType} title={title} className="my-4 py-4">
       {recommendations.map((media) => (
-        <MediaCard key={`${media.media_type}-${media.id}`} media={media} />
+        <MediaPosterCard
+          key={`${media.media_type}-${media.id}`}
+          media={media}
+        />
       ))}
     </MediaGrid>
   );

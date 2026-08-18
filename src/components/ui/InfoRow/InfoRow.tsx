@@ -1,5 +1,3 @@
-import styles from "./InfoRow.module.css";
-
 interface InfoRowProps {
   title: string;
   items: string[];
@@ -9,10 +7,10 @@ export default function InfoRow({ title, items }: InfoRowProps) {
   if (!items.length) return null;
 
   return (
-    <div className={styles.row}>
-      <h3 className={styles.title}>{title}</h3>
+    <div className="flex flex-col gap-1 text-md">
+      <h3 className="font-semibold">{title}</h3>
 
-      <p className={styles.items}>{items.join(", ")}</p>
+      <p className="text-general-text-mid">{items.join(", ")}</p>
     </div>
   );
 }

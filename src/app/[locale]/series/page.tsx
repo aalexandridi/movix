@@ -1,8 +1,6 @@
-import MediaHeroLayout from "@/components/layout/MediaHeroLayout/MediaHeroLayout";
-import SlideLayout from "@/components/ui/Carousel/SlideLayout";
-import TvShowHeroContent from "@/components/ui/Carousel/TvShowHeroContent";
+import Slide from "@/components/ui/Carousel/Slide";
 import GenresBar from "@/components/ui/GenresBar/GenresBar";
-import MediaCard from "@/components/ui/MediaCard/MediaCard";
+import MediaPosterCard from "@/components/ui/Cards/MediaPosterCard";
 import InfiniteMediaGrid from "@/components/ui/MediaGrid/InfiniteMediaGrid";
 import MediaGrid from "@/components/ui/MediaGrid/MediaGrid";
 import { createPageMetadata } from "@/lib/metadata";
@@ -12,10 +10,14 @@ import { limitAndMergeUniqueById } from "@/utils/array";
 import {
   createGenreMaps,
   getCurrentDate,
+  getTitleOrName,
   sortByPopularity,
 } from "@/utils/media";
 import { getLocale, getTranslations } from "next-intl/server";
 import Carousel from "@/components/ui/Carousel/Carousel";
+import { getHeroData } from "@/services/tmdb/hero";
+import HeroContent from "@/components/ui/Carousel/HeroContent";
+import MediaContainer from "@/components/layout/MediaContainer/MediaContainer";
 export async function generateMetadata() {
   return createPageMetadata("series");
 }
@@ -57,19 +59,23 @@ const SeriesPage = async ({
   );
 
   const limitedSorted: TvShow[] = sortByPopularity(limited);
+
+  const heroData = await Promise.all(
+    limitedSorted.map((media) => getHeroData(media, idToName, locale)),
+  );
   return (
-    <MediaHeroLayout
+    <MediaContainer
       hero={
         <Carousel options={{ loop: true }} showDots={true}>
-          {limitedSorted.map((show: TvShow) => (
-            <SlideLayout
-              media={show}
-              key={show.id}
-              backdropPath={show.backdrop_path}
-              alt={show.name}
+          {heroData.map((data) => (
+            <Slide
+              key={data.media.id}
+              media={data.media}
+              backdropPath={data.media.backdrop_path}
+              alt={getTitleOrName(data.media)}
             >
-              <TvShowHeroContent media={show} genreMap={idToName} />
-            </SlideLayout>
+              <HeroContent data={data} playLabel={c("play")} />
+            </Slide>
           ))}
         </Carousel>
       }
@@ -80,13 +86,13 @@ const SeriesPage = async ({
         <>
           <MediaGrid title={c("popular")} variant="carousel">
             {popularShows.results.map((item) => (
-              <MediaCard key={item.id} media={item} />
+              <MediaPosterCard key={item.id} media={item} />
             ))}
           </MediaGrid>
 
           <MediaGrid title={c("topRatedShows")} variant="carousel">
             {topRatedShows.results.map((item) => (
-              <MediaCard key={item.id} media={item} />
+              <MediaPosterCard key={item.id} media={item} />
             ))}
           </MediaGrid>
         </>
@@ -99,7 +105,7 @@ const SeriesPage = async ({
           mediaType="tvShow"
         />
       )}
-    </MediaHeroLayout>
+    </MediaContainer>
   );
 };
 

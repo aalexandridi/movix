@@ -4,8 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import MediaGrid from "@/components/ui/MediaGrid/MediaGrid";
 import { Media } from "@/types/media";
 import MediaGridSkeleton from "./MediaGridSkeleton";
-import MediaCard from "../MediaCard/MediaCard";
-import MediaCard2 from "../MediaCard2/MediaCard2";
+import MediaPosterCard from "../Cards/MediaPosterCard";
+import MediaCard from "../Cards/MediaCard";
 
 type Props = {
   initialMedia: Media[];
@@ -18,6 +18,7 @@ type Props = {
   title?: string;
   mediaGridLayout?: "episodes" | "default";
   mediaCardType?: 1 | 2;
+  className?: string;
 };
 
 export default function InfiniteMediaGrid({
@@ -31,6 +32,7 @@ export default function InfiniteMediaGrid({
   title = "",
   mediaGridLayout = "default",
   mediaCardType = 1,
+  className = "",
 }: Props) {
   const [movies, setMovies] = useState(initialMedia);
   const [page, setPage] = useState(2);
@@ -113,12 +115,16 @@ export default function InfiniteMediaGrid({
 
   return (
     <>
-      <MediaGrid title={title} layoutClass={mediaGridLayout}>
+      <MediaGrid
+        className={className}
+        title={title}
+        layoutClass={mediaGridLayout}
+      >
         {movies.map((movie) =>
           mediaCardType === 1 ? (
-            <MediaCard key={movie.id} media={movie}></MediaCard>
+            <MediaPosterCard key={movie.id} media={movie}></MediaPosterCard>
           ) : (
-            <MediaCard2 key={movie.id} media={movie}></MediaCard2>
+            <MediaCard key={movie.id} media={movie}></MediaCard>
           ),
         )}
       </MediaGrid>

@@ -10,11 +10,12 @@ import {
 import { Episode, Media, MediaDetails } from "@/types/media";
 import { isMovie, isTvShowDetails } from "@/utils/media";
 import { selectIsOnWatchlist } from "@/store/slices/watchlistSlice";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/routing";
 import PlusIcon from "@/components/icons/plus";
 import CheckIcon from "@/components/icons/check-icon";
 import InfoIcon from "@/components/icons/info-icon";
 import { useLocale, useTranslations } from "next-intl";
+
 export default function MenuDots({
   episode = null,
   media,

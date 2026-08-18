@@ -38,6 +38,7 @@ export default function MovieDetailsTabs({
       <section className="">
         {activeTab === "recommended" && (
           <InfiniteMediaGrid
+            className="my-8"
             initialMedia={recommendations}
             mode="recommendations"
             movieId={details.id.toString()}
@@ -45,7 +46,7 @@ export default function MovieDetailsTabs({
         )}
 
         {activeTab === "details" && (
-          <div className="py-6 flex flex-col gap-4">
+          <div className="my-8 flex flex-col gap-4">
             <InfoRow
               title={c("starring")}
               items={cast

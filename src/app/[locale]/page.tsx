@@ -1,8 +1,4 @@
-import MediaHeroLayout from "@/components/layout/MediaHeroLayout/MediaHeroLayout";
 import Carousel from "@/components/ui/Carousel/Carousel";
-import MovieHeroContent from "@/components/ui/Carousel/MovieHeroContent";
-import SlideLayout from "@/components/ui/Carousel/SlideLayout";
-import TvShowHeroContent from "@/components/ui/Carousel/TvShowHeroContent";
 import { createMoviesService } from "@/services/tmdb/movies";
 import { createTvShowsService } from "@/services/tmdb/shows";
 import { Movie, TvShow } from "@/types/media";
@@ -10,15 +6,19 @@ import { limitAndMergeArrays, shuffleArray } from "@/utils/array";
 import {
   createGenreMaps,
   getCurrentDate,
-  isMovie,
+  getTitleOrName,
   sortByPopularity,
 } from "@/utils/media";
 import { getLocale, getTranslations } from "next-intl/server";
 import WatchlistContainer from "./watchlistContainer";
 import { createMultiService } from "@/services/tmdb/multi";
-import MediaCard from "@/components/ui/MediaCard/MediaCard";
+import MediaPosterCard from "@/components/ui/Cards/MediaPosterCard";
 import MediaGrid from "@/components/ui/MediaGrid/MediaGrid";
 import RecommendationsContainer from "./recommendationsContainer";
+import { getHeroData } from "@/services/tmdb/hero";
+import HeroContent from "@/components/ui/Carousel/HeroContent";
+import MediaContainer from "@/components/layout/MediaContainer/MediaContainer";
+import Slide from "@/components/ui/Carousel/Slide";
 export default async function Home() {
   const [locale, c] = await Promise.all([
     getLocale(),
@@ -42,8 +42,10 @@ export default async function Home() {
   const movies = sortByPopularity(moviesTrending.results);
   const tvShows = sortByPopularity(tvTrending.results);
   const limitedSorted = limitAndMergeArrays<Movie | TvShow>(4, movies, tvShows);
-  const finalHero = shuffleArray(limitedSorted);
-
+  const heroHero = shuffleArray(limitedSorted);
+  const finalHeroData = await Promise.all(
+    heroHero.map((media) => getHeroData(media, idToName, locale)),
+  );
   const candidates = multiTrending.results.filter(
     (item) =>
       (item.media_type === "movie" || item.media_type === "tv") &&
@@ -55,29 +57,25 @@ export default async function Home() {
   );
 
   return (
-    <MediaHeroLayout
+    <MediaContainer
       hero={
         <Carousel options={{ loop: true }} showDots={true}>
-          {finalHero.map((movie) => (
-            <SlideLayout
-              key={movie.id}
-              media={movie}
-              backdropPath={movie.backdrop_path}
-              alt={movie.id.toString()}
+          {finalHeroData.map((data) => (
+            <Slide
+              key={data.media.id}
+              media={data.media}
+              backdropPath={data.media.backdrop_path}
+              alt={getTitleOrName(data.media)}
             >
-              {isMovie(movie) ? (
-                <MovieHeroContent media={movie} genreMap={idToName} />
-              ) : (
-                <TvShowHeroContent media={movie} genreMap={idToName} />
-              )}
-            </SlideLayout>
+              <HeroContent data={data} playLabel={c("play")} />
+            </Slide>
           ))}
         </Carousel>
       }
     >
       <MediaGrid title={c("topToday")} variant="carousel">
         {topTen.map((item) => (
-          <MediaCard key={item.id} media={item} />
+          <MediaPosterCard key={item.id} media={item} />
         ))}
       </MediaGrid>
       <RecommendationsContainer
@@ -89,19 +87,19 @@ export default async function Home() {
       ></WatchlistContainer>
       <MediaGrid title={c("trendingMoviesThisWeek")} variant="carousel">
         {shuffleArray(movies).map((item) => (
-          <MediaCard key={item.id} media={item} />
+          <MediaPosterCard key={item.id} media={item} />
         ))}
       </MediaGrid>
       <MediaGrid title={c("trendingTvThisWeek")} variant="carousel">
         {shuffleArray(tvShows).map((item) => (
-          <MediaCard key={item.id} media={item} />
+          <MediaPosterCard key={item.id} media={item} />
         ))}
       </MediaGrid>
       <MediaGrid title={c("upcomingTheaters")} variant="carousel">
         {upcommingMovies.results.map((item) => (
-          <MediaCard key={item.id} media={item} />
+          <MediaPosterCard key={item.id} media={item} />
         ))}
       </MediaGrid>
-    </MediaHeroLayout>
+    </MediaContainer>
   );
 }

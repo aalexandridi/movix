@@ -1,6 +1,6 @@
 "use client";
 
-import Button, { ButtonVariant } from "@/components/layout/Button/button";
+import Button, { ButtonVariant } from "@/components/ui/Buttons/button";
 import PlusIcon from "@/components/icons/plus";
 import { useAppDispatch } from "@/store/hooks";
 import {

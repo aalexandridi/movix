@@ -1,5 +1,5 @@
-import MediaHeroLayout from "@/components/layout/MediaHeroLayout/MediaHeroLayout";
-import MediaCard from "@/components/ui/MediaCard/MediaCard";
+import MediaContainer from "@/components/layout/MediaContainer/MediaContainer";
+import MediaPosterCard from "@/components/ui/Cards/MediaPosterCard";
 import InfiniteMediaGrid from "@/components/ui/MediaGrid/InfiniteMediaGrid";
 import MediaGrid from "@/components/ui/MediaGrid/MediaGrid";
 import SearchInput from "@/components/ui/SearchInput/SearchInput";
@@ -47,7 +47,7 @@ const SearchPage = async ({
 
   const shuffledMedia = shuffleArray(media);
   return (
-    <MediaHeroLayout className="mt-14">
+    <MediaContainer className="mt-14">
       <SearchInput></SearchInput>
       {query ? (
         <InfiniteMediaGrid
@@ -61,11 +61,11 @@ const SearchPage = async ({
       ) : (
         <MediaGrid title={c("popular")}>
           {shuffledMedia.map((item) => (
-            <MediaCard key={item.id} media={item} />
+            <MediaPosterCard key={item.id} media={item} />
           ))}
         </MediaGrid>
       )}
-    </MediaHeroLayout>
+    </MediaContainer>
   );
 };
 

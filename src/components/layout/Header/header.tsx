@@ -1,16 +1,40 @@
 import { getTranslations } from "next-intl/server";
-import { getLocale } from "next-intl/server";
 import { Link } from "@/i18n/routing";
 import SearchIcon from "../../icons/search-icon";
-import HeaderLink from "./headerLink";
 import BookmarkIcon from "@/components/icons/bookmark-icon";
 import BookmarkFilledIcon from "@/components/icons/bookmark-filled-icon";
 import HeaderBackground from "./HeaderBackground";
 import LogoIcon from "@/components/icons/logo";
+import HeaderLink from "./HeaderLink";
+import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 
 export default async function Header() {
-  const locale = await getLocale();
   const navigation = await getTranslations("navigation");
+  const centerLinks = (
+    <>
+      <HeaderLink
+        href="/"
+        label="home"
+        activeClassName="border-b-2 border-general-text-high"
+      >
+        <div>{navigation("home")}</div>
+      </HeaderLink>
+      <HeaderLink
+        href="/movies"
+        label="movies"
+        activeClassName="border-b-2 border-general-text-high"
+      >
+        {navigation("movies")}
+      </HeaderLink>
+      <HeaderLink
+        href="/series"
+        label="series"
+        activeClassName="border-b-2 border-general-text-high"
+      >
+        {navigation("series")}
+      </HeaderLink>
+    </>
+  );
   return (
     <header className="fixed top-0 left-0 w-full z-50">
       <HeaderBackground />
@@ -24,27 +48,7 @@ export default async function Header() {
 
         {/* CENTER - NAV (responsive) */}
         <nav className="text-md font-semibold hidden sm:flex gap-8 text-sm">
-          <HeaderLink
-            href="/"
-            label="home"
-            activeClassName="border-b-2 border-general-text-high"
-          >
-            <div>{navigation("home")}</div>
-          </HeaderLink>
-          <HeaderLink
-            href="/movies"
-            label="movies"
-            activeClassName="border-b-2 border-general-text-high"
-          >
-            {navigation("movies")}
-          </HeaderLink>
-          <HeaderLink
-            href="/series"
-            label="series"
-            activeClassName="border-b-2 border-general-text-high"
-          >
-            {navigation("series")}
-          </HeaderLink>
+          {centerLinks}
         </nav>
 
         {/* RIGHT - ICONS */}
@@ -76,6 +80,7 @@ export default async function Header() {
               "
             />
           </HeaderLink>
+          <LanguageSwitcher></LanguageSwitcher>
           {/* <button aria-label="Profile">
             <Image
               className="dark:invert"
@@ -89,27 +94,7 @@ export default async function Header() {
         </div>
       </div>
       <nav className="relative pb-4 text-md font-semibold flex w-ful justify-center sm:hidden gap-12 text-sm">
-        <HeaderLink
-          href="/"
-          label="home"
-          activeClassName="border-b-2 border-general-text-high"
-        >
-          <div>{navigation("home")}</div>
-        </HeaderLink>
-        <HeaderLink
-          href="/movies"
-          label="movies"
-          activeClassName="border-b-2 border-general-text-high"
-        >
-          {navigation("movies")}
-        </HeaderLink>
-        <HeaderLink
-          href="/series"
-          label="series"
-          activeClassName="border-b-2 border-general-text-high"
-        >
-          {navigation("series")}
-        </HeaderLink>
+        {centerLinks}
       </nav>
     </header>
   );

@@ -51,7 +51,8 @@
     "directors": "Directors",
     "writers": "Writers",
     "producers": "Producers",
-    "createdBy": "Created By"
+    "createdBy": "Created By",
+    "all": "All"
   },
   "metadata": {
     "home": {

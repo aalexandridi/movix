@@ -1,4 +1,4 @@
-import SlideLayout from "@/components/ui/Carousel/SlideLayout";
+import Slide from "@/components/ui/Carousel/Slide";
 import {
   Episode,
   PaginatedResponse,
@@ -8,15 +8,15 @@ import {
 } from "@/types/media";
 import { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
-import MediaHeroLayout from "@/components/layout/MediaHeroLayout/MediaHeroLayout";
 import { createTvShowsService } from "@/services/tmdb/shows";
-import TvShowDetailsHeroContent from "@/components/ui/Carousel/TvShowDetailsHeroContent";
 import Dropdown, { DropdownOption } from "@/components/ui/Dropdown/Dropdown";
 import MediaGrid from "@/components/ui/MediaGrid/MediaGrid";
-import EpisodeCard from "@/components/ui/EpisodeCard/EpisodeCard";
-
 import InfiniteMediaGrid from "@/components/ui/MediaGrid/InfiniteMediaGrid";
 import Carousel from "@/components/ui/Carousel/Carousel";
+import { getDetailsHeroData } from "@/services/tmdb/hero";
+import DetailsHeroContent from "@/components/ui/Carousel/DetailsHeroContent";
+import MediaCard from "@/components/ui/Cards/MediaCard";
+import MediaContainer from "@/components/layout/MediaContainer/MediaContainer";
 
 export async function generateMetadata({
   params,
@@ -71,17 +71,18 @@ const TvShowPage = async ({
       value: `${index + 1}`,
     }),
   );
+  const heroData = await getDetailsHeroData(showDetails, locale);
   return (
-    <MediaHeroLayout
+    <MediaContainer
       hero={
         <Carousel>
-          <SlideLayout
+          <Slide
             key={`slide-${showDetails.id}`}
             backdropPath={showDetails.backdrop_path}
             alt={showDetails.id.toString()}
           >
-            <TvShowDetailsHeroContent media={showDetails} />
-          </SlideLayout>
+            <DetailsHeroContent data={heroData} />
+          </Slide>
         </Carousel>
       }
     >
@@ -102,11 +103,18 @@ const TvShowPage = async ({
           {seasonDetails.episodes.map(
             (episode: Episode) =>
               episode.still_path && (
-                <EpisodeCard
+                <MediaCard
                   key={episode.id}
                   episode={episode}
-                  tvShowDetails={showDetails}
-                ></EpisodeCard>
+                  media={showDetails}
+                  hasLink={false}
+                  insideShow={true}
+                ></MediaCard>
+                // <EpisodeCard
+                //   key={episode.id}
+                //   episode={episode}
+                //   tvShowDetails={showDetails}
+                // ></EpisodeCard>
               ),
           )}
         </MediaGrid>
@@ -119,7 +127,7 @@ const TvShowPage = async ({
           title={c("alsoLike")}
         />
       </>
-    </MediaHeroLayout>
+    </MediaContainer>
   );
 };
 

@@ -1,5 +1,5 @@
 import styles from "./MediaGrid.module.css";
-import MediaCardSkeleton from "./MediaCardSkeleton";
+import MediaCardSkeleton from "../Cards/MediaCardSkeleton/MediaCardSkeleton";
 
 export default function MediaGridSkeleton({ count = 12 }: { count?: number }) {
   return (

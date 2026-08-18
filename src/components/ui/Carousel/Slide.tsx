@@ -1,26 +1,25 @@
 import Image from "next/image";
-import styles from "./Slide.module.css";
 import { getPosterUrl } from "@/services/tmdb/images";
 import { Media } from "@/types/media";
 import { Link } from "@/i18n/routing";
 import { isMovie } from "@/utils/media";
-
-interface SlideLayoutProps {
+interface SlideProps {
   backdropPath: string | null;
   alt: string;
   children: React.ReactNode;
   media?: Media;
 }
 
-export default async function SlideLayout({
+export default function Slide({
   backdropPath,
   alt,
   children,
   media,
-}: SlideLayoutProps) {
+}: SlideProps) {
   const href = media
     ? `/${isMovie(media) ? "movie" : "tvShow"}/${media.id}`
     : null;
+
   const content = (
     <>
       <Image
@@ -28,19 +27,35 @@ export default async function SlideLayout({
         alt={alt}
         fill
         priority
-        className={styles.image}
+        className="object-cover"
       />
 
-      <div className={styles.overlay} />
+      <div
+        className="
+          pointer-events-none
+          absolute inset-0
+          bg-slide-overlay
+        "
+      />
 
       {children}
     </>
   );
-  return href ? (
-    <Link href={href} className={styles.slide}>
+
+  if (href) {
+    return (
+      <Link
+        href={href}
+        className="relative flex h-full min-w-0 flex-[0_0_100%] items-end"
+      >
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <div className="relative flex h-full min-w-0 flex-[0_0_100%] items-end">
       {content}
-    </Link>
-  ) : (
-    <div className={styles.slide}>{content}</div>
+    </div>
   );
 }

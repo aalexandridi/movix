@@ -50,7 +50,7 @@ export default function Carousel({
   return (
     <div
       className={clsx(
-        "group",
+        "group relative",
         styles.carouselWrapper,
         hero && "h-[85vh] md:h-screen",
         className,
