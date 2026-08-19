@@ -1,6 +1,28 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Table of Contents
+
+* [Getting Started](#getting-started)
+* [Learn More](#learn-more)
+* [Deploy on Vercel](#deploy-on-vercel)
+* [Movix](#movix)
+* [Technology Stack](#technology-stack)
+* [Architecture](#architecture)
+
+  * [Overview](#overview)
+  * [Data Fetching Architecture](#data-fetching-architecture)
+  * [Caching and Revalidation](#caching-and-revalidation)
+  * [Server and Client Components](#server-and-client-components)
+
+    * [Server Components](#server-components)
+    * [Client Components](#client-components)
+  * [Route Handlers](#route-handlers)
+  * [State Management](#state-management)
+  * [Persistent Watchlist](#persistent-watchlist)
+  * [Internationalization](#internationalization)
+
 
 ## Getting Started
+
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 First, run the development server:
 
@@ -36,29 +58,31 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
 
-# Movix
+## Movix
 
 A modern movie and TV-show discovery application built with Next.js, React, TypeScript, and the TMDB API.
 
 Movix allows users to discover movies and TV shows, browse by genre, view detailed information, explore episodes, watch trailers, and maintain a persistent personal watchlist.
 
-## Tech Stack
+## Technology Stack
 
-- Next.js
-- React
-- TypeScript
-- Next.js App Router
-- Redux Toolkit
-- Redux Persist
-- Tailwind CSS
-- next-intl
-- TMDB API
-- Docker
+| Technology | Purpose |
+|---|---|
+| Next.js | Application framework, routing, rendering and server-side functionality |
+| React | UI and component architecture |
+| Next.js App Router | File-based routing, Server Components and layouts |
+| TypeScript | Static typing |
+| Tailwind CSS | Utility-based styling |
+| Redux Toolkit | Client-side application state |
+| Redux Persist | Persistent client-side watchlist |
+| TMDB API | Movie, TV, episode, search and image data |
+| next-intl | Internationalization |
+| Docker | Containerized production deployment |
 
 
-# Architecture
+## Architecture
 
-## Overview
+### Overview
 
 Movix is built with Next.js App Router and follows a server-first architecture. The application separates data fetching, presentation, client-side state, and external API communication.
 
@@ -78,18 +102,253 @@ The main architectural goals are:
 A simplified data flow looks like this:
 ![Logo](/public/movix_architecture.svg)
 
-## Technology Stack
 
-| Technology | Purpose |
-|---|---|
-| Next.js | Application framework, routing, rendering and server-side functionality |
-| React | UI and component architecture |
-| Next.js App Router | File-based routing, Server Components and layouts |
-| TypeScript | Static typing |
-| Tailwind CSS | Utility-based styling |
-| Redux Toolkit | Client-side application state |
-| Redux Persist | Persistent client-side watchlist |
-| TMDB API | Movie, TV, episode, search and image data |
-| next-intl | Internationalization |
-| Embla Carousel | Hero and content carousels |
-| Docker | Containerized production deployment |
+### Data Fetching Architecture
+
+The application uses a dedicated TMDB client rather than calling TMDB directly from individual components.
+
+For example:
+
+`src/services/tmdb/client.ts`
+```ts
+export function createTmdbClient(locale: string) {
+  const language = localeMap[locale] ?? localeMap[defaultLocale];
+
+  async function fetcher(
+    path: string,
+    revalidate = 3600,
+    queries = "",
+    id = "",
+  ) {
+    const res = await fetch(
+      `${baseUrl}${path}${id}?api_key=${apiKey}&language=${language}${queries}`,
+      {
+        next: { revalidate },
+      },
+    );
+
+    if (!res.ok) {
+      throw new Error("TMDB request failed");
+    }
+
+    return res.json();
+  }
+
+  return {
+    fetch: fetcher,
+  };
+}
+```
+
+This creates a single abstraction over TMDB requests. Higher-level services are then built on top of this client.
+
+```
+src/services/tmdb/
+├── client.ts       # low-level fetch wrapper (shown above)
+├── movies.ts        # movie details, trending, recommendations
+├── tvShows.ts        # TV show details, seasons
+├── search.ts         # multi-search (movies, TV, people)
+├── images.ts          # image URL helpers
+└── episodes.ts         # episode-level data
+```
+
+### Caching and Revalidation
+
+One of the important performance decisions is the use of Next.js fetch revalidation:
+
+```ts
+fetch(url, {
+  next: {
+    revalidate: 3600,
+  },
+});
+```
+
+This means data doesn't necessarily require a new request to TMDB every time a page is rendered.
+
+For example:
+
+```
+First request → Next.js → TMDB API → Cached response
+```
+
+Subsequent requests can use the cached response until the revalidation period expires. Different types of data can therefore use different revalidation periods.
+
+For example:
+
+| Data                  | Suggested revalidation |
+| --------------------- | ----------------------: |
+| Popular movies        |                  1 hour |
+| Popular TV shows      |                  1 hour |
+| Movie details         |                  1 hour |
+| TV details            |                  1 hour |
+| Images                |           Several hours |
+| Search results        |       Shorter / dynamic |
+| Episode information   |                  1 hour |
+| Static configuration  |                   Longer |
+
+### Server and Client Components
+
+The application uses Next.js Server Components by default and introduces Client Components only when browser-side interactivity is required.
+
+#### Server Components
+
+Used for things such as:
+
+- TMDB data fetching
+- Hero data preparation
+- Movie/TV detail pages
+- Image retrieval
+- Server-side translations
+- Route-level data loading
+
+For example:
+
+```
+Page
+├── fetch TMDB data
+├── prepare HeroData
+├── render presentation component
+```
+
+This keeps data-fetching logic outside the UI.
+
+#### Client Components
+
+Used when the component needs:
+
+- useState
+- useEffect
+- Redux
+- browser APIs
+- event handlers
+- interactive UI
+- carousel interactions
+- URL/search parameter manipulation
+
+Examples include:
+
+- Watchlist buttons
+- Carousels
+- Genre filters
+- Tabs
+- Language switcher
+- Episode detail panels
+
+This follows a server-first / client-when-needed approach.
+
+### Route Handlers
+
+Because TMDB credentials are private, client-side components should not directly communicate with TMDB using the private API credentials.
+
+Instead:
+```
+Client Component → Route Handler → TMDB Service → TMDB API
+```
+
+This provides a server-side boundary between the browser and the external API.
+
+> **Security benefit**
+>
+> The browser never receives:
+>
+> ```text
+> TMDB_API_KEY
+> TMDB_API_TOKEN
+> ```
+
+These remain server-side environment variables. This is especially important because the repository is intended to be publicly available to recruiters.
+
+### State Management
+
+Redux Toolkit is intentionally **not used for server data**. TMDB data is fetched through Next.js/server-side mechanisms. Redux is used for **client application state**. Currently, this includes:
+
+```text
+Redux
+├── watchlist
+└── episodeDetailsPanel
+```
+
+This separation is important:
+
+```text
+TMDB data
+    → Server / cache
+
+UI / application state
+    → Redux
+```
+
+This avoids putting all remote API data into a global Redux store unnecessarily.
+
+### Persistent Watchlist
+
+The watchlist uses:
+
+**Redux Toolkit + Redux Persist + localStorage**
+
+The flow is:
+
+```text
+User clicks "Add to My List"
+        │
+        ▼
+   Redux action
+        │
+        ▼
+  Redux watchlist
+        │
+        ▼
+  Redux Persist
+        │
+        ▼
+   localStorage
+```
+
+When the application loads:
+
+```text
+localStorage
+     │
+     ▼
+Redux Persist
+     │
+     ▼
+Redux store rehydration
+     │
+     ▼
+Watchlist restored
+```
+
+This allows the watchlist to survive:
+
+* Page refreshes
+* Navigation
+* Browser restarts
+
+without requiring a backend account system.
+
+> **Important**
+>
+> This is **device/browser-local persistence**, not account synchronization. The watchlist is stored locally in the user's browser and is not synced across devices or accounts.
+
+### Internationalization
+
+The application uses `next-intl` and supports:
+
+* English
+* Greek
+
+The locale is also passed into the TMDB client so that TMDB responses can be requested in the appropriate language.
+
+```text
+User locale
+    │
+    ├── next-intl
+    │
+    └── TMDB language parameter
+```
+
+This means localization isn't limited to static UI strings; TMDB content can also be requested according to the selected locale.
+
+
