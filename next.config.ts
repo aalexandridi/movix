@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
   images: {
     domains: ["media.geeksforgeeks.org", "image.tmdb.org"],
   },
+  output: "standalone",
 };
 
 export default withNextIntl(nextConfig);
