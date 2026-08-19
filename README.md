@@ -34,3 +34,62 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+# Movix
+
+A modern movie and TV-show discovery application built with Next.js, React, TypeScript, and the TMDB API.
+
+Movix allows users to discover movies and TV shows, browse by genre, view detailed information, explore episodes, watch trailers, and maintain a persistent personal watchlist.
+
+## Tech Stack
+
+- Next.js
+- React
+- TypeScript
+- Next.js App Router
+- Redux Toolkit
+- Redux Persist
+- Tailwind CSS
+- next-intl
+- TMDB API
+- Docker
+
+
+# Architecture
+
+## Overview
+
+Movix is built with Next.js App Router and follows a server-first architecture. The application separates data fetching, presentation, client-side state, and external API communication.
+
+The main architectural goals are:
+
+- Keep TMDB credentials on the server.
+- Fetch data server-side whenever possible.
+- Cache relatively stable TMDB responses using Next.js revalidation.
+- Use Route Handlers as an API boundary for client-side components that need TMDB data.
+- Keep UI components primarily focused on presentation.
+- Use Redux Toolkit only for client-side application state.
+- Persist the user's watchlist locally across page refreshes.
+- Support internationalization through next-intl.
+- Keep movie and TV-show functionality organized into reusable services and components.
+
+
+A simplified data flow looks like this:
+![Logo](/public/movix_architecture.svg)
+
+## Technology Stack
+
+| Technology | Purpose |
+|---|---|
+| Next.js | Application framework, routing, rendering and server-side functionality |
+| React | UI and component architecture |
+| Next.js App Router | File-based routing, Server Components and layouts |
+| TypeScript | Static typing |
+| Tailwind CSS | Utility-based styling |
+| Redux Toolkit | Client-side application state |
+| Redux Persist | Persistent client-side watchlist |
+| TMDB API | Movie, TV, episode, search and image data |
+| next-intl | Internationalization |
+| Embla Carousel | Hero and content carousels |
+| Docker | Containerized production deployment |
