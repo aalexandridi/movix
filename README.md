@@ -97,16 +97,11 @@ The application uses the Next.js App Router and automatically reloads when you m
 
 The project also includes a multi-stage `Dockerfile` for running Movix as a production container.
 
-Build the image:
+
+Build and Run the container:
 
 ```bash
-docker build -t movix .
-```
-
-Run the container:
-
-```bash
-docker compose up
+docker compose up --build
 ```
 
 Then open http://localhost:3000.
