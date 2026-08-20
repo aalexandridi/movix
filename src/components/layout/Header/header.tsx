@@ -5,8 +5,8 @@ import BookmarkIcon from "@/components/icons/bookmark-icon";
 import BookmarkFilledIcon from "@/components/icons/bookmark-filled-icon";
 import HeaderBackground from "./HeaderBackground";
 import LogoIcon from "@/components/icons/logo";
-import HeaderLink from "./HeaderLink";
 import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
+import HeaderLink from "./HeaderLink";
 
 export default async function Header() {
   const navigation = await getTranslations("navigation");
