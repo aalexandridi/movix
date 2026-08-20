@@ -9,7 +9,8 @@ import { getMessages, getTranslations } from "next-intl/server";
 import AppContent from "@/components/layout/AppContent";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header/Header";
-
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -56,6 +57,8 @@ export default async function RootLayout({
             <Footer></Footer>
           </ReduxProvider>
         </NextIntlClientProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
