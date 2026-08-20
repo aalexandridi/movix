@@ -1,6 +1,13 @@
 ## Table of Contents
 
+<!-- * [Getting Started](#getting-started) -->
 * [Getting Started](#getting-started)
+  * [Prerequisites](#prerequisites)
+  * [Environment Variables](#environment-variables)
+  * [Getting a TMDB API Key and API Read Access Token](#getting-a-tmdb-api-key-and-api-read-access-token)
+  * [Running Locally](#running-locally)
+  * [Running with Docker](#running-with-docker)
+
 * [Learn More](#learn-more)
 * [Deploy on Vercel](#deploy-on-vercel)
 * [Movix](#movix)
@@ -22,13 +29,59 @@
 
 ## Getting Started
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+### Prerequisites
 
-First, run the development server:
+Make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/) 22.x
+- npm, Yarn, pnpm, or Bun
+- A [TMDB](https://www.themoviedb.org/) account and API key
+
+### Environment Variables
+
+Movix uses the [TMDB API](https://developer.themoviedb.org/docs) to retrieve movie, TV show, and other media information.
+
+Create a `.env.local` file in the root of the project:
+
+```bash
+cp .env.example .env.local
+```
+
+### Getting a TMDB API Key and API Read Access Token
+
+1. Create an account on [TMDB](https://www.themoviedb.org/).
+2. Sign in and go to **Settings → API**.
+3. Click **Create** to request API access.
+4. Select **Developer** when asked for the type of application.
+5. Complete the required application information.
+6. After approval, TMDB provides:
+
+   * **API Key (v3 auth)**
+   * **API Read Access Token (v4 auth)**
+
+Add them to your `.env.local` file:
+
+```env
+TMDB_API_TOKEN=your_tmdb_api_read_access_token
+```
+
+### Running Locally
+
+Install the dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
+```
+
+Or, if you use another package manager:
+
+```bash
 yarn dev
 # or
 pnpm dev
@@ -36,11 +89,30 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The application uses the Next.js App Router and automatically reloads when you make changes to the source code.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Running with Docker
+
+The project also includes a multi-stage `Dockerfile` for running Movix as a production container.
+
+Build the image:
+
+```bash
+docker build -t movix .
+```
+
+Run the container:
+
+```bash
+docker compose up
+```
+
+Then open http://localhost:3000.
+
+
+
 
 ## Learn More
 
@@ -121,8 +193,11 @@ export function createTmdbClient(locale: string) {
     id = "",
   ) {
     const res = await fetch(
-      `${baseUrl}${path}${id}?api_key=${apiKey}&language=${language}${queries}`,
+      `${baseUrl}${path}${id}?language=${language}${queries}`,
       {
+        headers: {
+          Authorization: `Bearer ${apiToken}`,
+        },
         next: { revalidate },
       },
     );
@@ -253,7 +328,6 @@ This provides a server-side boundary between the browser and the external API.
 > The browser never receives:
 >
 > ```text
-> TMDB_API_KEY
 > TMDB_API_TOKEN
 > ```
 

@@ -2,7 +2,7 @@ import { tmdbConfig } from "@/lib/env";
 import { localeMap, defaultLocale } from "@/i18n/config";
 
 const baseUrl = tmdbConfig.baseUrl;
-const apiKey = tmdbConfig.apiKey;
+const apiToken = tmdbConfig.apiToken;
 
 export function createTmdbClient(locale: string) {
   const language = localeMap[locale] ?? localeMap[defaultLocale];
@@ -14,8 +14,11 @@ export function createTmdbClient(locale: string) {
     id = "",
   ) {
     const res = await fetch(
-      `${baseUrl}${path}${id}?api_key=${apiKey}&language=${language}${queries}`,
+      `${baseUrl}${path}${id}?language=${language}${queries}`,
       {
+        headers: {
+          Authorization: `Bearer ${apiToken}`,
+        },
         next: { revalidate },
       },
     );

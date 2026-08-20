@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import { getTitleOrName } from "@/utils/media";
 import { getPosterUrl } from "@/services/tmdb/images";

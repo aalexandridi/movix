@@ -11,7 +11,6 @@ function getEnv(key: string): string {
 }
 
 export const tmdbConfig = Object.freeze({
-  apiKey: getEnv("TMDB_API_KEY"),
   apiToken: getEnv("TMDB_API_TOKEN"),
   baseUrl: getEnv("TMDB_BASE_URL"),
 });
