@@ -1,22 +1,15 @@
 import { createPageMetadata } from "@/lib/metadata";
-import { createMoviesService } from "@/services/tmdb/movies";
-import { getLocale, getTranslations } from "next-intl/server";
-import { limitAndMergeUniqueById } from "@/utils/array";
-import {
-  createGenreMaps,
-  getCurrentDate,
-  getTitleOrName,
-  sortByPopularity,
-} from "@/utils/media";
+import { getTranslations } from "next-intl/server";
 import GenresBar from "@/components/ui/GenresBar/GenresBar";
-import MediaGrid from "@/components/ui/MediaGrid/MediaGrid";
-import Slide from "@/components/ui/Carousel/Slide";
-import InfiniteMediaGrid from "@/components/ui/MediaGrid/InfiniteMediaGrid";
-import MediaPosterCard from "@/components/ui/Cards/MediaPosterCard";
-import Carousel from "@/components/ui/Carousel/Carousel";
-import { getHeroData } from "@/services/tmdb/hero";
-import HeroContent from "@/components/ui/Carousel/HeroContent";
 import MediaContainer from "@/components/layout/MediaContainer/MediaContainer";
+import MediaGridSkeleton from "@/components/ui/MediaGrid/MediaGridSkeleton";
+import { Suspense } from "react";
+import { HeroCarousel } from "./HeroCarousel";
+import { PopularMovies } from "./PopularMovies";
+import { TopRatedMovies } from "./TopRatedMovies";
+import { MoviesByGenre } from "./MoviesByGenre";
+import { TrendingMovies } from "../home/TrendingMovies";
+import GenresBarSkeleton from "@/components/ui/GenresBar/GenresBarSkeleton";
 export async function generateMetadata() {
   return createPageMetadata("movies");
 }
@@ -26,95 +19,83 @@ const MoviesPage = async ({
 }: {
   searchParams: Promise<{ genre?: string }>;
 }) => {
-  const [locale, { genre }, c] = await Promise.all([
-    getLocale(),
+  const [{ genre }, c] = await Promise.all([
     searchParams,
     getTranslations("common"),
   ]);
-  const moviesService = createMoviesService(locale);
-  const genres = await moviesService.getFilters();
-  const { idToName, nameToId } = createGenreMaps(genres.genres);
-
-  const genreId = genre ? nameToId.get(genre) : null;
-
-  const heroPromise = Promise.all([
-    moviesService.getPopular(),
-    moviesService.getNowPlaying(),
-    moviesService.getTopRated(),
-    moviesService.getUpcoming(),
-  ]);
-
-  const discoverPromise =
-    genreId !== null
-      ? moviesService.discoverMovies(
-          `with_genres=${genreId}&sort_by=popularity.desc&primary_release_date.lte=${getCurrentDate()}`,
-        )
-      : Promise.resolve(null);
-
-  const [
-    [popularMovies, nowPlayingMovies, topRatedMovies, upcomingMovies],
-    initial,
-  ] = await Promise.all([heroPromise, discoverPromise]);
-
-  const limited = limitAndMergeUniqueById(
-    3,
-    popularMovies.results,
-    nowPlayingMovies.results,
-    topRatedMovies.results,
-    upcomingMovies.results,
-  );
-
-  const limitedSorted = sortByPopularity(limited);
-
-  const heroData = await Promise.all(
-    limitedSorted.map((media) => getHeroData(media, idToName, locale)),
-  );
 
   return (
     <MediaContainer
       hero={
-        <Carousel options={{ loop: true }} showDots={true}>
-          {heroData.map((data) => (
-            <Slide
-              key={data.media.id}
-              media={data.media}
-              backdropPath={data.media.backdrop_path}
-              alt={getTitleOrName(data.media)}
-            >
-              <HeroContent data={data} playLabel={c("play")} />
-            </Slide>
-          ))}
-        </Carousel>
+        <Suspense
+          fallback={
+            <MediaGridSkeleton
+              isHero={true}
+              variant="carousel"
+              count={10}
+              layoutClass="default"
+            />
+          }
+        >
+          <HeroCarousel />
+        </Suspense>
       }
     >
-      {/* <MediaGrid variant="carousel">
-        <GenresBar genres={genres.genres} />
-      </MediaGrid> */}
-      <GenresBar genres={genres.genres} />
-
-      {genreId == null ? (
+      <Suspense fallback={<GenresBarSkeleton />}>
+        <GenresBar />
+      </Suspense>
+      {!genre ? (
         <>
-          <MediaGrid title={c("popular")} variant="carousel">
-            {popularMovies.results.map((item) => (
-              <MediaPosterCard key={item.id} media={item} />
-            ))}
-          </MediaGrid>
+          <Suspense
+            fallback={
+              <MediaGridSkeleton
+                title={c("trendingMoviesThisWeek")}
+                variant="carousel"
+                count={10}
+                layoutClass="default"
+              />
+            }
+          >
+            <TrendingMovies />
+          </Suspense>
+          <Suspense
+            fallback={
+              <MediaGridSkeleton
+                variant="carousel"
+                count={10}
+                layoutClass="default"
+                title={c("popular")}
+              />
+            }
+          >
+            <PopularMovies />
+          </Suspense>
 
-          <MediaGrid title={c("topRatedMovies")} variant="carousel">
-            {topRatedMovies.results.map((item) => (
-              <MediaPosterCard key={item.id} media={item} />
-            ))}
-          </MediaGrid>
+          <Suspense
+            fallback={
+              <MediaGridSkeleton
+                variant="carousel"
+                count={10}
+                layoutClass="default"
+                title={c("topRatedMovies")}
+              />
+            }
+          >
+            <TopRatedMovies />
+          </Suspense>
         </>
       ) : (
-        initial && (
-          <InfiniteMediaGrid
-            key={genreId}
-            initialMedia={initial.results}
-            genre={genreId}
-            mode="discover"
-          />
-        )
+        <Suspense
+          fallback={
+            <MediaGridSkeleton
+              variant="grid"
+              count={10}
+              layoutClass="default"
+            />
+          }
+        >
+          <MoviesByGenre genre={genre}></MoviesByGenre>
+        </Suspense>
       )}
     </MediaContainer>
   );
