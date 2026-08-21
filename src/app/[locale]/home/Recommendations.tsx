@@ -6,6 +6,7 @@ import { MediaGridType } from "@/components/ui/MediaGrid/MediaGrid.types";
 import { useAppSelector } from "@/store/hooks";
 import { Media } from "@/types/media";
 import MediaPosterCard from "@/components/ui/Cards/MediaPosterCard";
+import MediaGridSkeleton from "@/components/ui/MediaGrid/MediaGridSkeleton";
 
 export default function RecommendationsContainer({
   title,
@@ -17,7 +18,7 @@ export default function RecommendationsContainer({
   const watchlist = useAppSelector((state) => state.watchlist.items);
 
   const [recommendations, setRecommendations] = useState<Media[]>([]);
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (watchlist.length === 0) {
       return;
@@ -26,6 +27,7 @@ export default function RecommendationsContainer({
     const controller = new AbortController();
 
     async function fetchRecommendations() {
+      setLoading(true);
       try {
         const response = await fetch("/api/recommendations", {
           method: "POST",
@@ -49,6 +51,8 @@ export default function RecommendationsContainer({
         }
 
         console.error("Failed to fetch recommendations:", error);
+      } finally {
+        setLoading(false);
       }
     }
 
@@ -58,8 +62,12 @@ export default function RecommendationsContainer({
   }, [watchlist]);
 
   // Don't render anything when there's nothing to recommend.
-  if (watchlist.length === 0 || recommendations.length === 0) {
+  if (watchlist.length === 0) {
     return null;
+  }
+
+  if (loading) {
+    return <MediaGridSkeleton variant="carousel" count={10} title={title} />;
   }
 
   return (
