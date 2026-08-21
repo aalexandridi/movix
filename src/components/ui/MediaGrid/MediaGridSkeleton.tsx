@@ -3,6 +3,7 @@ import styles from "./MediaGrid.module.css";
 import MediaCardSkeleton from "../Cards/MediaCardSkeleton/MediaCardSkeleton";
 import Carousel from "../Carousel/Carousel";
 import { MediaGridLayout } from "./MediaGrid.types";
+import SlideSkeleton from "../Carousel/SlideSkeleton";
 
 type MediaGridSkeletonProps = {
   count?: number;
@@ -20,7 +21,11 @@ export default function MediaGridSkeleton({
   isHero = false,
 }: MediaGridSkeletonProps) {
   if (variant === "carousel") {
-    return (
+    return isHero ? (
+      <Carousel layoutClass={layoutClass} hero={isHero}>
+        <SlideSkeleton />
+      </Carousel>
+    ) : (
       <div className={clsx("my-6", layoutClass)}>
         {title && <h3 className="mb-2 text-md font-semibold">{title}</h3>}
 
