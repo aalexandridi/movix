@@ -18,7 +18,7 @@ export async function HeroCarousel() {
   ]);
 
   const moviesService = createMoviesService(locale);
-  const genres = await moviesService.getFilters();
+  const genres = await moviesService.getGenres();
   const { idToName } = createGenreMaps(genres.genres);
 
   const heroPromise = Promise.all([

@@ -6,7 +6,7 @@ import { getLocale } from "next-intl/server";
 export async function MoviesByGenre({ genre }: { genre: string }) {
   const locale = await getLocale();
   const moviesService = createMoviesService(locale);
-  const genres = await moviesService.getFilters();
+  const genres = await moviesService.getGenres();
   const { nameToId } = createGenreMaps(genres.genres);
 
   const genreId = genre ? (nameToId.get(genre) ?? 0) : 0;

@@ -22,7 +22,7 @@ export async function HeroCarousel() {
   const tvShowService = createTvShowsService(locale);
 
   const [genresMovies, moviesTrending, tvTrending] = await Promise.all([
-    moviesService.getFilters(),
+    moviesService.getGenres(),
     moviesService.getTrending("week"),
     tvShowService.getTrending("week"),
   ]);

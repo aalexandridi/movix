@@ -80,7 +80,7 @@ const SeriesPage = async ({
         </Carousel>
       }
     >
-      <GenresBar genres={genres.genres} />
+      <GenresBar forMovies={false} />
 
       {genreId == null ? (
         <>

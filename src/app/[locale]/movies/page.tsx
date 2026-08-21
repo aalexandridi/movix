@@ -42,7 +42,7 @@ const MoviesPage = async ({
       }
     >
       <Suspense fallback={<GenresBarSkeleton />}>
-        <GenresBar />
+        <GenresBar forMovies={true} />
       </Suspense>
       {!genre ? (
         <>
