@@ -66,3 +66,7 @@ export function shuffleArray<T>(array: T[]): T[] {
 
   return result;
 }
+
+export function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}

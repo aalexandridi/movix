@@ -20,7 +20,7 @@ export default async function Home() {
             <MediaGridSkeleton
               isHero={true}
               variant="carousel"
-              count={8}
+              count={10}
               layoutClass="default"
             />
           }
@@ -33,21 +33,38 @@ export default async function Home() {
         fallback={
           <MediaGridSkeleton
             variant="carousel"
-            count={8}
+            count={10}
             layoutClass="default"
+            title={c("topToday")}
           />
         }
       >
         <TopToday />
       </Suspense>
 
-      <Suspense fallback={<MediaGridSkeleton count={10} />}>
+      <Suspense
+        fallback={
+          <MediaGridSkeleton
+            variant="carousel"
+            title={c("recommendedForYou")}
+            count={10}
+          />
+        }
+      >
         <RecommendationsContainer
           title={c("recommendedForYou")}
         ></RecommendationsContainer>
       </Suspense>
 
-      <Suspense fallback={<MediaGridSkeleton count={10} />}>
+      <Suspense
+        fallback={
+          <MediaGridSkeleton
+            title={c("myList")}
+            variant="carousel"
+            count={10}
+          />
+        }
+      >
         <WatchlistContainer
           title={c("myList")}
           gridType={"carousel"}
@@ -57,8 +74,9 @@ export default async function Home() {
       <Suspense
         fallback={
           <MediaGridSkeleton
+            title={c("trendingMoviesThisWeek")}
             variant="carousel"
-            count={8}
+            count={10}
             layoutClass="default"
           />
         }
@@ -69,8 +87,9 @@ export default async function Home() {
       <Suspense
         fallback={
           <MediaGridSkeleton
+            title={c("trendingTvThisWeek")}
             variant="carousel"
-            count={8}
+            count={10}
             layoutClass="default"
           />
         }
@@ -81,8 +100,9 @@ export default async function Home() {
       <Suspense
         fallback={
           <MediaGridSkeleton
+            title={c("upcomingTheaters")}
             variant="carousel"
-            count={8}
+            count={10}
             layoutClass="default"
           />
         }
