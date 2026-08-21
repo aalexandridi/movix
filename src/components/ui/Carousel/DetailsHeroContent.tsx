@@ -78,9 +78,9 @@ export default async function DetailsHeroContent({
         </div>
       </div>
 
-      <p className="mb-3">{description}</p>
+      <p className="mb-3 hidden sm:flex">{description}</p>
 
-      <div className="flex gap-2">
+      <div className="flex gap-2 hidden sm:flex">
         {genres.map((genre) => (
           <span key={genre.id}>{genre.name}</span>
         ))}

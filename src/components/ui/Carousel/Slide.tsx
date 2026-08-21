@@ -5,6 +5,7 @@ import { Link } from "@/i18n/routing";
 import { isMovie } from "@/utils/media";
 interface SlideProps {
   backdropPath: string | null;
+  posterPath?: string | null;
   alt: string;
   children: React.ReactNode;
   media?: Media;
@@ -12,6 +13,7 @@ interface SlideProps {
 
 export default function Slide({
   backdropPath,
+  posterPath,
   alt,
   children,
   media,
@@ -29,6 +31,15 @@ export default function Slide({
         priority
         className="object-cover"
       />
+
+      {/* <Image
+        src={getPosterUrl(posterPath || backdropPath)}
+        alt={alt}
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover sm:hidden"
+      /> */}
 
       <div
         className="

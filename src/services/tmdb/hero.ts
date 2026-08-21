@@ -26,6 +26,7 @@ export interface HeroData {
 export type DetailsHeroData = {
   media: MediaDetails;
   logoPath?: string;
+  posterPath?: string;
 
   duration: number;
   durationLabel: string;
@@ -129,6 +130,7 @@ export async function getMovieDetailsHeroData(
   return {
     media,
     logoPath: logo?.file_path,
+    posterPath: media.poster_path ?? "",
     duration: media.runtime ?? 0,
     durationLabel: c("minutes"),
     year: new Date(media.release_date).getFullYear(),
@@ -155,6 +157,7 @@ export async function getTvDetailsHeroData(
   return {
     media,
     logoPath: logo?.file_path,
+    posterPath: media.poster_path ?? "",
     duration: media.number_of_seasons,
     durationLabel: media.number_of_seasons === 1 ? c("season") : c("seasons"),
     year: new Date(media.first_air_date).getFullYear(),

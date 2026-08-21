@@ -60,6 +60,15 @@ const MoviePage = async ({ params }: { params: Promise<{ id: string }> }) => {
         </Carousel>
       }
     >
+      <p className="mb-3 -mt-10 flex sm:hidden sm:mt-0">
+        {heroData.description}
+      </p>
+
+      <div className="flex gap-2 flex sm:hidden mb-8">
+        {heroData.genres.map((genre) => (
+          <span key={genre.id}>{genre.name}</span>
+        ))}
+      </div>
       <MovieDetailsTabs
         details={movieDetails}
         recommendations={recommendations.results}
