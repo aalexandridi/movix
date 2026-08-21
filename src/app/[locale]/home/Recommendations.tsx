@@ -71,7 +71,7 @@ export default function RecommendationsContainer({
   }
 
   return (
-    <MediaGrid variant={gridType} title={title} className="my-4 py-4">
+    <MediaGrid variant={gridType} title={title}>
       {recommendations.map((media) => (
         <MediaPosterCard
           key={`${media.media_type}-${media.id}`}
