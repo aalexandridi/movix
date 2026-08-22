@@ -46,7 +46,7 @@
 
   /* Grid */
   --media-columns: 2;
-  --media-gap: 20px;
+  --media-gap: 10px;
 
   --color_general_text_high: #fff;
   --color_general_text_low: hsla(0, 0%, 100%, .65);

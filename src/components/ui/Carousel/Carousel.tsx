@@ -7,6 +7,7 @@ import clsx from "clsx";
 import styles from "./Carousel.module.css";
 import CarouselControls from "./CarouselControls";
 import { MediaGridLayout } from "../MediaGrid/MediaGrid.types";
+import { useIsMobile } from "@/hooks/useIsMobile";
 type CarouselProps = {
   children: React.ReactNode;
 
@@ -33,9 +34,16 @@ export default function Carousel({
   viewportClassName,
   containerClassName,
 }: CarouselProps) {
+  const isMobile = useIsMobile();
   const canDrag = Children.count(children) > 1;
   const [emblaRef, emblaApi] = useEmblaCarousel({
-    slidesToScroll: "auto",
+    slidesToScroll: isMobile ? 1 : "auto",
+    align: isMobile
+      ? (viewSize) => {
+          const offset = 900;
+          return offset / viewSize;
+        }
+      : "center",
     active: canDrag,
     startIndex: 0,
     ...options,

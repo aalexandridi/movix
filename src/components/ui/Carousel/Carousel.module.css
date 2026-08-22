@@ -23,6 +23,7 @@
   display: flex;
   /* align-items: stretch; */
   gap: var(--media-gap);
+  justify-content: flex-start;
 }
 
 .container {
@@ -43,13 +44,8 @@
 
 @media (max-width: 450px) {
   .default .emblaSlide {
-    flex: 0 0 44%;
-  }
-}
-
-@media (min-width: 451px) and (max-width: 640px) {
-  .default .emblaSlide {
-    flex: 0 0 29%;
+     position: relative;
+    flex: 0 0 48%;
   }
 }
 
@@ -85,6 +81,12 @@
 @media (min-width: 1536px) {
   .default {
     --media-columns2: 7;
+  }
+}
+
+@media (max-width: 450px) {
+  .episodes .emblaSlide {
+    flex: 0 0 65%;
   }
 }
 
