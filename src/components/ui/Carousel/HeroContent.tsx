@@ -17,11 +17,10 @@ export default function HeroContent({ data, playLabel }: HeroContentProps) {
     <div className="z-2 w-full p-[5%_5%_20%_5%] text-white md:max-w-[65%] md:p-[5%]">
       {logoPath ? (
         <Image
-          src={getPosterUrl(logoPath)}
+          src={getPosterUrl(logoPath, "w500")}
           alt={getTitleOrName(media)}
           width={500}
           height={200}
-          priority
           className="mb-4 h-auto w-auto max-h-20 sm:max-h-20 lg:max-h-24 xl:max-h-32"
         />
       ) : (

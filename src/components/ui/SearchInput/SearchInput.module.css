@@ -10,7 +10,6 @@
   width: 100%;
   
   padding: 16px 55px;
-  /* padding-left: 55px; */
   border: 1px solid rgba(255, 255, 255, 0.15);
   /* border-radius: 999px; */
 
@@ -66,7 +65,7 @@
   }
 
   .input {
-    padding: 14px 18px;
+    padding: 14px 50px;
     font-size: 1rem;
   }
 }

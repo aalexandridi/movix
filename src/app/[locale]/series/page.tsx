@@ -67,8 +67,9 @@ const SeriesPage = async ({
     <MediaContainer
       hero={
         <Carousel options={{ loop: true }} showDots={true}>
-          {heroData.map((data) => (
+          {heroData.map((data, index) => (
             <Slide
+              isFirstSlide={index === 0}
               key={data.media.id}
               media={data.media}
               backdropPath={data.media.backdrop_path}

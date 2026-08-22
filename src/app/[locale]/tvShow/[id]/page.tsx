@@ -77,6 +77,7 @@ const TvShowPage = async ({
       hero={
         <Carousel>
           <Slide
+            isFirstSlide={true}
             key={`slide-${showDetails.id}`}
             backdropPath={showDetails.backdrop_path}
             alt={showDetails.id.toString()}

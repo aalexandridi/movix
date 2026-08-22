@@ -36,7 +36,7 @@ export default async function DetailsHeroContent({
           height={200}
           priority
           alt={getTitleOrName(media)}
-          src={getPosterUrl(logoPath)}
+          src={getPosterUrl(logoPath, "w500")}
           className="mb-4 h-auto w-auto max-h-20 sm:max-h-20 lg:max-h-24 xl:max-h-32"
         />
       ) : (

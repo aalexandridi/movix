@@ -9,6 +9,7 @@ interface SlideProps {
   alt: string;
   children: React.ReactNode;
   media?: Media;
+  isFirstSlide: boolean;
 }
 
 export default function Slide({
@@ -17,6 +18,7 @@ export default function Slide({
   alt,
   children,
   media,
+  isFirstSlide,
 }: SlideProps) {
   const href = media
     ? `/${isMovie(media) ? "movie" : "tvShow"}/${media.id}`
@@ -24,22 +26,16 @@ export default function Slide({
 
   const content = (
     <>
-      <Image
-        src={getPosterUrl(backdropPath)}
-        alt={alt}
-        fill
-        priority
-        className="object-cover"
-      />
-
-      {/* <Image
-        src={getPosterUrl(posterPath || backdropPath)}
-        alt={alt}
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover sm:hidden"
-      /> */}
+      {backdropPath && (
+        <Image
+          src={getPosterUrl(backdropPath, "w1920")}
+          alt={alt}
+          fill
+          priority={isFirstSlide}
+          className="object-cover"
+          sizes="100vw"
+        />
+      )}
 
       <div
         className="

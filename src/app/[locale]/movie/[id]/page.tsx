@@ -51,6 +51,7 @@ const MoviePage = async ({ params }: { params: Promise<{ id: string }> }) => {
       hero={
         <Carousel>
           <Slide
+            isFirstSlide={true}
             key={`slide-${movieDetails.id}`}
             backdropPath={movieDetails.backdrop_path}
             alt={movieDetails.id.toString()}

@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   images: {
     domains: ["media.geeksforgeeks.org", "image.tmdb.org"],
+    remotePatterns: [{ protocol: "https", hostname: "image.tmdb.org" }],
   },
   output: "standalone",
 };

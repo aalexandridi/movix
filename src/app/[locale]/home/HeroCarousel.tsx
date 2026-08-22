@@ -37,12 +37,13 @@ export async function HeroCarousel() {
 
   return (
     <Carousel options={{ loop: true }} showDots={true}>
-      {finalHeroData.map((data) => (
+      {finalHeroData.map((data, index) => (
         <Slide
           key={data.media.id}
           media={data.media}
           backdropPath={data.media.backdrop_path}
           alt={getTitleOrName(data.media)}
+          isFirstSlide={index === 0}
         >
           <HeroContent data={data} playLabel={c("play")} />
         </Slide>
