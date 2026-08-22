@@ -3,6 +3,7 @@
 import Button, { ButtonVariant } from "@/components/ui/Buttons/button";
 import { MediaDetails } from "@/types/media";
 import ClapperBoard from "@/components/icons/clapperboard-icon";
+import Link from "next/link";
 export default function TrailerButton({
   media,
   showText = true,
@@ -32,16 +33,27 @@ export default function TrailerButton({
   };
   if (trailer?.key)
     return (
-      <Button
-        className={className}
-        horizontal={horizontal}
-        variant={variant}
-        fontWeight="500"
-        icon={<ClapperBoard width={22} height={22} />}
-        onClick={onClick}
-      >
-        {showText && <p className="text-sm font-normal">Trailer</p>}
-      </Button>
+      <Link href={`/video/${trailer?.key}`}>
+        <Button
+          className={className}
+          horizontal={horizontal}
+          variant={variant}
+          fontWeight="500"
+          icon={<ClapperBoard width={22} height={22} />}
+        >
+          <p className="text-sm font-normal">Trailer</p>
+        </Button>
+      </Link>
+      // <Button
+      //   className={className}
+      //   horizontal={horizontal}
+      //   variant={variant}
+      //   fontWeight="500"
+      //   icon={<ClapperBoard width={22} height={22} />}
+      //   onClick={onClick}
+      // >
+      //   {showText && <p className="text-sm font-normal">Trailer</p>}
+      // </Button>
     );
   else return;
 }
