@@ -37,23 +37,41 @@
   flex: 0 0
     calc(
       (100% - (var(--media-columns2) - 1) * var(--media-gap)) /
-        var(--media-columns2)
+        var(--media-columns2) 
     );
+}
+
+@media (max-width: 450px) {
+  .default .emblaSlide {
+    flex: 0 0 44%;
+  }
+}
+
+@media (min-width: 451px) and (max-width: 640px) {
+  .default .emblaSlide {
+    flex: 0 0 29%;
+  }
 }
 
 .default {
   --media-columns2: 2;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 450px) {
   .default {
     --media-columns2: 3;
   }
 }
 
+@media (min-width: 640px) {
+  .default {
+    --media-columns2: 4;
+  }
+}
+
 @media (min-width: 768px) {
   .default {
-    --media-columns2:4;
+    --media-columns2:5;
   }
 }
 

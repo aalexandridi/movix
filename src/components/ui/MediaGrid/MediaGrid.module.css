@@ -4,15 +4,21 @@
   --media-columns2: 2;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 450px) {
   .default {
     --media-columns2: 3;
   }
 }
 
+@media (min-width: 640px) {
+  .default {
+    --media-columns2: 4;
+  }
+}
+
 @media (min-width: 768px) {
   .default {
-    --media-columns2:4;
+    --media-columns2:5;
   }
 }
 
