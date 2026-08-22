@@ -121,17 +121,19 @@ export default function InfiniteMediaGrid({
         layoutClass={mediaGridLayout}
       >
         {movies.map((movie) =>
-          mediaCardType === 1 ? (
-            <MediaPosterCard key={movie.id} media={movie}></MediaPosterCard>
-          ) : (
-            <MediaCard key={movie.id} media={movie}></MediaCard>
-          ),
+          mediaCardType === 1
+            ? movie.poster_path && (
+                <MediaPosterCard key={movie.id} media={movie}></MediaPosterCard>
+              )
+            : movie.backdrop_path && (
+                <MediaCard key={movie.id} media={movie}></MediaCard>
+              ),
         )}
       </MediaGrid>
 
       {loading && (
         <div className="grid-skeleton-overlay">
-          <MediaGridSkeleton count={7} />
+          <MediaGridSkeleton count={7} layoutClass={mediaGridLayout} />
         </div>
       )}
 

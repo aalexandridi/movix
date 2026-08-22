@@ -59,12 +59,6 @@ export default function MediaCard({
           <h3 className="text-sm font-bold text-general-text-mid transition-colors group-hover/card:text-white">
             {data.title}
           </h3>
-
-          {/* {data.runtime != null && (
-            <span className="shrink-0 whitespace-nowrap text-sm text-general-text-mid group-hover/card:text-white">
-              {data.runtime} min
-            </span>
-          )} */}
         </div>
 
         {data.subtitle && (

@@ -24,7 +24,7 @@ export function createMoviesService(locale: string) {
 
     getGenres: () => tmdb.fetch("/genre/movie/list", 86400),
 
-    getMovieById: (id: string) =>
+    getMovieById: (id: string | number) =>
       tmdb.fetch("/movie/", 3600, "&append_to_response=videos", id.toString()),
 
     discoverMovies: (query: string): Promise<PaginatedResponse<Movie>> =>

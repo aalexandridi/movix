@@ -86,47 +86,49 @@ const TvShowPage = async ({
         </Carousel>
       }
     >
-      <>
-        {options.length > 1 && (
-          <Dropdown
-            value={season || "1"}
-            options={options}
-            param={"season"}
-          ></Dropdown>
-        )}
-        <MediaGrid
-          variant="carousel"
-          layoutClass="episodes"
-          resetKey={seasonDetails.id.toString()}
-          title={options.length === 1 ? `Season ${options.length}` : ""}
-        >
-          {seasonDetails.episodes.map(
-            (episode: Episode) =>
-              episode.still_path && (
-                <MediaCard
-                  key={episode.id}
-                  episode={episode}
-                  media={showDetails}
-                  hasLink={false}
-                  insideShow={true}
-                ></MediaCard>
-                // <EpisodeCard
-                //   key={episode.id}
-                //   episode={episode}
-                //   tvShowDetails={showDetails}
-                // ></EpisodeCard>
-              ),
-          )}
-        </MediaGrid>
+      <p className="mb-3 -mt-10 flex sm:hidden sm:mt-0">
+        {heroData.description}
+      </p>
 
-        <InfiniteMediaGrid
-          initialMedia={recommendations.results}
-          mode="recommendations"
-          movieId={id}
-          mediaType="tvShow"
-          title={c("alsoLike")}
-        />
-      </>
+      <div className="flex gap-2 flex sm:hidden mb-8">
+        {heroData.genres.map((genre) => (
+          <span key={genre.id}>{genre.name}</span>
+        ))}
+      </div>
+      {options.length > 1 && (
+        <Dropdown
+          value={season || "1"}
+          options={options}
+          param={"season"}
+        ></Dropdown>
+      )}
+      <MediaGrid
+        variant="carousel"
+        layoutClass="episodes"
+        resetKey={seasonDetails.id.toString()}
+        title={options.length === 1 ? `Season ${options.length}` : ""}
+      >
+        {seasonDetails.episodes.map(
+          (episode: Episode) =>
+            episode.still_path && (
+              <MediaCard
+                key={episode.id}
+                episode={episode}
+                media={showDetails}
+                hasLink={false}
+                insideShow={true}
+              ></MediaCard>
+            ),
+        )}
+      </MediaGrid>
+
+      <InfiniteMediaGrid
+        initialMedia={recommendations.results}
+        mode="recommendations"
+        movieId={id}
+        mediaType="tvShow"
+        title={c("alsoLike")}
+      />
     </MediaContainer>
   );
 };

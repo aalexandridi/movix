@@ -60,9 +60,12 @@ const SearchPage = async ({
         ></InfiniteMediaGrid>
       ) : (
         <MediaGrid title={c("popular")}>
-          {shuffledMedia.map((item) => (
-            <MediaPosterCard key={item.id} media={item} />
-          ))}
+          {shuffledMedia.map(
+            (item) =>
+              item.backdrop_path && (
+                <MediaPosterCard key={item.id} media={item} />
+              ),
+          )}
         </MediaGrid>
       )}
     </MediaContainer>

@@ -162,9 +162,7 @@ export async function getTvDetailsHeroData(
     durationLabel: media.number_of_seasons === 1 ? c("season") : c("seasons"),
     year: new Date(media.first_air_date).getFullYear(),
     genres: media.genres,
-    description:
-      media.seasons.find((season) => season.season_number === 1)?.overview ??
-      media.overview,
+    description: media.overview,
   };
 }
 

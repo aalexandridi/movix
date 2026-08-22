@@ -38,12 +38,13 @@ export default function Carousel({
   const canDrag = Children.count(children) > 1;
   const [emblaRef, emblaApi] = useEmblaCarousel({
     slidesToScroll: isMobile ? 1 : "auto",
-    align: isMobile
-      ? (viewSize) => {
-          const offset = 900;
-          return offset / viewSize;
-        }
-      : "center",
+    align:
+      isMobile && !hero
+        ? (viewSize) => {
+            const offset = 900;
+            return offset / viewSize;
+          }
+        : "center",
     active: canDrag,
     startIndex: 0,
     ...options,

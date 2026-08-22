@@ -3,12 +3,14 @@
   justify-content: center;
   /* margin: 2rem auto 3rem; */
   width: 100%;
+  position: relative;
 }
 
 .input {
   width: 100%;
-  padding: 16px 24px;
-
+  
+  padding: 16px 55px;
+  /* padding-left: 55px; */
   border: 1px solid rgba(255, 255, 255, 0.15);
   /* border-radius: 999px; */
 
@@ -38,6 +40,24 @@
   border-color: rgba(255, 255, 255, 0.35);
   background: rgba(255, 255, 255, 0.12);
   box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05);
+}
+
+.icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 20000;
+}
+
+.clearButton {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  display: flex;
+  transform: translateY(-50%);
+  z-index: 20000;
 }
 
 @media (max-width: 768px) {

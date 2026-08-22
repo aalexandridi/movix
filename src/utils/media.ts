@@ -21,6 +21,12 @@ export function isTvShow(
   return "name" in media;
 }
 
+export function isMediaDetails(
+  media: Media | MediaDetails,
+): media is MediaDetails {
+  return "overview" in media;
+}
+
 export function isTvShowDetails(
   media: Media | MediaDetails | Episode,
 ): media is TvDetails {

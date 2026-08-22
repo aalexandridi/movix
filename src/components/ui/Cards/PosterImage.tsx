@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import MediaCardSkeleton from "./MediaCardSkeleton/MediaCardSkeleton";
+import MediaPosterCardSkeleton from "./MediaPosterCardSkeleton/MediaPosterCardSkeleton";
 
 export default function PosterImage({
   src,
@@ -26,7 +26,7 @@ export default function PosterImage({
         overflow: "visible",
       }}
     >
-      {!loaded && <MediaCardSkeleton />}
+      {!loaded && <MediaPosterCardSkeleton />}
 
       <Image
         src={imageSrc}

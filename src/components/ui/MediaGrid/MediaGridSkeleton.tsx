@@ -1,9 +1,10 @@
 import clsx from "clsx";
 import styles from "./MediaGrid.module.css";
-import MediaCardSkeleton from "../Cards/MediaCardSkeleton/MediaCardSkeleton";
 import Carousel from "../Carousel/Carousel";
 import { MediaGridLayout } from "./MediaGrid.types";
 import SlideSkeleton from "../Carousel/SlideSkeleton";
+import MediaPosterCardSkeleton from "../Cards/MediaPosterCardSkeleton/MediaPosterCardSkeleton";
+import MediaCardSkeleton from "../Cards/MediaCardSkeleton/MediaCardSkeleton";
 
 type MediaGridSkeletonProps = {
   count?: number;
@@ -31,7 +32,7 @@ export default function MediaGridSkeleton({
 
         <Carousel layoutClass={layoutClass} hero={isHero}>
           {Array.from({ length: count }).map((_, i) => (
-            <MediaCardSkeleton key={i} />
+            <MediaPosterCardSkeleton key={i} />
           ))}
         </Carousel>
       </div>
@@ -43,9 +44,14 @@ export default function MediaGridSkeleton({
       {title && <h3 className="mb-2 text-md font-semibold">{title}</h3>}
 
       <div className={clsx(styles.grid, styles[layoutClass])}>
-        {Array.from({ length: count }).map((_, i) => (
-          <MediaCardSkeleton key={i} />
-        ))}
+        {Array.from({ length: count }).map((_, i) =>
+          // eslint-disable-next-line react/jsx-key
+          layoutClass === "episodes" ? (
+            <MediaCardSkeleton key={i} />
+          ) : (
+            <MediaPosterCardSkeleton key={i}></MediaPosterCardSkeleton>
+          ),
+        )}
       </div>
     </div>
   );
