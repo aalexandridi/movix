@@ -1,11 +1,9 @@
 import clsx from "clsx";
 import styles from "./MediaGrid.module.css";
-import Carousel from "../Carousel/Carousel";
 import { MediaGridLayout } from "./MediaGrid.types";
-import SlideSkeleton from "../Carousel/SlideSkeleton";
 import MediaPosterCardSkeleton from "../Cards/MediaPosterCardSkeleton/MediaPosterCardSkeleton";
 import MediaCardSkeleton from "../Cards/MediaCardSkeleton/MediaCardSkeleton";
-
+import { CarouselSkeleton } from "../Carousel/CarouselSkeleton";
 type MediaGridSkeletonProps = {
   count?: number;
   variant?: "grid" | "carousel";
@@ -22,20 +20,12 @@ export default function MediaGridSkeleton({
   isHero = false,
 }: MediaGridSkeletonProps) {
   if (variant === "carousel") {
-    return isHero ? (
-      <Carousel layoutClass={layoutClass} hero={isHero}>
-        <SlideSkeleton />
-      </Carousel>
-    ) : (
-      <div className={clsx("my-6", layoutClass)}>
-        {title && <h3 className="mb-2 text-md font-semibold">{title}</h3>}
-
-        <Carousel layoutClass={layoutClass} hero={isHero}>
-          {Array.from({ length: count }).map((_, i) => (
-            <MediaPosterCardSkeleton key={i} />
-          ))}
-        </Carousel>
-      </div>
+    return (
+      <CarouselSkeleton
+        title={title}
+        isHero={isHero}
+        layoutClass={layoutClass}
+      ></CarouselSkeleton>
     );
   }
 

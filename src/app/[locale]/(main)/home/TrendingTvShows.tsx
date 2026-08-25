@@ -1,8 +1,10 @@
 import MediaPosterCard from "@/components/ui/Cards/MediaPosterCard";
+import MediaPosterCardSkeleton from "@/components/ui/Cards/MediaPosterCardSkeleton/MediaPosterCardSkeleton";
 import MediaGrid from "@/components/ui/MediaGrid/MediaGrid";
 import { createTvShowsService } from "@/services/tmdb/shows";
 import { sortByPopularity } from "@/utils/media";
 import { getLocale, getTranslations } from "next-intl/server";
+import { Suspense } from "react";
 
 export async function TrendingTvShows() {
   const [locale, c] = await Promise.all([
@@ -18,7 +20,12 @@ export async function TrendingTvShows() {
   return (
     <MediaGrid title={c("trendingTvThisWeek")} variant="carousel">
       {media.map((item) => (
-        <MediaPosterCard key={item.id} media={item} />
+        <Suspense
+          key={"suspenseTrendingTv" + item.id}
+          fallback={<MediaPosterCardSkeleton></MediaPosterCardSkeleton>}
+        >
+          <MediaPosterCard media={item} />
+        </Suspense>
       ))}
     </MediaGrid>
   );

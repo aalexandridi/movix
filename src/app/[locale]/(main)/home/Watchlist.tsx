@@ -1,9 +1,11 @@
 "use client";
 
 import MediaCard from "@/components/ui/Cards/MediaCard";
+import MediaCardSkeleton from "@/components/ui/Cards/MediaCardSkeleton/MediaCardSkeleton";
 import MediaGrid from "@/components/ui/MediaGrid/MediaGrid";
 import { MediaGridType } from "@/components/ui/MediaGrid/MediaGrid.types";
 import { useAppSelector } from "@/store/hooks";
+import { Suspense } from "react";
 
 export default function WatchlistContainer({
   title,
@@ -23,11 +25,14 @@ export default function WatchlistContainer({
           className="my-4 py-4"
         >
           {watchlist.map((item) => (
-            <MediaCard
-              key={item.episode ? item.episode.id : item.media.id}
-              media={item.media}
-              episode={item.episode}
-            />
+            <Suspense
+              key={
+                "watcthlist" + (item.episode ? item?.episode.id : item.media.id)
+              }
+              fallback={<MediaCardSkeleton></MediaCardSkeleton>}
+            >
+              <MediaCard media={item.media} episode={item.episode} />
+            </Suspense>
           ))}
         </MediaGrid>
       )}

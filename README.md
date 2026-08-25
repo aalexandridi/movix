@@ -421,3 +421,26 @@ User locale
 This means localization isn't limited to static UI strings; TMDB content can also be requested according to the selected locale.
 
 
+
+## Performance & Quality
+
+I used Lighthouse to audit Movix across mobile and desktop and iteratively optimized the application based on the results.
+
+| Category | Mobile | Desktop |
+|---|---:|---:|
+| Performance | **94** | **100** |
+| Best Practices | **100** | **100** |
+| SEO | **92** | **92** |
+| Accessibility | **78** | **78** |
+
+### Performance Optimizations
+
+- **Optimized TMDB image delivery** by replacing `original` image requests with resolution-specific assets based on the rendered use case, including `w1920` for hero backdrops and `w500` for logos and posters.
+- **Optimized LCP image loading** by prioritizing only the first hero carousel slide, while allowing subsequent slides to load lazily.
+- **Implemented progressive page rendering with React Suspense and streaming**, allowing independent homepage sections to fetch and render concurrently instead of blocking the initial page render on unrelated API responses.
+- **Added lightweight skeleton loading states** to provide visual feedback while streamed sections are loading.
+- **Deployed to Vercel** and monitored production performance using Vercel Speed Insights.
+- Avoided initializing interactive carousels while content is still loading.
+
+
+> Lighthouse represents a controlled lab environment, while Vercel Speed Insights reports real-world performance from actual users and devices. Production metrics can therefore differ from Lighthouse results.

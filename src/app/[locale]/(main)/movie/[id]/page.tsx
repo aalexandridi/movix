@@ -46,6 +46,7 @@ const MoviePage = async ({ params }: { params: Promise<{ id: string }> }) => {
     moviesService.getMovieCredits(id),
   ]);
   const heroData = await getDetailsHeroData(movieDetails, locale);
+  // console.log("heroData", heroData);
   return (
     <MediaContainer
       hero={

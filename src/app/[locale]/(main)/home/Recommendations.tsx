@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import MediaGrid from "@/components/ui/MediaGrid/MediaGrid";
 import { MediaGridType } from "@/components/ui/MediaGrid/MediaGrid.types";
 import { useAppSelector } from "@/store/hooks";
 import { Media } from "@/types/media";
 import MediaPosterCard from "@/components/ui/Cards/MediaPosterCard";
 import MediaGridSkeleton from "@/components/ui/MediaGrid/MediaGridSkeleton";
+import MediaPosterCardSkeleton from "@/components/ui/Cards/MediaPosterCardSkeleton/MediaPosterCardSkeleton";
 
 export default function RecommendationsContainer({
   title,
@@ -73,10 +74,12 @@ export default function RecommendationsContainer({
   return (
     <MediaGrid variant={gridType} title={title}>
       {recommendations.map((media) => (
-        <MediaPosterCard
-          key={`${media.media_type}-${media.id}`}
-          media={media}
-        />
+        <Suspense
+          key={`rec-${media.media_type}-${media.id}`}
+          fallback={<MediaPosterCardSkeleton></MediaPosterCardSkeleton>}
+        >
+          <MediaPosterCard media={media} />
+        </Suspense>
       ))}
     </MediaGrid>
   );

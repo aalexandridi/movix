@@ -1,10 +1,12 @@
 import MediaPosterCard from "@/components/ui/Cards/MediaPosterCard";
+import MediaPosterCardSkeleton from "@/components/ui/Cards/MediaPosterCardSkeleton/MediaPosterCardSkeleton";
 import MediaGrid from "@/components/ui/MediaGrid/MediaGrid";
 import { createMultiService } from "@/services/tmdb/multi";
 import { Movie, TvShow } from "@/types/media";
 import { limitAndMergeArrays } from "@/utils/array";
 import { sortByPopularity } from "@/utils/media";
 import { getLocale, getTranslations } from "next-intl/server";
+import { Suspense } from "react";
 
 export async function TopToday() {
   const [locale, c] = await Promise.all([
@@ -29,7 +31,12 @@ export async function TopToday() {
   return (
     <MediaGrid title={c("topToday")} variant="carousel">
       {topTen.map((item) => (
-        <MediaPosterCard key={item.id} media={item} />
+        <Suspense
+          key={"topToday" + item.id}
+          fallback={<MediaPosterCardSkeleton></MediaPosterCardSkeleton>}
+        >
+          <MediaPosterCard media={item} />
+        </Suspense>
       ))}
     </MediaGrid>
   );
