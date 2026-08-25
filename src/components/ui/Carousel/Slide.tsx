@@ -32,7 +32,6 @@ export default function Slide({
           alt={alt}
           fill
           priority={isFirstSlide}
-          fetchPriority={isFirstSlide ? "high" : "auto"}
           className="object-cover"
           sizes="100vw"
         />

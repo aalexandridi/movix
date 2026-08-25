@@ -39,7 +39,7 @@ export default function MediaCard({
         <Image
           src={
             data.imagePath
-              ? getPosterUrl(data.imagePath, "w780")
+              ? getPosterUrl(data.imagePath, "w500")
               : "/images/poster-placeholder.webp"
           }
           alt={data.title}
