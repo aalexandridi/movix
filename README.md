@@ -424,14 +424,9 @@ This means localization isn't limited to static UI strings; TMDB content can als
 
 ## Performance & Quality
 
-I used Lighthouse to audit Movix across mobile and desktop and iteratively optimized the application based on the results.
+I used **Lighthouse** and **Vercel Speed Insights** to measure, identify, and improve Movix's performance across both mobile and desktop environments. I used Lighthouse for controlled lab testing and Vercel Speed Insights to monitor performance in the deployed production environment.
 
-| Category | Mobile | Desktop |
-|---|---:|---:|
-| Performance | **94** | **100** |
-| Best Practices | **100** | **100** |
-| SEO | **92** | **92** |
-| Accessibility | **78** | **78** |
+> Lighthouse represents a controlled lab environment, while Vercel Speed Insights reports real-world performance from actual users and devices. Production metrics can therefore differ from Lighthouse results.
 
 ### Performance Optimizations
 
@@ -442,5 +437,41 @@ I used Lighthouse to audit Movix across mobile and desktop and iteratively optim
 - **Deployed to Vercel** and monitored production performance using Vercel Speed Insights.
 - Avoided initializing interactive carousels while content is still loading.
 
+### Lighthouse results
 
-> Lighthouse represents a controlled lab environment, while Vercel Speed Insights reports real-world performance from actual users and devices. Production metrics can therefore differ from Lighthouse results.
+| Category | Mobile | Desktop |
+|---|---:|---:|
+| Performance | **94** | **100** |
+| Best Practices | **100** | **100** |
+| SEO | **92** | **92** |
+| Accessibility | **78** | **78** |
+
+#### Desktop
+
+![Lighthouse Desktop Results](/public/lighthouse/desktop/overall.png)
+
+![Lighthouse Desktop Performance Results](/public/lighthouse/desktop/performance.png)
+
+#### Mobile
+
+![Lighthouse Mobile Results](/public/lighthouse/mobile/overall.png)
+
+![Lighthouse Mobile Performance Results](/public/lighthouse/mobile/performance.png)
+
+
+### Vercel Speed Insights
+
+Vercel Speed Insights was used to monitor Movix's **real-world performance in production** across actual users and devices.
+
+The performance timeline shows the impact of the optimizations over time:
+
+- **Mobile:** improved from **63% → 99%**
+- **Desktop:** improved from **85% → 100%**
+
+These improvements were achieved through iterative optimization of image delivery, LCP loading, asynchronous rendering, and the initial client-side workload.
+
+#### Production Performance
+
+![Desktop Vercel Speed Insights](/public/vercel/desktop/overall.png)
+
+![Mobile Vercel Speed Insights](/public/vercel/mobile/overall.png)
