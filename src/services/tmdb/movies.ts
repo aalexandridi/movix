@@ -1,4 +1,4 @@
-import { Movie, PaginatedResponse } from "@/types/media";
+import { Movie, MovieDetails, PaginatedResponse } from "@/types/media";
 import { createTmdbClient } from "./client";
 
 export function createMoviesService(locale: string) {
@@ -24,16 +24,25 @@ export function createMoviesService(locale: string) {
 
     getGenres: () => tmdb.fetch("/genre/movie/list", 86400),
 
-    getMovieById: (id: string | number) =>
-      tmdb.fetch("/movie/", 3600, "&append_to_response=videos", id.toString()),
+    getDetails: (id: string | number, query?: string): Promise<MovieDetails> =>
+      tmdb.fetch(
+        "/movie/",
+        3600,
+        query ? `&append_to_response=${query}` : "",
+        id.toString(),
+      ),
 
-    discoverMovies: (query: string): Promise<PaginatedResponse<Movie>> =>
+    discover: (query: string): Promise<PaginatedResponse<Movie>> =>
       tmdb.fetch("/discover/movie", 3600, `&${query}`),
 
-    getRecommendations: (id: string | number, query?: string) =>
+    getRecommendations: (
+      id: string | number,
+      query?: string,
+    ): Promise<PaginatedResponse<Movie>> =>
       tmdb.fetch(`/movie/${id}/recommendations`, 3600, `&${query}`),
 
-    getMovieCredits: (id: string) => tmdb.fetch(`/movie/${id}/credits`, 3600),
+    getMovieCredits: (id: string | number) =>
+      tmdb.fetch(`/movie/${id}/credits`, 3600),
 
     getImages: (id: string) =>
       tmdb.fetch(`/movie/${id}/images`, 3600, "&include_image_language=en-US"),

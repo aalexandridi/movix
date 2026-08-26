@@ -4,9 +4,9 @@ import MediaContainer from "@/components/layout/MediaContainer/MediaContainer";
 import { Suspense } from "react";
 import MediaGridSkeleton from "@/components/ui/MediaGrid/MediaGridSkeleton";
 import { TopToday } from "./home/TopToday";
-import { TrendingMovies } from "./home/TrendingMovies";
-import { TrendingTvShows } from "./home/TrendingTvShows";
-import { UpcomingMovies } from "./home/UpcomingMovies";
+import { TrendingMovies } from "./movies/TrendingMovies";
+import { TrendingTvShows } from "./series/TrendingTvShows";
+import { UpcomingMovies } from "./movies/UpcomingMovies";
 import { HeroCarousel } from "./home/HeroCarousel";
 import RecommendationsContainer from "./home/Recommendations";
 export default async function Home() {

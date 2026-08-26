@@ -29,11 +29,10 @@ export function createTvShowsService(locale: string) {
 
     getGenres: () => tmdb.fetch("/genre/tv/list", 3600),
 
-    getTvShowDetails: (id: number | string): Promise<TvDetails> =>
+    getDetails: (id: number | string): Promise<TvDetails> =>
       tmdb.fetch(`/tv/${id}`, 3600, "&append_to_response=videos"),
 
-    discoverShows: (query: string) =>
-      tmdb.fetch("/discover/tv", 3600, `&${query}`),
+    discover: (query: string) => tmdb.fetch("/discover/tv", 3600, `&${query}`),
 
     getSeasonDetails: (
       series_id: string | number,

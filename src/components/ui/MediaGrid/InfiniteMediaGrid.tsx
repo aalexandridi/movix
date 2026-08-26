@@ -12,7 +12,7 @@ type Props = {
   genre?: number;
   mode: "discover" | "recommendations" | "search" | "";
   movieId?: string;
-  mediaType?: "movie" | "tvShow" | "mixed";
+  mediaType?: "movie" | "tv" | "mixed";
   query?: string;
   enableInfiniteScroll?: boolean;
   title?: string;
@@ -133,7 +133,11 @@ export default function InfiniteMediaGrid({
 
       {loading && (
         <div className="grid-skeleton-overlay">
-          <MediaGridSkeleton count={7} layoutClass={mediaGridLayout} />
+          <MediaGridSkeleton
+            title={title}
+            count={7}
+            layoutClass={mediaGridLayout}
+          />
         </div>
       )}
 

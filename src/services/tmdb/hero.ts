@@ -76,7 +76,7 @@ export async function getTvHeroData(
 
   const [images, details] = await Promise.all([
     tvService.getImages(media.id),
-    tvService.getTvShowDetails(media.id),
+    tvService.getDetails(media.id),
   ]);
 
   const tvDetails = details as TvDetails;

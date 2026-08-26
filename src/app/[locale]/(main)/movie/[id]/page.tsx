@@ -8,6 +8,10 @@ import Carousel from "@/components/ui/Carousel/Carousel";
 import { getDetailsHeroData } from "@/services/tmdb/hero";
 import DetailsHeroContent from "@/components/ui/Carousel/DetailsHeroContent";
 import MediaContainer from "@/components/layout/MediaContainer/MediaContainer";
+import MediaGridSkeleton from "@/components/ui/MediaGrid/MediaGridSkeleton";
+import { Suspense } from "react";
+import { HeroCarousel } from "./HeroCarousel";
+import { MovieContentExtra } from "./MovieContent";
 
 export async function generateMetadata({
   params,
@@ -20,7 +24,7 @@ export async function generateMetadata({
 
   const moviesService = createMoviesService(locale);
 
-  const movie = await moviesService.getMovieById(id);
+  const movie = await moviesService.getDetails(id);
 
   return {
     title: movie.title,
@@ -29,54 +33,49 @@ export async function generateMetadata({
 }
 
 const MoviePage = async ({ params }: { params: Promise<{ id: string }> }) => {
-  const [locale, { id }, c] = await Promise.all([
+  const [locale, { id }] = await Promise.all([
     getLocale(),
     params,
     getTranslations("common"),
   ]);
   const moviesService = createMoviesService(locale);
-  const [movieDetails, recommendations, credits]: [
-    MovieDetails,
-    PaginatedResponse<Movie>,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    any,
-  ] = await Promise.all([
-    moviesService.getMovieById(id),
-    moviesService.getRecommendations(id),
-    moviesService.getMovieCredits(id),
-  ]);
-  const heroData = await getDetailsHeroData(movieDetails, locale);
-  // console.log("heroData", heroData);
+  const movieDetails = await moviesService.getDetails(id, "videos");
   return (
     <MediaContainer
       hero={
-        <Carousel>
-          <Slide
-            isFirstSlide={true}
-            key={`slide-${movieDetails.id}`}
-            backdropPath={movieDetails.backdrop_path}
-            alt={movieDetails.id.toString()}
-          >
-            <DetailsHeroContent data={heroData} />
-          </Slide>
-        </Carousel>
+        <Suspense
+          fallback={
+            <MediaGridSkeleton
+              isHero={true}
+              variant="carousel"
+              count={10}
+              layoutClass="default"
+            />
+          }
+        >
+          <HeroCarousel movieDetails={movieDetails} />
+        </Suspense>
       }
     >
       <p className="mb-3 -mt-10 flex sm:hidden sm:mt-0">
-        {heroData.description}
+        {movieDetails.overview}
       </p>
 
       <div className="flex gap-2 flex sm:hidden mb-8">
-        {heroData.genres.map((genre) => (
+        {movieDetails.genres.map((genre) => (
           <span key={genre.id}>{genre.name}</span>
         ))}
       </div>
-      <MovieDetailsTabs
-        details={movieDetails}
-        recommendations={recommendations.results}
-        cast={credits.cast}
-        crew={credits.crew}
-      />
+      <Suspense
+        fallback={
+          <div className=" h-[400px] w-full animate-pulse  bg-zinc-900/60" />
+        }
+      >
+        <MovieContentExtra
+          movieDetails={movieDetails}
+          locale={locale}
+        ></MovieContentExtra>
+      </Suspense>
     </MediaContainer>
   );
 };

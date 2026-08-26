@@ -8,7 +8,7 @@ export async function GET(req: Request) {
   const genreId = searchParams.get("genreId");
   const pageNumber = Number(searchParams.get("page") ?? "1");
   const moviesService = createMoviesService(locale);
-  const data = await moviesService.discoverMovies(
+  const data = await moviesService.discover(
     `with_genres=${genreId}&page=${pageNumber}&sort_by=popularity.desc&primary_release_date.gte=${getCurrentDate()}`,
   );
 

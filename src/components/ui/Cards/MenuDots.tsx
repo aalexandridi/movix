@@ -72,7 +72,7 @@ export default function MenuDots({
   const onOpenEpisodeDetails = async () => {
     if (isTvShowDetails(media) && episode) {
       setOpen(false);
-      const url = `/api/tvShow/${media.id}/season/${episode?.season_number}/episode/${episode.episode_number}?locale=${locale}`;
+      const url = `/api/tv/${media.id}/season/${episode?.season_number}/episode/${episode.episode_number}?locale=${locale}`;
       const response = await fetch(url);
       const episodeDetails = await response.json();
       dispatch(openEpisodeDetails({ episodeDetails, tvShowDetails: media }));

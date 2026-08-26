@@ -7,8 +7,8 @@ import { Suspense } from "react";
 import { HeroCarousel } from "./HeroCarousel";
 import { PopularMovies } from "./PopularMovies";
 import { TopRatedMovies } from "./TopRatedMovies";
-import { MoviesByGenre } from "./MoviesByGenre";
-import { TrendingMovies } from "../home/TrendingMovies";
+import { MediaByGenre } from "../../../../components/media/MediaByGenre";
+import { TrendingMovies } from "./TrendingMovies";
 import GenresBarSkeleton from "@/components/ui/GenresBar/GenresBarSkeleton";
 export async function generateMetadata() {
   return createPageMetadata("movies");
@@ -94,7 +94,7 @@ const MoviesPage = async ({
             />
           }
         >
-          <MoviesByGenre genre={genre}></MoviesByGenre>
+          <MediaByGenre genre={genre} mediaType="movie"></MediaByGenre>
         </Suspense>
       )}
     </MediaContainer>

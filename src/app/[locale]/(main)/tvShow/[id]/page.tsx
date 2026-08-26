@@ -1,22 +1,19 @@
 import Slide from "@/components/ui/Carousel/Slide";
-import {
-  Episode,
-  PaginatedResponse,
-  TvDetails,
-  TvSeasonDetails,
-  TvShow,
-} from "@/types/media";
+import { Episode, TvDetails, TvSeasonDetails } from "@/types/media";
 import { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import { createTvShowsService } from "@/services/tmdb/shows";
 import Dropdown, { DropdownOption } from "@/components/ui/Dropdown/Dropdown";
 import MediaGrid from "@/components/ui/MediaGrid/MediaGrid";
-import InfiniteMediaGrid from "@/components/ui/MediaGrid/InfiniteMediaGrid";
 import Carousel from "@/components/ui/Carousel/Carousel";
 import { getDetailsHeroData } from "@/services/tmdb/hero";
 import DetailsHeroContent from "@/components/ui/Carousel/DetailsHeroContent";
 import MediaCard from "@/components/ui/Cards/MediaCard";
 import MediaContainer from "@/components/layout/MediaContainer/MediaContainer";
+import { Suspense } from "react";
+import MediaGridSkeleton from "@/components/ui/MediaGrid/MediaGridSkeleton";
+import { MediaByRecommendations } from "@/components/media/MediaByRecommendations";
+import { getCurrentDate } from "@/utils/media";
 
 export async function generateMetadata({
   params,
@@ -28,7 +25,7 @@ export async function generateMetadata({
   const locale = await getLocale();
   const tvShowService = createTvShowsService(locale);
 
-  const movie = await tvShowService.getTvShowDetails(id);
+  const movie = await tvShowService.getDetails(id);
 
   return {
     title: movie.name,
@@ -50,27 +47,25 @@ const TvShowPage = async ({
     getTranslations("common"),
   ]);
   const tvShowService = createTvShowsService(locale);
-  const [showDetails, seasonDetails, recommendations]: [
-    TvDetails,
-    TvSeasonDetails,
-    PaginatedResponse<TvShow>,
-  ] = await Promise.all([
-    tvShowService.getTvShowDetails(id),
-    season
-      ? tvShowService.getSeasonDetails(id, season)
-      : tvShowService.getSeasonDetails(id, 1),
-    tvShowService.getRecommendations(id),
-  ]);
-  //   const seasons = showDetails.number_of_seasons.array.forEach(element => {
+  const [showDetails, seasonDetails]: [TvDetails, TvSeasonDetails] =
+    await Promise.all([
+      tvShowService.getDetails(id),
+      season
+        ? tvShowService.getSeasonDetails(id, season)
+        : tvShowService.getSeasonDetails(id, 1),
+    ]);
 
-  //   });
-  const options: DropdownOption[] = Array.from(
-    { length: showDetails.number_of_seasons },
-    (_, index) => ({
-      label: `${c("season")} ${index + 1}`,
-      value: `${index + 1}`,
-    }),
+  const currentDate = new Date(getCurrentDate()).getTime();
+
+  const activeSeasons = showDetails.seasons.filter(
+    ({ air_date, season_number }) =>
+      new Date(air_date).getTime() <= currentDate && season_number > 0,
   );
+
+  const options: DropdownOption[] = activeSeasons.map((_, index) => ({
+    label: `${c("season")} ${index + 1}`,
+    value: `${index + 1}`,
+  }));
   const heroData = await getDetailsHeroData(showDetails, locale);
   return (
     <MediaContainer
@@ -123,13 +118,22 @@ const TvShowPage = async ({
         )}
       </MediaGrid>
 
-      <InfiniteMediaGrid
-        initialMedia={recommendations.results}
-        mode="recommendations"
-        movieId={id}
-        mediaType="tvShow"
-        title={c("alsoLike")}
-      />
+      <Suspense
+        fallback={
+          <MediaGridSkeleton
+            title={c("alsoLike")}
+            variant="grid"
+            count={14}
+            layoutClass="default"
+          />
+        }
+      >
+        <MediaByRecommendations
+          title={c("alsoLike")}
+          id={id}
+          mediaType={"tv"}
+        ></MediaByRecommendations>
+      </Suspense>
     </MediaContainer>
   );
 };
