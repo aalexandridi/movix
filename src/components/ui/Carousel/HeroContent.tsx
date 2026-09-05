@@ -21,6 +21,7 @@ export default function HeroContent({ data, playLabel }: HeroContentProps) {
           alt={getTitleOrName(media)}
           width={500}
           height={200}
+          unoptimized
           className="mb-4 h-auto w-auto max-h-20 sm:max-h-20 lg:max-h-24 xl:max-h-32"
         />
       ) : (

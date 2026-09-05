@@ -45,6 +45,7 @@ export default function MediaCard({
           alt={data.title}
           fill
           className="object-cover"
+          unoptimized
         />
 
         <div className="bg-card-overlay absolute inset-0" />

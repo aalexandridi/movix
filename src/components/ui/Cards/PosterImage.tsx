@@ -32,6 +32,7 @@ export default function PosterImage({
         src={imageSrc}
         alt={alt}
         fill
+        unoptimized
         onLoad={() => setLoaded(true)}
         onError={() => {
           setLoaded(true);

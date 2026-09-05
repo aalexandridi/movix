@@ -32,6 +32,7 @@ export default function Slide({
           alt={alt}
           fill
           priority={isFirstSlide}
+          unoptimized
           className="object-cover"
           sizes="100vw"
         />
